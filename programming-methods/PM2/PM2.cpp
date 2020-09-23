@@ -6,19 +6,46 @@ using namespace std;
 //Programma van Yvo Hu en Wietske ...
 //Laatste update 22-9-2020
 //Gebruike compiler GNU g++
+void split_getal(int i,ofstream& uitvoer)
+{
+    i > 9 ? split_getal(i / 10,uitvoer) : void();
+
+    int getal = i % 10;
+    uitvoer.put('0' + getal);
+}
+
 void encode(ifstream& invoer,ofstream& uitvoer)
 {
     char letter = invoer.get();
     char vorige_letter = letter;
     while(!invoer.eof()){
-        int count = 1;
+        int count = 0;
         while(letter == vorige_letter){
             count++;
             letter = invoer.get();
         }
-        uitvoer.put(vorige_letter);
+        if(vorige_letter == '\\'){
+            uitvoer.put('\\');
+            uitvoer.put('\\');
+        }
+        else if(vorige_letter >= int('0') && vorige_letter <= int('9')){
+            uitvoer.put('\\');
+            uitvoer.put(vorige_letter);
+        }
+        else if(vorige_letter == '\n'){
+            for(int i = 0; i < count; i++){
+                uitvoer.put(vorige_letter);
+            }
+        }
+        else{
+            uitvoer.put(vorige_letter);
+        }
+        if(count > 1 && vorige_letter != '\n'){
+            split_getal(count,uitvoer);
+        }
         vorige_letter = letter;
     }
+    uitvoer.close();
 }
 int main()
 {

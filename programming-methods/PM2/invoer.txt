@@ -1,0 +1,49 @@
+Tweede testinvoer voor Programmeermethoden (De)Code
+
+Bevat wat meer moeilijkheden: backslashes bijvoorbeeld.
+En rare getallen.
+
+Let er op dat "lege" regels niet gecodeerd worden:
+
+
+
+
+
+
+
+
+Hier begint de tekst weer.
+Nu de backslashes:
+Eerst een: \, dan twee \\, en drie \\\ en vier \\\\
+Of veel: \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ tot zover;
+of aan het eind van een regel: \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+Of aan het begin:
+\\\\\\\\\\\\\\\\\ Stop.
+En met cijfers erbij:
+\3\3\\4\4\\34\3\43\4\\4454\5\566\\6\555\74\6\9907\78\\\\\78\78\\\\7\\8
+
+En nog wat rare getallen:
+Dit is meestal INT_MAX: 2147483647, hier gaat het omkeren mis.
+En hier ook: 1147999999
+Maar er zijn allerlei varianten:
+2147483641: omkeren OK, optellen fout
+2147447412: palindroom
+2147457312: omkeren OK, optellen fout 
+2147483643: omkeren fout
+2147483644: omkeren fout
+2147483645: omkeren fout
+2147483646: omkeren fout
+1147483643: omkeren fout
+1147483644: omkeren fout!!!!!!!!!!!!!
+1147483645: omkeren fout
+1147483646: omkeren fout
+1147483647: omkeren fout
+1147483648: omkeren fout
+
+Eigenlijk moet je bij het omkeren op INT_MAX letten, 
+EN bij het optellen!
+
+
+
+
+
