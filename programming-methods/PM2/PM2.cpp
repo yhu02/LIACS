@@ -5,14 +5,15 @@
 using namespace std;
  
 //Programma van Yvo Hu en Wietske ...
-//Laatste update 22-9-2020
+//Laatste update 25-9-2020
 //Gebruikte compiler GNU g++
+
+//Function prototypes
 void splitGetal(int, ofstream&);
-void encode(ifstream&, ofstream&);
+void encode(ifstream&, ofstream&, string, string);
 int pow(int, int);
-void lychrel(string);
+void lychrel(ifstream&, string);
 long long keerGetal(long long);
-//saljkdnsajkbckjacxnasjkcxascxaskhjdbweyuabiuksjd kjasdjksandbjk askjndsajk dbashjdvbhjwye bajhsmndb jwhvbdjha svjhdv whjavsj dvhwjas dw
 
 int main()
 {
@@ -47,32 +48,33 @@ int main()
         }
         else{
             flag_invoer = 0;
+            invoer.close();
         }
     } while(flag_invoer);
 
     //
     cout << "Wat is de naam van het uitvoerbestand?" << endl;
     cin >> uitvoernaam;
-    uitvoer.open(uitvoernaam,ios::out);
-    encode(invoer,uitvoer);
-    invoer.close();
-    uitvoer.close();
-    lychrel(invoernaam);
+    encode(invoer,uitvoer, invoernaam, uitvoernaam);
+    lychrel(invoer,invoernaam);
 
     system("pause");
     return 0;
 }
 
-void splitGetal(int i,ofstream& uitvoer)
+void splitGetal(int i, ofstream& uitvoer)
 {
     i > 9 ? splitGetal(i / 10,uitvoer) : void();
 
     int getal = i % 10;
     uitvoer.put('0' + getal);
 }
+
 //Codeer het bestand karakter voor karakter en schrijf naar een ander bestand
-void encode(ifstream& invoer,ofstream& uitvoer)
+void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam, string uitvoernaam)
 {
+    invoer.open(invoernaam, ios::in);
+    uitvoer.open(uitvoernaam, ios::out);
     char letter = invoer.get();
     char vorige_letter = letter;
     while(!invoer.eof()){
@@ -102,6 +104,7 @@ void encode(ifstream& invoer,ofstream& uitvoer)
         }
         vorige_letter = letter;
     }
+    invoer.close();
     uitvoer.close();
 }
 //Machtsfunctie
@@ -113,8 +116,8 @@ int pow(int x, int y){
 }
 
 //Lees het bestand per karakter en sla getallenreeksen op om vervolgens te checken of het lychrelgetallen zijn
-void lychrel(string invoernaam){
-    ifstream invoer(invoernaam,ios::in);
+void lychrel(ifstream& invoer, string invoernaam){
+    invoer.open(invoernaam,ios::in);
     char letter = invoer.get();
     while(!invoer.eof()){
         int count = 0;
@@ -158,11 +161,11 @@ void lychrel(string invoernaam){
     invoer.close();
 }
 
-long long keerGetal(long long number){
-    long long rem = 0;
-    while (number > 0){
-        rem = (rem * 10) + (number % 10);
-        number = number / 10;
+long long keerGetal(long long getal){
+    long long result = 0;
+    while (getal> 0){
+        result = (result * 10) + (getal % 10);
+        getal = getal / 10;
     }
-    return rem;
+    return result;
 }
