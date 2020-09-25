@@ -7,33 +7,11 @@ using namespace std;
 //Programma van Yvo Hu en Wietske ...
 //Laatste update 22-9-2020
 //Gebruikte compiler GNU g++
-void split_getal(int,ofstream&);
+void split_getal(int, ofstream&);
 void encode(ifstream&, ofstream&);
+int pow(int, int);
+void is_lychrel(string);
 
-void is_lychrel_getal(string invoernaam){
-    ifstream invoer(invoernaam,ios::in);
-    char letter = invoer.get();
-    while(!invoer.eof()){
-        int count = 0;
-        int getal[10] = {0,0,0,0,0,0,0,0,0,0};
-        if(isdigit(letter)){
-            while(isdigit(letter)){
-                getal[count] = letter - '0';
-                std::cout << getal[count];
-                count++;
-                letter = invoer.get();
-            }
-            cout << endl;
-        }
-
-        //process result
-        //reset
-        letter = invoer.get();
-    }
-    invoer.close();
-}
-
-/*
 long long int numReverse(long long int number)
 {
     long long int rem = 0;
@@ -48,20 +26,24 @@ bool is_Palindrome(long long int num)
 {
     return (num == numReverse(num));
 }
-bool isLychrel(int num, const int iterCount = 500)
+bool isLychrel(int num, const int limit = INT_MAX)
 {
     long long int temp = num;
     long long int rev;
-    for (int i = 0; i < iterCount; i++)
+    int count = 0;
+    while(temp < INT_MAX)
     {
         rev = numReverse(temp);
-        if (is_Palindrome(rev + temp))
+        if (is_Palindrome(temp)){
+            cout << "iteraties" << count;
             return false;
+        }
         temp = temp + rev;
+        count++;
     }
     return true;
 }
-*/
+
 
 int main()
 {
@@ -108,7 +90,7 @@ int main()
     invoer.close();
     uitvoer.close();
 
-    is_lychrel_getal(invoernaam);
+    is_lychrel(invoernaam);
 
     system("pause");
     return 0;
@@ -154,4 +136,45 @@ void encode(ifstream& invoer,ofstream& uitvoer)
         vorige_letter = letter;
     }
     uitvoer.close();
+}
+
+int pow(int x, int y){
+    int ans = 1;
+    for(int i=1; i<y; i++)
+    ans *= x;
+    return ans;
+}
+
+
+void is_lychrel(string invoernaam){
+    ifstream invoer(invoernaam,ios::in);
+    char letter = invoer.get();
+    while(!invoer.eof()){
+        int count = 0;
+        int getal[10];;
+        int result= 0;
+        if(isdigit(letter)){
+            while(isdigit(letter)){
+                getal[count] = letter - '0';
+                count++;
+                letter = invoer.get();
+            }
+            for(int i = 0; i < count;i++){
+                result += getal[i]*pow(10,count-i);
+            }
+            cout << result;
+            if(isLychrel(result)){
+                cout << "yes";
+            }
+            else{
+                cout << "no";
+            }
+            cout << endl;
+        }
+
+        //process result
+        //reset
+        letter = invoer.get();
+    }
+    invoer.close();
 }
