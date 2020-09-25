@@ -7,43 +7,12 @@ using namespace std;
 //Programma van Yvo Hu en Wietske ...
 //Laatste update 22-9-2020
 //Gebruikte compiler GNU g++
-void split_getal(int, ofstream&);
+void splitGetal(int, ofstream&);
 void encode(ifstream&, ofstream&);
 int pow(int, int);
-void is_lychrel(string);
-
-long long int numReverse(long long int number)
-{
-    long long int rem = 0;
-    while (number > 0)
-    {
-    rem = (rem * 10) + (number % 10);
-        number = number / 10;
-    }
-    return rem;
-}
-bool is_Palindrome(long long int num)
-{
-    return (num == numReverse(num));
-}
-bool isLychrel(int num, const int limit = INT_MAX)
-{
-    long long int temp = num;
-    long long int rev;
-    int count = 0;
-    while(temp < INT_MAX)
-    {
-        rev = numReverse(temp);
-        if (is_Palindrome(temp)){
-            cout << "iteraties" << count;
-            return false;
-        }
-        temp = temp + rev;
-        count++;
-    }
-    return true;
-}
-
+void lychrel(string);
+long long keerGetal(long long);
+//saljkdnsajkbckjacxnasjkcxascxaskhjdbweyuabiuksjd kjasdjksandbjk askjndsajk dbashjdvbhjwye bajhsmndb jwhvbdjha svjhdv whjavsj dvhwjas dw
 
 int main()
 {
@@ -85,25 +54,23 @@ int main()
     cout << "Wat is de naam van het uitvoerbestand?" << endl;
     cin >> uitvoernaam;
     uitvoer.open(uitvoernaam,ios::out);
-
     encode(invoer,uitvoer);
     invoer.close();
     uitvoer.close();
-
-    is_lychrel(invoernaam);
+    lychrel(invoernaam);
 
     system("pause");
     return 0;
 }
 
-void split_getal(int i,ofstream& uitvoer)
+void splitGetal(int i,ofstream& uitvoer)
 {
-    i > 9 ? split_getal(i / 10,uitvoer) : void();
+    i > 9 ? splitGetal(i / 10,uitvoer) : void();
 
     int getal = i % 10;
     uitvoer.put('0' + getal);
 }
-
+//Codeer het bestand karakter voor karakter en schrijf naar een ander bestand
 void encode(ifstream& invoer,ofstream& uitvoer)
 {
     char letter = invoer.get();
@@ -131,22 +98,22 @@ void encode(ifstream& invoer,ofstream& uitvoer)
             uitvoer.put(vorige_letter);
         }
         if(count > 1 && vorige_letter != '\n'){
-            split_getal(count,uitvoer);
+            splitGetal(count,uitvoer);
         }
         vorige_letter = letter;
     }
     uitvoer.close();
 }
-
+//Machtsfunctie
 int pow(int x, int y){
-    int ans = 1;
+    int result = 1;
     for(int i=1; i<y; i++)
-    ans *= x;
-    return ans;
+    result *= x;
+    return result;
 }
 
-
-void is_lychrel(string invoernaam){
+//Lees het bestand per karakter en sla getallenreeksen op om vervolgens te checken of het lychrelgetallen zijn
+void lychrel(string invoernaam){
     ifstream invoer(invoernaam,ios::in);
     char letter = invoer.get();
     while(!invoer.eof()){
@@ -163,18 +130,39 @@ void is_lychrel(string invoernaam){
                 result += getal[i]*pow(10,count-i);
             }
             cout << result;
-            if(isLychrel(result)){
-                cout << "yes";
+
+            while(true){
+            const int limit = INT_MAX;
+            long long temp = result;
+            long long rev;
+            int count = 0;
+            while(temp < INT_MAX){
+                rev = keerGetal(temp);
+                if(temp == keerGetal(temp)){
+                    cout << " iteraties:" << count;
+                    break;
+                }
+                temp = temp + rev;
+                count++;
             }
-            else{
-                cout << "no";
+            if(temp >= INT_MAX){
+                cout << " iteraties:" << count << " tot het getal groter is dan INT_MAX";
+            }
+            break;
             }
             cout << endl;
         }
-
-        //process result
         //reset
         letter = invoer.get();
     }
     invoer.close();
+}
+
+long long keerGetal(long long number){
+    long long rem = 0;
+    while (number > 0){
+        rem = (rem * 10) + (number % 10);
+        number = number / 10;
+    }
+    return rem;
 }
