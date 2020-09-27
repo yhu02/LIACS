@@ -1,0 +1,50 @@
+Tweeede testinvoer vooor Programmmeeermethoden (De)Code
+
+Bevat wat meeer moeilijkheden: backslashes bijvooorbeeeld.
+En rare getalllen.
+
+Let er op dat "lege" regels niet gecodeeerd worden:
+
+
+
+
+
+
+
+
+Hier begint de tekst weeer.
+Nu de backslashes:
+Eerst eeen: , dan tweee , en drie  en vier 
+Of veeel:  tot zover;
+of aaan het eind van eeen regel: 444
+Of aaan het begin:
+1111111 Stop.
+En met cijfers erbij:
+446655599
+
+En nog wat rare getalllen:
+Dit is meeestal INT_MAX: , hier gaaat het omkeren mis.
+En hier oook: 11999999
+
+Maaar er zijn alllerlei varianten:
+: omkeren OK, optelllen fout
+44: palindrooom
+: omkeren OK, optelllen fout 
+: omkeren fout
+44: omkeren fout
+: omkeren fout
+: omkeren fout
+11: omkeren fout
+1144: omkeren fout!!!!!!!!!!!!!!
+11: omkeren fout
+11: omkeren fout
+11: omkeren fout
+11: omkeren fout
+
+Eigenlijk moet je bij het omkeren op INT_MAX lettten, 
+EN bij het optelllen!
+
+
+
+
+

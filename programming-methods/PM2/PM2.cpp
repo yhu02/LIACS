@@ -119,37 +119,66 @@ void decode(ifstream& invoer, ofstream& uitvoer, string invoernaam, string uitvo
     invoer.open(invoernaam, ios::in);
     uitvoer.open(uitvoernaam, ios::out);
     char letter = invoer.get();
-    char vorige_letter = letter;
-    char vorige_letter2 = vorige_letter;
-    int getal;
+    int temp;
     int sum = 0;
     int digitCount = 0;
     while(!invoer.eof()){
         if(letter == '\\'){
             letter = invoer.get();   
             if(letter == '\\'){
+                temp = letter;
+                letter = invoer.get();
+                while(isdigit(letter)){
+                    //Indien meer iteraties, vermenigvuldig met 10
+                    sum *= sum ? 10 : 1;
+                    sum += (letter - '0');
+                    digitCount++;
+                    letter = invoer.get();
+                }       
+                //Indien geen meerdere getallen, wijs de waarde 1 toe aan sum
+                sum = sum ? sum : 1;
+                for(int i = 0; i < sum; i++){
+                    uitvoer.put(char(temp));
+                }
+                sum = 0;
             }
             else if(isdigit(letter)){
-                getal = letter - '0';
-                cout << getal << endl;
+                temp = letter - '0';
                 //Check of het getal meerdere keren moet worden herhaald
-                do{
+                letter = invoer.get();
+                while(isdigit(letter)){
+                    //Indien meer iteraties, vermenigvuldig met 10
+                    sum *= sum > 0 ? 10 : 1;
+                    sum += (letter - '0');
+                    digitCount++;
                     letter = invoer.get();
-                    if(isdigit(letter)){
-                        //Indien meer iteraties, vermenigvuldig met 10
-                        sum *= sum > 0 ? 10 : 1;
-                        sum += (letter - '0');
-                        digitCount++;
-                    }
-                }while(isdigit(letter));
-                //
-                for(int i = 0; i < sum; i++){
-                    cout << getal;
-                    uitvoer.put(getal + '0');
                 }
+
+                sum = sum ? sum : 1;
+                for(int i = 0; i < sum; i++){
+                    uitvoer.put(temp + '0');
+                }
+                sum = 0;
             }
         }
-        letter = invoer.get();
+        else{
+            temp = letter;
+            letter = invoer.get();
+            while(isdigit(letter)){
+                //Indien meer iteraties, vermenigvuldig met 10
+                sum *= sum ? 10 : 1;
+                sum += (letter - '0');
+                digitCount++;
+                letter = invoer.get();
+            }       
+            //Indien geen meerdere getallen, wijs de waarde 1 toe aan sum
+            sum = sum ? sum : 1;
+            for(int i = 0; i < sum; i++){
+                uitvoer.put(char(temp));
+            }
+        
+            sum = 0;
+        }
     }
     invoer.close();
     uitvoer.close();
