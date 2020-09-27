@@ -25,6 +25,7 @@ En met cijfers erbij:
 En nog wat rare getallen:
 Dit is meestal INT_MAX: 2147483647, hier gaat het omkeren mis.
 En hier ook: 1147999999
+196
 Maar er zijn allerlei varianten:
 2147483641: omkeren OK, optellen fout
 2147447412: palindroom
