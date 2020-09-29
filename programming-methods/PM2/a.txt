@@ -20,8 +20,7 @@ of aan het eind van een regel: \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 Of aan het begin:
 \\\\\\\\\\\\\\\\\ Stop.
 En met cijfers erbij:
-\ s 3
-\3\\4\4\\34\3\43\4\\4454\5\566\\6\555\74\6\9907\78\\\\\78\78\\\\7\\8
+\3\3\\4\4\\34\3\43\4\\4454\5\566\\6\555\74\6\9907\78\\\\\78\78\\\\7\\8
 
 En nog wat rare getallen:
 Dit is meestal INT_MAX: 2147483647, hier gaat het omkeren mis.

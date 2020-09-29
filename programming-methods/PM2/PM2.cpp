@@ -15,51 +15,18 @@ void decode(ifstream&, ofstream&, string, string);
 int pow(int, int);
 void lychrel(ifstream&, string);
 long long keerGetal(long long);
-
+string invoerf(ifstream&);
+string uitvoerf();
+bool keuzef();
 
 int main()
 {
     ifstream invoer;
     ofstream uitvoer;
-    string invoernaam;
-    string uitvoernaam;
-    char keuze;
-    bool keuze2;
-    int flag_invoer = 1;
-    int flag_uitvoer = 1;
-    int flag_keuze = 1;
-    cout << "Wil je coderen(c) of decoderen?(d)" << endl;
-    do{
-        keuze = cin.get();
-        if(keuze == 'C' || keuze == 'c'){
-            flag_keuze = 0;
-            keuze2 = true;
-        }
-        else if(keuze == 'D' || keuze == 'd'){
-            flag_keuze = 0;
-            keuze2 = false;
-        }
-        else{
-            cout << "Ongeldige invoer, probeer het opnieuw" << endl;
-        }
-    } while(flag_keuze);
+    bool keuze2 = keuzef();
+    string invoernaam = invoerf(invoer);
+    string uitvoernaam = uitvoerf();
 
-    do{
-        cout << "Wat is de naam van het invoerbestand?" << endl;
-        cin >> invoernaam;
-        invoer.open(invoernaam,ios::in);
-        if(invoer.fail()){
-            cerr << "Het openen van " << invoernaam << " is mislukt. Probeer het nogmaals" << endl;
-        }
-        else{
-            flag_invoer = 0;
-            invoer.close();
-        }
-    } while(flag_invoer);
-
-    //
-    cout << "Wat is de naam van het uitvoerbestand?" << endl;
-    cin >> uitvoernaam;
     keuze2 ? encode(invoer, uitvoer, invoernaam, uitvoernaam) : decode(invoer, uitvoer, invoernaam, uitvoernaam);
 
     system("pause");
@@ -245,4 +212,53 @@ long long keerGetal(long long getal){
         getal = getal / 10;
     }
     return result;
+}
+
+string invoerf(ifstream& invoer){
+    string invoernaam;
+    bool flag_invoer = true;
+    do{
+        cout << "Wat is de naam van het invoerbestand?" << endl;
+        cin >> invoernaam;
+        invoer.open(invoernaam,ios::in);
+        if(invoer.fail()){
+            cerr << "Het openen van " << invoernaam << " is mislukt. Probeer het nogmaals" << endl;
+        }
+        else{
+            flag_invoer = 0;
+            invoer.close();
+        }
+    } while(flag_invoer);
+    return invoernaam;
+
+}
+
+string uitvoerf(){
+    string uitvoernaam;
+    cout << "Wat is de naam van het uitvoerbestand?" << endl;
+    cin >> uitvoernaam;
+
+    return uitvoernaam;
+}
+
+bool keuzef(){
+    cout << "Wil je coderen(c) of decoderen?(d)" << endl;
+    char keuze;
+    bool keuze2;
+    bool flag_keuze = true;
+    do{
+        keuze = cin.get();
+        if(keuze == 'C' || keuze == 'c'){
+            flag_keuze = 0;
+            keuze2 = true;
+        }
+        else if(keuze == 'D' || keuze == 'd'){
+            flag_keuze = 0;
+            keuze2 = false;
+        }
+        else{
+            cout << "Ongeldige invoer, probeer het opnieuw" << endl;
+        }
+    } while(flag_keuze);
+    return (keuze2);
 }
