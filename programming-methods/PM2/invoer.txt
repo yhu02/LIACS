@@ -1,4 +1,4 @@
-Tweede testinvoer voor Programmeermethoden (De)Code
+Tweede testinvoer voor Programmeermethoden (De)Code    
 
 Bevat wat meer moeilijkheden: backslashes bijvoorbeeld.
 En rare getallen.

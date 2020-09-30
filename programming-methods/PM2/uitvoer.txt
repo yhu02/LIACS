@@ -1,4 +1,4 @@
-Twe2de testinvoer vo2r Program2e2rmethoden (De)Code
+Twe2de testinvoer vo2r Program2e2rmethoden (De)Code    
 
 Bevat wat me2r moeilijkheden: backslashes bijvo2rbe2ld.
 En rare getal2en.
