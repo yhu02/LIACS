@@ -3,9 +3,9 @@
 #include <iostream>
 #include <climits>
 using namespace std;
- 
-//Programma van Yvo Hu en Wietske ...
-//Laatste update 30-9-2020
+
+//Programma van Yvo Hu en Wietske Holwerda
+//Laatste update 06-10-2020
 //Gebruikte compiler GNU g++
 
 //Function prototypes
@@ -30,7 +30,9 @@ int main()
     string invoernaam = invoerf(invoer);
     string uitvoernaam = uitvoerf();
 
-    keuze2 ? encode(invoer, uitvoer, invoernaam, uitvoernaam) : decode(invoer, uitvoer, invoernaam, uitvoernaam);
+    //kies encode of decode
+    keuze2 ? encode(invoer, uitvoer, invoernaam, uitvoernaam)
+    : decode(invoer, uitvoer, invoernaam, uitvoernaam);
     system("pause");
     return 0;
 }
@@ -45,10 +47,13 @@ void splitGetal(int i, ofstream& uitvoer)
 }
 
 //Codeer functie
-void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam, string uitvoernaam)
+void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam,
+            string uitvoernaam)
 {
+    //input en output files openen
     invoer.open(invoernaam, ios::in);
     uitvoer.open(uitvoernaam, ios::out);
+    //get eerste karakter
     char letter = invoer.get();
     char vorige_letter = letter;
     int count;
@@ -57,12 +62,14 @@ void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam, string uitvo
         //reset
         count = 0;
         vorige_letter = letter;
-        //Als de huidige letter overeenkomt met de vorige letter ga verder en verhoog count met 1
+        //Als de huidige letter overeenkomt met de vorige letter ga
+        //verder en verhoog count met 1
         while(letter == vorige_letter){
             count++;
             letter = invoer.get();
         }
-        //Check of de vorige letter een \, een getal of een whitespace is met aparte verwerking voor iedere situatie
+        //Check of de vorige letter een \, een getal of een whitespace
+        // is met aparte verwerking voor iedere situatie
         if(vorige_letter == '\\'){
             uitvoer.put(vorige_letter);
             uitvoer.put(vorige_letter);
@@ -83,23 +90,31 @@ void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam, string uitvo
             splitGetal(count,uitvoer);
         }
     }
+    //input en output files sluiten
     invoer.close();
     uitvoer.close();
+    //getallen checken voor lychrel getallen
     lychrel(invoer,invoernaam);
 }
 //Decodeer functie
-void decode(ifstream& invoer, ofstream& uitvoer, string invoernaam, string uitvoernaam)
+void decode(ifstream& invoer, ofstream& uitvoer, string invoernaam,
+            string uitvoernaam)
 {
+    //input en output files openen
     invoer.open(invoernaam, ios::in);
     uitvoer.open(uitvoernaam, ios::out);
+    //get eerste karakter
     char letter = invoer.get();
     int temp;
     int sum = 0;
 
+    //Als het EOF symbool nog niet is bereikt
     while(!invoer.eof()){
+            //'\\' overslaan
         if(letter == '\\'){
-            letter = invoer.get();   
-        }
+            letter = invoer.get();
+
+        //medere keer zelfde letter
         temp = letter;
         letter = invoer.get();
         countf(sum, letter, invoer);
@@ -109,16 +124,21 @@ void decode(ifstream& invoer, ofstream& uitvoer, string invoernaam, string uitvo
         //Reset
         sum = 0;
     }
+    //input en output files sluiten
     invoer.close();
     uitvoer.close();
 }
 
-//Lees het bestand per karakter en sla getallenreeksen op om vervolgens te checken of het lychrelgetallen zijn
+//Lees het bestand per karakter en sla getallenreeksen op om
+//vervolgens te checken of het lychrelgetallen zijn
 void lychrel(ifstream& invoer, string invoernaam){
+    //input file openen
     invoer.open(invoernaam,ios::in);
+    //get eerste karakter
     char letter = invoer.get();
     int sum;
 
+    //Als het EOF symbool nog niet is bereikt
     while(!invoer.eof()){
         if(isdigit(letter)){
             countf(sum, letter, invoer);
@@ -130,6 +150,7 @@ void lychrel(ifstream& invoer, string invoernaam){
         sum = 0;
         letter = invoer.get();
     }
+    //input file sluiten
     invoer.close();
 }
 //Voer het getal uit van rechts naar links
@@ -151,12 +172,15 @@ string invoerf(ifstream& invoer){
     while(true){
         cout << "Wat is de naam van het invoerbestand?" << endl;
         cin >> invoernaam;
+        //input file openen om te testen
         invoer.open(invoernaam,ios::in);
         //Error handling
         if(invoer.fail()){
-            cerr << "Het openen van " << invoernaam << " is mislukt. Probeer het nogmaals" << endl;
+            cerr << "Het openen van " << invoernaam << " is mislukt. "
+            "Probeer het nogmaals" << endl;
         }
         else{
+                //input file sluiten na testing
             invoer.close();
             break;
         }
@@ -190,7 +214,7 @@ bool keuzef(){
             keuze2 = false;
             break;
         }
-        //Error handling
+        //Error handling, vragen tot een geldige antwoord
         else{
             cerr << "Ongeldige invoer, probeer het opnieuw" << endl;
         }
@@ -200,33 +224,41 @@ bool keuzef(){
 }
  //Check of het getal meerdere keren moet worden herhaald
 void countf(int& sum, char& letter, ifstream& invoer){
+    //als getal is
     while(isdigit(letter)){
         //Indien meer iteraties, vermenigvuldig met 10
         sum *= sum > 0 ? 10 : sum;
         sum += (letter - '0');
         letter = invoer.get();
     }
-    //Wijs de waarde 1 toe aan sum als er geen getal achter het karakter staat
+    //Wijs de waarde 1 toe aan sum als er geen getal achter het
+    //karakter staat
     sum = sum ? sum : 1;
 }
 //Bereken of het getal een lychrel getal is en voer het resultaat uit
 void lychrelf(int& sum){
     while(true){
+        // set limiet als INT_MAX
         const int limit = INT_MAX;
         long long temp = sum;
         long long rev;
         int count = 0;
         while(temp < INT_MAX){
+            //reverse van getal
             rev = keerGetal(temp);
+            //als getal geen lychrel getal is
             if(temp == keerGetal(temp)){
                 cout << " iteraties:" << count;
                 break;
             }
+            //nog een iteratie
             temp = temp + rev;
             count++;
         }
+        //getal te hoog, kan niet verder uitrekenen
         if(temp >= INT_MAX){
-            cout << " iteraties:" << count << " tot het getal groter is dan INT_MAX";
+            cout << " iteraties:" << count << " tot het getal groter "
+            "is dan INT_MAX";
         }
         break;
     }
