@@ -1,4 +1,3 @@
-  
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -240,6 +239,7 @@ void lychrelf(int& sum){
         long long temp = sum;
         long long rev;
         int count = 0;
+        //Verwerk het getal tot INT_MAX
         while(temp < INT_MAX){
             //Omgekeerde van getal
             rev = keerGetal(temp);
@@ -252,7 +252,7 @@ void lychrelf(int& sum){
             temp = temp + rev;
             count++;
         }
-        //Verwerk het getal tot INT_MAX
+        //Uitvoer aantal iteraties tot het getal groter is dan INT_MAX
         if(temp >= INT_MAX){
             cout << " iteraties:" << count << " tot het getal groter "
             "is dan INT_MAX";
