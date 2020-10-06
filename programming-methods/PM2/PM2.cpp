@@ -47,7 +47,9 @@ void splitGetal(int i, ofstream& uitvoer)
 }
 
 //Codeer functie
-void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam,
+void encode(ifstream& invoer, 
+	    ofstream& uitvoer, 
+	    string invoernaam,
             string uitvoernaam)
 {
     //Open invoer- en uitvoerbestand
@@ -97,7 +99,10 @@ void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam,
     lychrel(invoer,invoernaam);
 }
 //Decodeer functie
-void decode(ifstream& invoer, ofstream& uitvoer, string invoernaam,string uitvoernaam)
+void decode(ifstream& invoer, 
+	    ofstream& uitvoer, 
+	    string invoernaam,
+	    string uitvoernaam)
 {
     //Open invoer- en uitvoerbestand
     invoer.open(invoernaam, ios::in);
