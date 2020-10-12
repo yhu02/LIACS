@@ -5,7 +5,9 @@
 using namespace std;
 
 //Programma van Yvo Hu en Wietske Holwerda
-//Laatste update 06-10-2020
+//Dit programma (de)codeert een bestand via RLE
+//en controleert het op lychrelgetallen
+//Laatste update 12-10-2020
 //Gebruikte compiler GNU g++
 
 //Function prototypes
@@ -47,9 +49,7 @@ void splitGetal(int i, ofstream& uitvoer)
 }
 
 //Codeer functie
-void encode(ifstream& invoer, 
-	    ofstream& uitvoer, 
-	    string invoernaam,
+void encode(ifstream& invoer, ofstream& uitvoer, string invoernaam,
             string uitvoernaam)
 {
     //Open invoer- en uitvoerbestand
@@ -99,10 +99,7 @@ void encode(ifstream& invoer,
     lychrel(invoer,invoernaam);
 }
 //Decodeer functie
-void decode(ifstream& invoer, 
-	    ofstream& uitvoer, 
-	    string invoernaam,
-	    string uitvoernaam)
+void decode(ifstream& invoer, ofstream& uitvoer, string invoernaam,string uitvoernaam)
 {
     //Open invoer- en uitvoerbestand
     invoer.open(invoernaam, ios::in);
@@ -273,8 +270,10 @@ void infoblok(){
     cout << endl;
     cout << "* Yvo Hu studentnummer: 2962802           *" << endl;
     cout << "* Wietske Holwerda studentnummer: 2838192 *" << endl;
-	cout << "* Studiejaar: 2020                        *" << endl;
-	cout << "* Studierichting: Informatica             *" << endl;
+    cout << "* Studiejaar: 2020                        *" << endl;
+    cout << "* Studierichting: Informatica             *" << endl;
+    cout << "* Dit programma (de)codeert een bestand   *" << endl;
+    cout << "* en controleert het op lychrelgetallen   *" << endl;
     for(int i = 1; i<44;i++){
         cout << '*';
     }
