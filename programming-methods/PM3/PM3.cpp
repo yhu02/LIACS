@@ -15,8 +15,8 @@ class nonogram{
         //static void vulRandom();
         //static int drukAfMenu();
         //static void drukAf();
-        
-        static int stelParameterMenu();
+
+        static void stelParameterMenu();
         static void stelGrootte();
         static void stelSymbool();
         static void stelCursor();
@@ -34,18 +34,20 @@ int main(){
     system("pause");
     return 0;
 }
-int nonogram::stelParameterMenu(){
+void nonogram::stelParameterMenu(){
     char keuze; //submenu keuze
-    bool valid = false;
     string trash = "foo";
     //Check of de gebruiker geen extra karakters heeft gebruikt
-    while(!trash.empty() || !valid){
-        valid = true;
+    while(1){
         cout << "Kies uit 1 van de volgende opties: (G)rootte, (S)ymbool, (C)ursor, r(P)ercentage, (T)erug" << endl;
         keuze = cin.get();
         getline(cin,trash);
         cin.clear();
 
+        if(!trash.empty()){
+            cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+            continue;
+        }
         switch(keuze){
             case('G'):
             case('g'):
@@ -65,14 +67,9 @@ int nonogram::stelParameterMenu(){
                 continue;
             case('T'):
             case('t'):
-                hoofdMenu();  
-                return 0;
-            default:
-                valid = false;
-                cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+                return;
         }
     }
-    return 1;
 }
 void nonogram::stelGrootte(){
 
@@ -90,8 +87,7 @@ void nonogram::stelPercentage(){
     char letter;
     int getal;
     int sum = 0;
-    bool valid = false;
-    while(!valid){
+    while(1){
         cout << "Welk random percentage(0-100) wilt u instellen?" << endl;
         letter = cin.get();
         while(isdigit(letter)){
@@ -104,15 +100,17 @@ void nonogram::stelPercentage(){
 
         if(!isdigit(letter) && letter != '\n' || !(sum >= 0 && sum <= 100)){
             cout << "Ongeldige invoer, typ een getal tussen de 0 en 100 in voor uw keuze." << endl;
-            cin.clear();
-            getline(cin,trash);
+            //cin.clear();
+            if(sum >=0 && sum <= 100){
+                getline(cin,trash);
+            }
             sum = 0;
             continue;
         }
         else{
             rpercent = sum;
             cout << "Uw wijziging is opgeslagen" << endl << sum << endl;
-            valid = nonogram::stelParameterMenu();
+            return;
         }
         sum = 0;
     }       
@@ -120,20 +118,21 @@ void nonogram::stelPercentage(){
 
 void nonogram::hoofdMenu(){
     char keuze;
-    bool valid = false;
     string trash = "foo";
+
     //Check of de gebruiker geen extra karakters heeft gebruikt
-    while(!trash.empty() || !valid){
-        valid = true;
+    while(1){
         cout << "Kies uit 1 van de volgende opties: s(C)hoon, (R)andom, (P)arameters, (S)toppen" << endl;
         keuze = cin.get();
         getline(cin,trash);
         cin.clear();
-
+        if(!trash.empty()){
+            cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+            continue;
+        }
         switch(keuze){
             case('C'):
             case('c'):
-
                 break;
             case('R'):
             case('r'):
@@ -141,15 +140,11 @@ void nonogram::hoofdMenu(){
                 break;
             case('P'):
             case('p'):
-                valid = nonogram::stelParameterMenu();
+                nonogram::stelParameterMenu();
                 continue;
             case('S'):
             case('s'):
-                
-                break;
-            default:
-                valid = true;
-                cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+                return;
         }
     }
 }
