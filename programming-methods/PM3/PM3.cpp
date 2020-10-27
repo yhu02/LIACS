@@ -24,8 +24,8 @@ class nonogram{
         static void vulRandom();
 
     private:
-        static int grootte[2];
-        static char symbool[2];
+        static int grootte[2];//hoogte,breedte
+        static char symbool[2];//wit,zwart
         static int cursor;
         static int rpercent;
 
@@ -57,15 +57,15 @@ void nonogram::stelParameterMenu(){
         switch(keuze){
             case('G'):
             case('g'):
+                nonogram::stelGrootte();
                 continue;
             case('S'):
             case('s'):
+                nonogram::stelSymbool();
                 continue;
             case('C'):
-            case('c'):/*
-                cout << "Welke kleur moet het nieuwe punt zijn bij het verplaatsen van de cursor?" << endl;
-                cout << "Onveranderd(0), Wit(1), Zwart(2)" << endl;
-                cout << "Uw wijziging is opgeslagen" << endl;*/
+            case('c'):
+                nonogram::stelCursor();
                 continue;
             case('P'):
             case('p'):
@@ -78,13 +78,72 @@ void nonogram::stelParameterMenu(){
     }
 }
 void nonogram::stelGrootte(){
+    cout << "De huidige dimensies zijn:"<< endl;
+    cout << "hoogte: " << nonogram::grootte[0] << ", breedte:" << nonogram::grootte[1] <<endl; 
+    string trash = "";
+    char letter;
+    int getal;
+    int sum = 0;
 
+    while(1){
+        cout << "Wat moet de hoogte van de puzzel zijn?" << endl;
+        letter = cin.get();
+        while(isdigit(letter)){
+            //Indien meer iteraties, vermenigvuldig met 10
+            getal = letter - '0';
+            sum *= sum > 0 ? 10 : sum;
+            sum += (getal);
+            letter = cin.get();
+        }
+
+        if(!isdigit(letter) && letter != '\n' || !(sum >= 1 && sum <= 50)){
+            cout << "Ongeldige invoer, typ een getal tussen de 1 en 50 in voor uw keuze." << endl;
+            //cin.clear();
+            if(sum >=1 && sum <= 50){
+                getline(cin,trash);
+            }
+            sum = 0;
+            continue;
+        }else{
+            nonogram::grootte[0] = sum;
+            break;
+        }
+    }
+    sum = 0;
+    while(1){
+        cout << "Wat moet de breedte van de puzzel zijn?" << endl;
+        letter = cin.get();
+        while(isdigit(letter)){
+            //Indien meer iteraties, vermenigvuldig met 10
+            getal = letter - '0';
+            sum *= sum > 0 ? 10 : sum;
+            sum += (getal);
+            letter = cin.get();
+        }
+
+        if(!isdigit(letter) && letter != '\n' || !(sum >= 1 && sum <= 50)){
+            cout << "Ongeldige invoer, typ een getal tussen de 1 en 50 in voor uw keuze." << endl;
+            //cin.clear();
+            if(sum >=1 && sum <= 50){
+                getline(cin,trash);
+            }
+            sum = 0;
+            continue;
+        }else{
+            nonogram::grootte[1] = sum;
+            break;
+        }
+        sum = 0;
+    }
+    
+    cout << "Uw wijziging is opgeslagen" << endl;
+    return;
 }
+
 void nonogram::stelSymbool(){
     cout << "De huidige keuze is Wit:" << nonogram::symbool[0] << ", " << "Zwart:" << nonogram::symbool[1] <<endl; 
     string trash = "";
     char keuze;
-    char keuze2;
 
     while(1){
         cout << "Welk symbool moeten de witte pixels voorstellen?" << endl;
@@ -95,13 +154,29 @@ void nonogram::stelSymbool(){
         if(!trash.empty()){
             cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
             continue;
-        }else if(1){
-            /* code */
+        }else{
+            nonogram::symbool[0] = keuze;
+            break;
         }
-        
     }
     while(1){
+        cout << "Welk symbool moeten de zwarte pixels voorstellen?" << endl;
+        keuze = cin.get();
+        getline(cin,trash);
+        cin.clear();
 
+        if(!trash.empty()){
+            cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+            continue;
+        }else if(nonogram::symbool[0]==keuze){
+            cout << "De zwarte en witte pixels hebben hetzelfde symbool" << endl;
+            cout <<  "Typ een nieuw karakter in voor de zwarte pixels" << endl;
+            continue;
+        }
+        else{
+            nonogram::symbool[1] = keuze;
+            break;
+        }
     }
     
     cout << "Uw wijziging is opgeslagen" << endl;
@@ -109,7 +184,17 @@ void nonogram::stelSymbool(){
 }
 void nonogram::stelCursor(){
 
-    cout << "De huidige keuze is " << nonogram::cursor <<endl; 
+    switch(nonogram::cursor){
+        case(0):
+            cout << "De huidige keuze is onveranderd(0)" <<endl; 
+            break;
+        case(1):
+            cout << "De huidige keuze is wit(1)" <<endl; 
+            break;
+        case(2):
+            cout << "De huidige keuze is zwart(2)" <<endl; 
+            break;
+    }
     string trash = "";
     char keuze;
     int getal;
@@ -129,8 +214,7 @@ void nonogram::stelCursor(){
             nonogram::cursor = getal;
             break;
 
-        }else
-        {
+        }else{
             cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
             continue;
         }
@@ -164,8 +248,7 @@ void nonogram::stelPercentage(){
             }
             sum = 0;
             continue;
-        }
-        else{
+        }else{
             rpercent = sum;
             cout << "Uw wijziging is opgeslagen" << endl << sum << endl;
             return;
@@ -194,7 +277,7 @@ void nonogram::hoofdMenu(){
                 continue;
             case('R'):
             case('r'):
-
+                nonogram::vulRandom();
                 continue;
             case('P'):
             case('p'):
@@ -253,12 +336,13 @@ void nonogram::vulRandom(){
             nonoArray[i][j] = vullTrue; //each element has bla random percentage chance of being 1
         }//for j
     }//for i
+    //nono.drukAf()
 }
 
 
-int nonogram::grootte[2];
-char nonogram::symbool[2] = {0,0};
-int nonogram::cursor;
+int nonogram::grootte[2] = {50,50};
+char nonogram::symbool[2] = {'w','z'};
+int nonogram::cursor = 0;
 int nonogram::rpercent = 50;
 bool nonogram::nonoArray[nonogram::MAX][nonogram::MAX];
 int nonogram::hoogte,nonogram::breedte;
