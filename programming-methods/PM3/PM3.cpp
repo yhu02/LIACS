@@ -81,7 +81,7 @@ void nonogram::stelGrootte(){
 
 }
 void nonogram::stelSymbool(){
-    cout << "De huidige keuze is Wit:" << nonogram::symbool[0] << ", " << "Zwart:"nonogram::symbool[1] <<endl; 
+    cout << "De huidige keuze is Wit:" << nonogram::symbool[0] << ", " << "Zwart:" << nonogram::symbool[1] <<endl; 
     string trash = "";
     char keuze;
     char keuze2;
@@ -95,8 +95,7 @@ void nonogram::stelSymbool(){
         if(!trash.empty()){
             cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
             continue;
-        }else if ()
-        {
+        }else if(1){
             /* code */
         }
         
@@ -258,7 +257,7 @@ void nonogram::vulRandom(){
 
 
 int nonogram::grootte[2];
-char nonogram::symbool[2];
+char nonogram::symbool[2] = {0,0};
 int nonogram::cursor;
 int nonogram::rpercent = 50;
 bool nonogram::nonoArray[nonogram::MAX][nonogram::MAX];
