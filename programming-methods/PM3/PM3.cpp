@@ -9,12 +9,6 @@ class nonogram{
     public:
         nonogram(){
         };
-        //static int maakSchoonMenu();
-        //static void maakSchoon();
-        //static int vulRandomMenu();
-        //static void vulRandom();
-        //static int drukAfMenu();
-        //static void drukAf();
 
         static void stelParameterMenu();
         static void stelGrootte();
@@ -25,8 +19,9 @@ class nonogram{
         static void hoofdMenu();
 
         static const int MAX = 50; //-----------------added W
-        static void maakNonoArray();
+        static void maakSchoon();
         static void drukAf();
+        static void vulRandom();
 
     private:
         static int grootte[2];
@@ -86,15 +81,68 @@ void nonogram::stelGrootte(){
 
 }
 void nonogram::stelSymbool(){
+    cout << "De huidige keuze is Wit:" << nonogram::symbool[0] << ", " << "Zwart:"nonogram::symbool[1] <<endl; 
+    string trash = "";
+    char keuze;
+    char keuze2;
 
+    while(1){
+        cout << "Welk symbool moeten de witte pixels voorstellen?" << endl;
+        keuze = cin.get();
+        getline(cin,trash);
+        cin.clear();
+
+        if(!trash.empty()){
+            cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+            continue;
+        }else if ()
+        {
+            /* code */
+        }
+        
+    }
+    while(1){
+
+    }
+    
+    cout << "Uw wijziging is opgeslagen" << endl;
+    return;
 }
 void nonogram::stelCursor(){
 
+    cout << "De huidige keuze is " << nonogram::cursor <<endl; 
+    string trash = "";
+    char keuze;
+    int getal;
+
+    while(1){
+        cout << "Welke kleur moet het nieuwe punt zijn bij het verplaatsen van de cursor?" << endl;
+        cout << "Onveranderd(0), Wit(1), Zwart(2)" << endl;
+        keuze = cin.get();
+        getal = keuze - '0';
+        getline(cin,trash);
+        cin.clear();
+
+        if(!trash.empty()){
+            cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+            continue;
+        }else if(getal >=0 && getal <=2){
+            nonogram::cursor = getal;
+            break;
+
+        }else
+        {
+            cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+            continue;
+        }
+    }
+    cout << "Uw wijziging is opgeslagen" << endl;
+    return;
 }
 
 void nonogram::stelPercentage(){
     cout << "Het huidige randompercentage is " << nonogram::rpercent << " procent" <<endl; 
-    string trash = "bar";
+    string trash = "";
     char letter;
     int getal;
     int sum = 0;
@@ -129,7 +177,7 @@ void nonogram::stelPercentage(){
 
 void nonogram::hoofdMenu(){
     char keuze;
-    string trash = "foo";
+    string trash = "";
 
     //Check of de gebruiker geen extra karakters heeft gebruikt
     while(1){
@@ -144,11 +192,11 @@ void nonogram::hoofdMenu(){
         switch(keuze){
             case('C'):
             case('c'):
-                break;
+                continue;
             case('R'):
             case('r'):
 
-                break;
+                continue;
             case('P'):
             case('p'):
                 nonogram::stelParameterMenu();
@@ -156,16 +204,18 @@ void nonogram::hoofdMenu(){
             case('S'):
             case('s'):
                 return;
+            default:
+                cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
+                continue;
         }
     }
 }
 
-
-void nonogram::maakNonoArray(){
+void nonogram::maakSchoon(){
     int i, j;
     for ( i = 0; i < hoogte; i++ ) {
         for ( j = 0; j < breedte; j++ ) {
-            nonoArray[i][j] = 0;
+            nonoArray[i][j] = false;
         }//for j
     }//for i
 } //end maakNonogram
@@ -183,6 +233,33 @@ void nonogram::drukAf(){
     }//for i
 }//nonogram::drukaf
 
+int randomgetal ( ) {
+    static int getal = 42; // (*)
+    getal = ( 221 * getal + 1 ) % 1000; // niet aan knoeien
+    return getal;
+}//randomgetal
+
+void nonogram::vulRandom(){
+    int vullTrue;
+    int percentRandomGrens = (rpercent/100)*1000;
+    if (randomgetal() < percentRandomGrens) {
+        vullTrue = true;
+    }
+    else {
+        vullTrue = false;
+    }
+    int i, j;
+    for ( i = 0; i < hoogte; i++ ) {
+        for ( j = 0; j < breedte; j++ ) {
+            nonoArray[i][j] = vullTrue; //each element has bla random percentage chance of being 1
+        }//for j
+    }//for i
+}
+
+
+int nonogram::grootte[2];
+char nonogram::symbool[2];
+int nonogram::cursor;
 int nonogram::rpercent = 50;
 bool nonogram::nonoArray[nonogram::MAX][nonogram::MAX];
 int nonogram::hoogte,nonogram::breedte;
