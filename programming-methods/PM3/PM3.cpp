@@ -18,10 +18,13 @@ class nonogram{
 
         static void hoofdMenu();
 
-        static const int MAX = 50; //-----------------added W
+        static const int MAX = 50;
         static void maakSchoon();
         static void drukAf();
         static void vulRandom();
+        static void vulFile();
+        
+        static string invoerf(ifstream&);
 
     private:
         static int grootte[2];//hoogte,breedte
@@ -29,13 +32,22 @@ class nonogram{
         static int cursor;
         static int rpercent;
 
-         //---------------added W
         static bool nonoArray[MAX][MAX];
         static int rijen[MAX][MAX];
-        static int hoogte, breedte;
-
+        static int kolommen[MAX][MAX];
 };
+
+int nonogram::grootte[2] = {10,10};
+char nonogram::symbool[2] = {'*',' '};
+int nonogram::cursor = 0;
+int nonogram::rpercent = 50;
+bool nonogram::nonoArray[nonogram::MAX][nonogram::MAX] = {};
+int nonogram::rijen[nonogram::MAX][nonogram::MAX] = {};
+int nonogram::kolommen[nonogram::MAX][nonogram::MAX] = {};
+
+
 int main(){
+    nonogram::vulRandom();
     nonogram::hoofdMenu();
     system("pause");
     return 0;
@@ -45,6 +57,7 @@ void nonogram::stelParameterMenu(){
     string trash = "foo";
     //Check of de gebruiker geen extra karakters heeft gebruikt
     while(1){
+        nonogram::drukAf();
         cout << "Kies uit 1 van de volgende opties: (G)rootte, (S)ymbool, (C)ursor, r(P)ercentage, (T)erug" << endl;
         keuze = cin.get();
         getline(cin,trash);
@@ -96,7 +109,7 @@ void nonogram::stelGrootte(){
             letter = cin.get();
         }
 
-        if(!isdigit(letter) && letter != '\n' || !(sum >= 1 && sum <= 50)){
+        if((!isdigit(letter) && letter != '\n') || !(sum >= 1 && sum <= 50)){
             cout << "Ongeldige invoer, typ een getal tussen de 1 en 50 in voor uw keuze." << endl;
             //cin.clear();
             if(sum >=1 && sum <= 50){
@@ -108,8 +121,8 @@ void nonogram::stelGrootte(){
             nonogram::grootte[0] = sum;
             break;
         }
+        sum = 0;
     }
-    sum = 0;
     while(1){
         cout << "Wat moet de breedte van de puzzel zijn?" << endl;
         letter = cin.get();
@@ -121,7 +134,7 @@ void nonogram::stelGrootte(){
             letter = cin.get();
         }
 
-        if(!isdigit(letter) && letter != '\n' || !(sum >= 1 && sum <= 50)){
+        if((!isdigit(letter) && letter != '\n') || !(sum >= 1 && sum <= 50)){
             cout << "Ongeldige invoer, typ een getal tussen de 1 en 50 in voor uw keuze." << endl;
             //cin.clear();
             if(sum >=1 && sum <= 50){
@@ -240,7 +253,7 @@ void nonogram::stelPercentage(){
             letter = cin.get();
         }
 
-        if(!isdigit(letter) && letter != '\n' || !(sum >= 0 && sum <= 100)){
+        if((!isdigit(letter) && letter != '\n') || !(sum >= 0 && sum <= 100)){
             cout << "Ongeldige invoer, typ een getal tussen de 0 en 100 in voor uw keuze." << endl;
             //cin.clear();
             if(sum >=0 && sum <= 100){
@@ -263,17 +276,24 @@ void nonogram::hoofdMenu(){
 
     //Check of de gebruiker geen extra karakters heeft gebruikt
     while(1){
-        cout << "Kies uit 1 van de volgende opties: s(C)hoon, (R)andom, (P)arameters, (S)toppen" << endl;
+        nonogram::drukAf();
+        cout << "Kies uit 1 van de volgende opties: (F)ile, s(C)hoon, (R)andom, (P)arameters, (S)toppen" << endl;
         keuze = cin.get();
         getline(cin,trash);
         cin.clear();
+        nonogram nono;
         if(!trash.empty()){
             cout << "Ongeldige invoer, typ een geldig karakter in voor uw keuze." << endl;
             continue;
         }
         switch(keuze){
+            case('F'):
+            case('f'):
+                nonogram::vulFile();
+                continue;
             case('C'):
             case('c'):
+                nonogram::maakSchoon();
                 continue;
             case('R'):
             case('r'):
@@ -294,55 +314,118 @@ void nonogram::hoofdMenu(){
 }
 
 void nonogram::maakSchoon(){
-    int i, j;
-    for ( i = 0; i < hoogte; i++ ) {
-        for ( j = 0; j < breedte; j++ ) {
-            nonoArray[i][j] = false;
+    for (int i = 0; i < nonogram::grootte[0]; i++ ) {
+        for (int j = 0; j < nonogram::grootte[1]; j++ ) {
+            nonogram::nonoArray[i][j] = false;
         }//for j
     }//for i
-} //end maakNonogram
+} 
 
 void nonogram::drukAf(){
-    int i, j;
-    for ( i = 0; i < hoogte; i++ ) {
-        for ( j = 0; j < breedte; j++ ) {
-            if ( nonoArray[i][j] )
-                cout << " X";
+    for (int i = 0; i < nonogram::grootte[0]; i++ ) {
+        for (int j = 0; j < nonogram::grootte[1]; j++ ) {
+            if (nonogram::nonoArray[i][j] )
+                cout << nonogram::symbool[0];
             else
-                cout << " O";
+                cout << nonogram::symbool[1];
+            cout << ' ';
         }//for j
         cout << endl;
     }//for i
 }//nonogram::drukaf
 
 int randomgetal ( ) {
-    static int getal = 42; // (*)
-    getal = ( 221 * getal + 1 ) % 1000; // niet aan knoeien
+    static int getal = 42;
+    getal = ( 221 * getal + 1 ) % 1000;
     return getal;
 }//randomgetal
 
 void nonogram::vulRandom(){
-    int vullTrue;
-    int percentRandomGrens = (rpercent/100)*1000;
-    if (randomgetal() < percentRandomGrens) {
-        vullTrue = true;
-    }
-    else {
-        vullTrue = false;
-    }
-    int i, j;
-    for ( i = 0; i < hoogte; i++ ) {
-        for ( j = 0; j < breedte; j++ ) {
-            nonoArray[i][j] = vullTrue; //each element has bla random percentage chance of being 1
+    bool flag;
+    int randomGrens = nonogram::rpercent*10;
+
+    for (int i = 0; i < nonogram::grootte[0]; i++ ){
+        for (int j = 0; j < nonogram::grootte[1]; j++ ) {
+            if (randomgetal() < randomGrens) {
+                flag = true;
+            }
+            else {
+                flag = false;
+            }
+            nonogram::nonoArray[i][j] = flag; //each element has bla random percentage chance of being 1
         }//for j
     }//for i
-    //nono.drukAf()
+    //nonogram::drukAf()
 }
 
+void nonogram::vulFile(){
+    ifstream invoer;
+    string invoernaam = invoerf(invoer);
+    invoer.open(invoernaam, ios::in);
 
-int nonogram::grootte[2] = {50,50};
-char nonogram::symbool[2] = {'w','z'};
-int nonogram::cursor = 0;
-int nonogram::rpercent = 50;
-bool nonogram::nonoArray[nonogram::MAX][nonogram::MAX];
-int nonogram::hoogte,nonogram::breedte;
+    char letter;
+    int getal;
+    int sum = 0;
+    while(1){
+        letter = invoer.get();
+        while(isdigit(letter)){
+            //Indien meer iteraties, vermenigvuldig met 10
+            getal = letter - '0';
+            sum *= sum > 0 ? 10 : sum;
+            sum += (getal);
+            letter = invoer.get();
+        }
+        nonogram::grootte[0] = sum;
+        sum = 0;
+        break;
+    }
+    while(1){
+        letter = invoer.get();
+        while(isdigit(letter)){
+            //Indien meer iteraties, vermenigvuldig met 10
+            getal = letter - '0';
+            sum *= sum > 0 ? 10 : sum;
+            sum += (getal);
+            letter = invoer.get();
+        }
+        nonogram::grootte[1] = sum;
+        sum = 0;
+        break;
+    }
+    cout << nonogram::grootte[0] << endl << nonogram::grootte[1];
+/*
+    while(!invoer.eof()){
+        for(int i = 0; i < rijen; i++){
+            char letter = invoer.get();
+            if(letter == '0'){
+                cout << endl;
+                continue;
+            }
+            cout << letter;
+        }
+    }
+    for(int i = 0; i < kolommen; i++){
+    }*/
+}
+
+string nonogram::invoerf(ifstream& invoer){
+    string invoernaam;
+
+    while(true){
+        cout << "Wat is de naam van het invoerbestand?" << endl;
+        cin >> invoernaam;
+        //Open uitvoerbestand
+        invoer.open(invoernaam,ios::in);
+        //Error handling
+        if(invoer.fail()){
+            cerr << "Het openen van " << invoernaam << " is mislukt. "
+            "Probeer het nogmaals" << endl;
+        }
+        else{
+                //Sluit invoerbestand 
+            invoer.close();
+            break;
+        }
+    }
+    return invoernaam;
+}
