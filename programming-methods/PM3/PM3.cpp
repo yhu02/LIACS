@@ -4,7 +4,6 @@
 #include <cstdlib>
 using namespace std;
 
-
 class nonogram{
     public:
         nonogram(unsigned int hoogte = nonogram::grootte[0], unsigned int breedte = nonogram::grootte[1]){
@@ -15,11 +14,9 @@ class nonogram{
             cursor = 0;//Haken om cursor
             rpercent = 50;//Percentage true waardes nonoArray bij vulRandom
         };
-
         static unsigned int grootte[2];;//hoogte, breedte
 
         static int hoofdMenu(nonogram&);
-
         static int stelParameterMenu(nonogram&);
         int stelGrootte();
         void stelSymbool();
@@ -75,7 +72,6 @@ unsigned int nonogram::kolommen2[nonogram::MAX][nonogram::MAX] = {};
 unsigned int nonogram::checkArray[nonogram::MAX][nonogram::MAX] = {};
 bool nonogram::nonoArray[nonogram::MAX][nonogram::MAX] = {};
 
-
 int main(){
     nonogram *nono = new nonogram(nonogram::grootte[0],nonogram::grootte[1]);
     nono->vulRandom();
@@ -92,6 +88,7 @@ int main(){
     }
     return 0;
 }
+//Parameter menu
 int nonogram::stelParameterMenu(nonogram& nono){
     while(true){
         nono.drukAf();
@@ -136,6 +133,7 @@ int nonogram::stelParameterMenu(nonogram& nono){
         }
     }
 }
+//Stel dimensies van nonogram in
 int nonogram::stelGrootte(){
     char letter;
     unsigned int sum = 0;
@@ -174,7 +172,7 @@ int nonogram::stelGrootte(){
     cout << "Uw wijziging is opgeslagen" << endl;
     return 1;
 }
-
+//Stel symbolen voor nonogram in
 void nonogram::stelSymbool(){
     cout << "De huidige keuze is Wit:" << nonogram::symbool[0] << ", " << "Zwart:" << nonogram::symbool[1] <<endl; 
     char keuze;
@@ -200,6 +198,7 @@ void nonogram::stelSymbool(){
     cout << "Uw wijziging is opgeslagen" << endl;
     return;
 }
+//Stel symbolen naast cursor in
 void nonogram::stelCursor(){
 
     switch(nonogram::cursor){
@@ -231,7 +230,7 @@ void nonogram::stelCursor(){
     cout << "Uw wijziging is opgeslagen" << endl;
     return;
 }
-
+//Stel randompercentage in
 void nonogram::stelPercentage(){
     char letter;
     unsigned int sum = 0;
@@ -255,9 +254,8 @@ void nonogram::stelPercentage(){
     cout << "Uw wijziging is opgeslagen" << endl;   
     return;
 }
-
+//Hoofdmenu
 int nonogram::hoofdMenu(nonogram& nono){
-    //Check of de gebruiker geen extra karakters heeft gebruikt
     while(true){
         nono.drukAf();
         cout << "Kies uit 1 van de volgende opties: (W,A,S,D), t(O)ggle, (U)pdate, (F)ile, s(C)hoon, (R)andom, (P)arameters, s(T)oppen" << endl;
@@ -320,7 +318,6 @@ int nonogram::hoofdMenu(nonogram& nono){
         }
     }
 }
-
 //Zero alle waarden in de array behorend tot de huidige dimensies van de nonogram
 void nonogram::maakSchoon(){
     for (unsigned int i = 0; i < this->grootte[0]; i++ ) {
@@ -329,7 +326,6 @@ void nonogram::maakSchoon(){
         }
     }
 } 
-
 //Print alles
 void nonogram::drukAf(){
     infoBlok();
@@ -415,14 +411,12 @@ void nonogram::drukAf(){
         cout << endl;
     }
 }
-
 //Bereken seed randomgetal
 unsigned int randomgetal ( ) {
     static unsigned int getal = 42;
     getal = ( 221 * getal + 1 ) % 1000;
     return getal;
 }
-
 //Vul de nonogram pseudorandom in op basis van randomgetal seed
 void nonogram::vulRandom(){
     bool flag;
@@ -440,7 +434,6 @@ void nonogram::vulRandom(){
         }
     }
 }
-
 //Schrijf huidige beschrijving naar uitvoerbestand
 void nonogram::schrijfFile(){
     string uitvoernaam = uitvoerf();
@@ -475,6 +468,7 @@ void nonogram::schrijfFile(){
     uitvoer.close();
     cin.ignore();
 }
+//Lees bestand en neem beschrijving over
 void nonogram::leesFile(){
     //Reset
     nonogram::maakSchoon();
@@ -592,7 +586,6 @@ string invoerf(ifstream& invoer){
     }
     return invoernaam;
 }
-
 //Bepaal uitvoernaam
 string uitvoerf(){
     string uitvoernaam;
@@ -627,13 +620,11 @@ int nonogram::beweegCursor(char keuze){
     }
     return 1;
 }
-
 //Keer waarde om in nonoArray 
 void nonogram::toggle(){
     this->nonoArray[this->cursorY][this->cursorX] = this->nonoArray[this->cursorY][this->cursorX] ? 0 : 1;
     return;
 }
-
 //Print checkmark
 void nonogram::printCheck(unsigned int j, unsigned int& i){
     cout << "[";
@@ -645,7 +636,6 @@ void nonogram::printCheck(unsigned int j, unsigned int& i){
     cout << "]";
     return;
 }
-
 
 void infoBlok(){
     cout << endl << endl;
@@ -663,7 +653,6 @@ void infoBlok(){
     }
     cout << endl;
 }
-
 //Update beschrijvingen van huidige nonogram en vergelijk met de huidige geprinte beschrijvingen
 void nonogram::updateBeschrijvingenf(unsigned int dimensie, unsigned int flag, unsigned int beschrijvingenArray[][50], unsigned int beschrijvingenArray2[][50]){ //dimensie 0 = hoogte, 1 = breedte;
     for(unsigned int i = 0; i < this->grootte[dimensie];i++){
@@ -707,7 +696,7 @@ void nonogram::updateBeschrijvingenf(unsigned int dimensie, unsigned int flag, u
         checkArray[dimensie][i] = flag2;
     }
 }
-
+//Implementeer functie voor rijen en kolommen
 void nonogram::updateBeschrijvingen(unsigned int flag){
     nonogram::updateBeschrijvingenf(0,flag,rijen,rijen2);//Update beschrijvingen rijen
     nonogram::updateBeschrijvingenf(1,flag,kolommen, kolommen2);//Update beschrijvingen kolommen
