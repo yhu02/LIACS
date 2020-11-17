@@ -5,13 +5,13 @@
 
 //Programma van Yvo Hu en Wietske Holwerda
 //Dit programma maakt een nonogram
-//Laatste update 08-11-2020
+//Laatste update 17-11-2020
 //Gebruikte compiler GNU g++
 
 using namespace std;
-// A doubly linked list cijfervak
+//A doubly linked list cijfervak
 
-static int k = 2;//2^64 past in minimaal 19 karakters dus k is maximaal 19
+static int k = 2;//2^64 past in minimaal 19 karakters dus k  is <=19
 struct cijfervak {
     cijfervak(){
         next = prev = nullptr;
@@ -21,7 +21,7 @@ struct cijfervak {
     unsigned long long data;
     struct cijfervak* next;
     struct cijfervak* prev;
-};
+}; //end struct cijfervak
 
 class grootGetal{
     public:
@@ -46,40 +46,38 @@ class grootGetal{
         void voegachter();
         void vernietig();
         void kopieer();
-};
+}; //end class grootGetal
 
-//insert a new cijfervak at the end of the list
+//insert new cijfervak at the end of the list
 void insert_end(grootGetal& getal, unsigned long long new_data){
     //allocate memory for cijfervak
     struct cijfervak* newcijfervak = new cijfervak;
-
     struct cijfervak* last = getal.begin; //set last cijfervak value to begin
 
     //set data for new cijfervak
     newcijfervak->data = new_data;
 
-    //check if list is empty, if yes make new cijfervak the begin of list
+    //check if list is empty, if so make new cijfervak the begin of list
     if (getal.begin == NULL) {
     newcijfervak->prev = NULL;
     getal.begin = newcijfervak;
     return;
     }
-  
+
     //otherwise traverse the list to go to last cijfervak
     while(last->next != NULL){
         last = last->next;
     }
-    
+
     //set next of last to new cijfervak
     last->next = newcijfervak;
-    
+
     //set last to prev of new cijfervak
     newcijfervak->prev = last;
     return;
-}
+} //end insert_end
 
-void splitGetal(long i, grootGetal& a)
-{
+void splitGetal(long i, grootGetal& a) {
     //Recursie voor getallen groter dan 9
     i > 9 ? splitGetal(i / 10,a) : void();
 
@@ -87,19 +85,18 @@ void splitGetal(long i, grootGetal& a)
     insert_end(a,getal);
     a.total++;
     //cout << getal << ":";
-}
+} //end splitGetal
 
-long fibonacci(unsigned int n){      //n < 10000
+long fibonacci(unsigned int n){
     if ((n == 0) || (n==1)) {
         return n;
     }
     else {
-    //telop(fibonacci(n-1),fibonacci(n-2));
-    return (fibonacci(n-1) + fibonacci(n-2));
+    return (fibonacci(n-1) + fibonacci(n-2)); //use add function?
     }
-}
+} //end fibonacci
 
-
+//vernietig contents van de grootgetal
 void vernietig(grootGetal& getal){
     cijfervak* temp = getal.begin;
     if(temp == nullptr){
@@ -112,7 +109,7 @@ void vernietig(grootGetal& getal){
     temp = nullptr;
     getal.begin = nullptr;
     getal.end = nullptr;
-}
+} //end vernietig
 
 void kopieer(grootGetal& A, grootGetal& B){
     cijfervak* tempA;
@@ -130,6 +127,7 @@ void kopieer(grootGetal& A, grootGetal& B){
     if(B.begin != NULL) {//delete linked list if there is already a number in it
         vernietig(B);
     }
+
     B.begin = tempB;
     while(tempA->next !=NULL){
         value = tempA->data;
@@ -140,14 +138,15 @@ void kopieer(grootGetal& A, grootGetal& B){
         tempB = tempB->next;
         tempB->prev = temp;
     }
+
     value = tempA->data;
     tempB->data = value;
     tempB->next = nullptr;
     B.end = tempB;
-}
+} //end kopieer
 
 void insert_front(grootGetal& getal, unsigned long long new_data){
-    
+
     //allocate memory for cijfervak
     struct cijfervak* newcijfervak = new cijfervak;
     struct cijfervak* last = getal.begin; //set last cijfervak value to begin
@@ -157,12 +156,14 @@ void insert_front(grootGetal& getal, unsigned long long new_data){
         getal.begin = newcijfervak;
         return;
     }
+
     while(last->prev != NULL){
         last = last->prev;
     }
+
     //set next of last to new cijfervak
     last->prev = newcijfervak;
-    
+
     //set last to prev of new cijfervak
     newcijfervak->next = last;
 
@@ -170,22 +171,23 @@ void insert_front(grootGetal& getal, unsigned long long new_data){
     return;
 
     //cout << "ok" << last << endl;
-}
+} //end insert_front
 
-// This function prints contents of linked list starting from the given cijfervak
+//Prints contents of linked list starting from the given cijfervak
 void displayList(grootGetal& getal) {
-    
+
     cijfervak* cijfer= getal.begin;
     while (cijfer != NULL) {
         cout<<cijfer->data<<"<==>";
-        
         cijfer = cijfer->next;
     }
+
     if(cijfer == NULL){
         cout<<"NULL";
     }
     cout << endl;
-}
+} //end displayList
+
 /*
 void add(grootGetal& a, grootGetal& b){
     cijfervak* cijfervakA = a.begin;
@@ -198,16 +200,18 @@ void add(grootGetal& a, grootGetal& b){
     int total = a.total >= b.total ? a.total : b.total;
     int sum = 0;
 
-    cout<< endl << cijfervakA->data; 
+    cout<< endl << cijfervakA->data;
     while(cijfervakA->next != NULL){//Check of null pointer nog niet is bereikt en traverse de list
         cijfervakA = cijfervakA->next;
-        //cout<< endl << cijfervakA->data;    
+        //cout<< endl << cijfervakA->data;
     }
-    cout<< endl << cijfervakB->data; 
+
+    cout<< endl << cijfervakB->data;
     while(cijfervakB->next != NULL){
         cijfervakB = cijfervakB->next;
-        //cout<< endl << cijfervakB->data;   
+        //cout<< endl << cijfervakB->data;
     }
+
     bool endA = false;
     bool endB = false;
     bool carry = false;
@@ -246,36 +250,33 @@ void add(grootGetal& a, grootGetal& b){
             insert_front(temp,sum);
             sum = 0;
         }
-        
+
     }
     return temp.begin;
-}
+} //end add
 */
 
 unsigned long long leesGetal(unsigned int, grootGetal&);
 char leesKarakter();
 void infoBlok();
-
 void grootGetal::print(){}
 void grootGetal::leesin(){}
 void grootGetal::telop(){}
-
 void grootGetal::vermenigvuldig(){}
-
 void grootGetal::voegvoor(){}
 void grootGetal::voegachter(){}
 void grootGetal::vernietig(){}
 void grootGetal::kopieer(){}
 
 unsigned long long leesGetal2(unsigned int grootte, grootGetal& getal){
-    //Bereken grootte van het getal zodat de cijfers goed passen in de cijfervakken
+    //Bereken grootte van het getal zodat de cijfers goed passen in de cijfervakken voor fibonacci
     grootGetal temp;
     cijfervak* tempcijfervak;
     bool flag = false;
     unsigned long long sum = 0;
     int count = 0;
     int totalcount = 4;
-    
+
     splitGetal(fibonacci(20),temp);
     //ceil aantal cijfers / grootte van cijfervak = aantal gebruikte cijfervakken
     getal.total = totalcount%grootte == 0 ? totalcount/grootte : (totalcount/grootte) + 1;
@@ -286,6 +287,7 @@ unsigned long long leesGetal2(unsigned int grootte, grootGetal& getal){
         while(tempcijfervak->next != nullptr){
             tempcijfervak = tempcijfervak->next;
         }
+
         int mult = 0;
         int num = tempcijfervak->data;
         //sum+= num;
@@ -321,11 +323,11 @@ unsigned long long leesGetal2(unsigned int grootte, grootGetal& getal){
                     }
                     sum+= num;
                 }
-
                 insert_front(getal,sum);
                 mult = 0;
                 sum = 0;
             }
+
             if(totalcount == 1){//Case als slechts 1 cijfer
                 insert_front(getal,tempcijfervak->data);
             }
@@ -336,70 +338,77 @@ unsigned long long leesGetal2(unsigned int grootte, grootGetal& getal){
     }
     //Check of er een getal ingevuld is
     return 1;
-}
+} //end leesGetal2
+
 //main program
 int main() {
     cout << "Kies uit 1 van de volgende getallen: A, B, C" << endl;
     grootGetal A;
     grootGetal B;
     grootGetal C;
+
     while(true){
-        while(true){
-            cout << "A:";
-            displayList(A);
-            cout << "B:";
-            displayList(B);
-            cout << "C:";
-            displayList(C);
-            switch(leesKarakter()){
-            case('A'):
-            case('a'):
-                if(leesGetal(k, A) == -1){
-                    cout << "Ongeldige invoer, typ een getal tussen de -2^63 en 2^63 in" << endl;
-                    continue;
-                }
-                break;
-            case('B'):
-            case('b'):
-               if(leesGetal(k, B) == -1){
-                    cout << "Ongeldige invoer, typ een getal tussen de -2^63 en 2^63 in" << endl;
-                    continue;
-                }
-                break;
-            case('C'):
-            case('c'):
-               if(leesGetal(k, C) == -1){
-                    cout << "Ongeldige invoer, typ een getal tussen de -2^63 en 2^63 in" << endl;
-                    continue;
-                }
-                break;
-            case('D'):
-            case('d'):
-                vernietig(A);
-                //add(A, B, C, k);
-                break;
-            case('E'):
-            case('e'):
-                leesGetal2(k,C);
-                //kopieer(A,B);
-                //add(A, B, C, k);
-                break;
-            default:
-                cout << "Ongeldige keuze, probeer opnieuw";
+        cout << "A:";
+        displayList(A);
+        cout << "B:";
+        displayList(B);
+        cout << "C:";
+        displayList(C);
+        switch(leesKarakter()){
+
+        case('A'):
+        case('a'):
+            if(leesGetal(k, A) == -1){
+                cout << "Ongeldige invoer, typ een getal tussen de -2^63 en 2^63 in" << endl;
                 continue;
             }
             break;
+
+        case('B'):
+        case('b'):
+            if(leesGetal(k, B) == -1){
+                cout << "Ongeldige invoer, typ een getal tussen de -2^63 en 2^63 in" << endl;
+                continue;
+            }
+            break;
+
+        case('C'):
+        case('c'):
+            if(leesGetal(k, C) == -1){
+                cout << "Ongeldige invoer, typ een getal tussen de -2^63 en 2^63 in" << endl;
+                continue;
+            }
+            break;
+
+        case('D'):
+        case('d'):
+            vernietig(A);
+            //add(A, B, C, k);
+            break;
+
+        case('E'):
+        case('e'):
+            leesGetal2(k,C);
+            //kopieer(A,B);
+            //add(A, B, C, k);
+            break;
+
+        default:
+            cout << "Ongeldige keuze, probeer opnieuw";
+            continue;
         }
+        break;
+
     }
     system("pause");
     return 0;
-}
+} //end main
 
 void infoBlok(){
     cout << endl << endl;
     for(unsigned int i = 1; i<44;i++){
         cout << '*';
-    } 
+    }
     cout << endl;
     cout << "* Yvo Hu studentnummer: 2962802           *" << endl;
     cout << "* Wietske Holwerda studentnummer: 2838192 *" << endl;
@@ -410,8 +419,7 @@ void infoBlok(){
         cout << '*';
     }
     cout << endl;
-}
-
+} //end infoBlok
 
 //leesGetal voor iostream
 unsigned long long leesGetal(unsigned int grootte, grootGetal& getal){
@@ -423,7 +431,7 @@ unsigned long long leesGetal(unsigned int grootte, grootGetal& getal){
     char letter = cin.get();
     int count = 0;
     int totalcount = 0;
-    
+
     while(true){
         if(!isdigit(letter) && letter != '\n'){
             letter = cin.get();
@@ -453,6 +461,7 @@ unsigned long long leesGetal(unsigned int grootte, grootGetal& getal){
         }
         count = 0;
     }//ceil aantal cijfers / grootte van cijfervak = aantal gebruikte cijfervakken
+
     getal.total = totalcount%grootte == 0 ? totalcount/grootte : (totalcount/grootte) + 1;
     if(flag){
         tempcijfervak = temp.begin;
@@ -514,7 +523,7 @@ unsigned long long leesGetal(unsigned int grootte, grootGetal& getal){
     }else{
         return -1;
     }
-}
+} //end leesGetal
 
 char leesKarakter(){
     while(true){
@@ -529,4 +538,4 @@ char leesKarakter(){
         }
         return karakter;
     }
-}
+} //end lessKarakter
