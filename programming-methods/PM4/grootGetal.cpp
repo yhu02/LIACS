@@ -14,19 +14,21 @@ grootGetal::grootGetal(){
     total = 0;
     begin = end = nullptr;
 }
-//leesGetal voor iostream
+//Maak een k-cijferige getallenreeks van een getal uit iostream
 void grootGetal::leesGetal(){
-    this->vernietig();
-    //Bereken grootte van het getal zodat de cijfers goed passen in de cijfervakken
-    grootGetal temp;
+    grootGetal* temp = new grootGetal;
     cijfervak* tempcijfervak;
     unsigned long long sum = 0;
     unsigned int grootte = k;
     unsigned int count = 0;
     unsigned int totalcount = 0;
+    unsigned int mult = 0;
+    int num;
     bool flag = false;
     char letter = std::cin.get();
-    
+    //Reset
+    this->vernietig();
+    //Bereken grootte van het getal zodat de cijfers goed passen in de cijfervakken
     while(true){
         if(!isdigit(letter) && letter != '\n'){
             letter = std::cin.get();
@@ -34,7 +36,6 @@ void grootGetal::leesGetal(){
         }else if(letter == '\n'){
             break;
         }
-
         while(count < grootte){
             if(!isdigit(letter) && letter != '\n'){
                 letter = std::cin.get();
@@ -43,103 +44,66 @@ void grootGetal::leesGetal(){
                 break;
             }
             //Indien meer iteraties, vermenigvuldig met 10
-
             sum *= sum > 0 ? 10 : sum;
             sum += (letter - '0');
             letter = std::cin.get();
             flag = true;
             count++;
-            temp.voegachter(sum);
-            totalcount++;
+            temp->voegachter(sum);
+            temp->total++;
             sum = 0;
             break;
         }
         count = 0;
-    }//ceil aantal cijfers / grootte van cijfervak = aantal gebruikte cijfervakken
-    this->total += totalcount%grootte == 0 ? totalcount/grootte : (totalcount/grootte) + 1;
-    if(flag){
-        tempcijfervak = temp.begin;
+    }
+    //Als er geen getal is ingevoerd return
+    if(!flag){
+        return;
+    }
+    //Ceil aantal cijfers / grootte van cijfervak = aantal gebruikte cijfervakken
+    count = this->total = temp->total%grootte == 0 ? temp->total/grootte : (temp->total/grootte) + 1;
+    tempcijfervak = temp->begin;
+    
+    while(tempcijfervak->next != nullptr){
+        tempcijfervak = tempcijfervak->next;
+    }
+    num = tempcijfervak->data;
         
-        while(tempcijfervak->next != nullptr){
-            tempcijfervak = tempcijfervak->next;
-        }
-        unsigned int mult = 0;
-        int num = tempcijfervak->data;
-
-        while(true){
+    while(count > 0){
+        for(unsigned int i = 0; i < grootte; i++){
             if(tempcijfervak->prev != nullptr){
-                for(unsigned int i = 0; i < grootte; i++){
-                    if(tempcijfervak->prev != nullptr){
-                        num = tempcijfervak->data;
-                        tempcijfervak = tempcijfervak->prev;
-                        for(unsigned int i = 0; i < mult; i++){
-                            num*= 10;
-                        }
-                        mult++;
-                        sum += num;
-                    }
+                num = tempcijfervak->data;
+                for(unsigned int i = 0; i < mult; i++){
+                    num*= 10;
                 }
-                if(tempcijfervak->prev == nullptr && mult != grootte){
-                    num = tempcijfervak->data;
-                    for(unsigned int i = 0; i < mult; i++){
-                        num*= 10;
-                    }
-                    sum+= num;
-                }else if(tempcijfervak->prev == nullptr && mult == grootte){
-                    this->voegvoor(sum);
-                    mult = 0;
-                    sum = 0;
-                    num = tempcijfervak->data;
-                    for(unsigned int i = 0; i < mult; i++){
-                        num*= 10;
-                    }
-                    sum+= num;
-                }
-
+                mult++;
+                sum += num;
+                tempcijfervak = tempcijfervak->prev;
+            }
+        }
+        if(tempcijfervak->prev == nullptr){
+            if(count % grootte == 0){
                 this->voegvoor(sum);
                 mult = 0;
                 sum = 0;
+                count--;
             }
-            if(totalcount == 1){//Case als slechts 1 cijfer
-                this->voegvoor(tempcijfervak->data);
+            num = tempcijfervak->data;
+            for(unsigned int i = 0; i < mult; i++){
+                num*= 10;
             }
-            if(tempcijfervak->prev == nullptr){//laatste cijfervak bereikt herhaal nog 1 keer
-                break;
-            }
+            sum += num;
         }
+        this->voegvoor(sum);
+        mult = 0;
+        sum = 0;
+        count--;
     }
-    //Check of er een getal ingevuld is
-    if(!flag){
-        std::cout << "Ongeldige invoer, typ een getal tussen de -2^63 en 2^63 in" << std::endl;
-        return;
-    }
-}
-//Voeg een cijfervak toe aan de achterkant van de list
-void grootGetal::voegachter(unsigned long long new_data){
-    cijfervak* newcijfervak = new cijfervak;
-    //Stel het cijfervak last in als begin van de huidige getallenreeks
-    cijfervak* last = this->begin;
-    //Stel data voor het nieuwe cijfervak
-    newcijfervak->data = new_data;
-    //Check of getallenreeks leeg is stel het nieuwe cijfervak in als begin
-    if (this->begin == nullptr) {
-        newcijfervak->prev = nullptr;
-        this->begin = newcijfervak;
-        return;
-    }
-    //Anders ga naar het laatste cijfervak
-    while(last->next != nullptr){
-        last = last->next;
-    }
-    //Stel newcijfervak als het laatste cijfervak
-    last->next = newcijfervak;
-    
-    //Verbind de laatste cijfervak met de vorige
-    newcijfervak->prev = last;
     return;
 }
+
 //Maak een k-cijferige getallenreeks van een enkelcijferige getallenreeks
-void grootGetal::maakList(unsigned long long i){
+void grootGetal::leesList(unsigned long long i){
     grootGetal* temp = new grootGetal;
     grootGetal* temp2 = new grootGetal;
     cijfervak* tempcijfervak;
@@ -172,21 +136,24 @@ void grootGetal::maakList(unsigned long long i){
                         sum += num;
                     }
                 }
-                if(tempcijfervak->prev == nullptr && mult != grootte){
-                    num = tempcijfervak->data;
-                    for(unsigned int i = 0; i < mult; i++){
-                        num*= 10;
+                if(tempcijfervak->prev == nullptr){
+
+                    if(mult != grootte){
+                        num = tempcijfervak->data;
+                        for(unsigned int i = 0; i < mult; i++){
+                            num*= 10;
+                        }
+                        sum+= num;
+                    }else if(tempcijfervak->prev == nullptr && mult == grootte){
+                        temp2->voegvoor(sum);
+                        mult = 0;
+                        sum = 0;
+                        num = tempcijfervak->data;
+                        for(unsigned int i = 0; i < mult; i++){
+                            num*= 10;
+                        }
+                        sum += num;
                     }
-                    sum+= num;
-                }else if(tempcijfervak->prev == nullptr && mult == grootte){
-                    temp2->voegvoor(sum);
-                    mult = 0;
-                    sum = 0;
-                    num = tempcijfervak->data;
-                    for(unsigned int i = 0; i < mult; i++){
-                        num*= 10;
-                    }
-                    sum += num;
                 }
                 temp2->voegvoor(sum);
                 mult = 0;
@@ -224,85 +191,15 @@ long long grootGetal::fibonacci(unsigned int n){
         return (fibonacci(n-1) + fibonacci(n-2));
     }
 }
-//Vernietig huidige getallenreeks
-void grootGetal::vernietig(){
-    this->total = 0;
-    cijfervak* temp = this->begin;
-    if(temp == nullptr){
-        return;
-    }
-    while(temp->next != nullptr){
-        temp->prev = nullptr;
-        temp = temp->next;
-    }
-    temp = nullptr;
-    this->begin = nullptr;
-    this->end = nullptr;
-}
-//Kopieer getallenreeks B naar huidige getallenreeks
-void grootGetal::kopieer(grootGetal* B){
-    cijfervak* tempA = new cijfervak;
-    cijfervak* temp = new cijfervak;
-    cijfervak* tempB;
-    int num;
-
-    //Reset
-    this->vernietig();
-    //Doe niets als de getallenreeks van B leeg is
-    if(B->begin != nullptr) {
-        tempB = B->begin;
-    }else{
-        return;
-    }
-    //Stel begin nieuwe getallenreeks
-    this->begin = tempA;
-    //Kopieer cijfervak van B naar een nieuw cijfervak van de nieuwe getallenreeks
-    while(tempB->next !=nullptr){
-        num = tempB->data;
-        tempA->data = num;
-        tempB = tempB->next;
-        //Maak nieuw cijfervak aan en verbind deze met elkaar
-        tempA->next = new cijfervak;
-        temp = tempA;
-        tempA = tempA->next;
-        tempA->prev = temp;
-    }
-    //Herhaal nog een keer
-    num = tempB->data;
-    tempA->data = num;
-    tempA->next = nullptr;
-    //Stel einde nieuwe getallenreeks
-    this->end = tempA;
-}
-//Voeg een cijfervak toe aan de voorkant van de list
-void grootGetal::voegvoor(unsigned long long new_data){
-    struct cijfervak* newcijfervak = new cijfervak;
-    struct cijfervak* first = this->begin; //Stel begin cijfervak naar first
-    newcijfervak->data = new_data;
-
-    //Maak nieuw cijfervak als de getallenreeks leeg is
-    if(this->begin == nullptr) {
-        newcijfervak->prev = nullptr;
-        this->begin = newcijfervak;
-        return;
-    }
-
-    //Stel vorige node van first aan nieuwe node met nieuwe data
-    first->prev = newcijfervak;
-    //Stel volgende node van het nieuwe cijfervak aan de vorige eerste node (first)
-    newcijfervak->next = first;
-    //Stel begin van de getallenreeks aan het nieuwe cijfervak
-    this->begin = newcijfervak;
-    return;
-}
 //Maak een k-cijferige fibonacci getallenreeks van een enkelcijferige fibonacci getallenreeks
 void grootGetal::fibonaccif(){
     //Bereken grootte van het getal zodat de cijfers goed passen in de cijfervakken
-    int num = 0;
-    char letter;
     unsigned int count = 0;
-    bool flag = false;
     unsigned int grootte = k;
+    unsigned int num = 0;
+    char letter;
+    bool flag = false;
+    //Reset
     this->vernietig();
     while(true){
         if(!isdigit(letter) && letter != '\n'){
@@ -327,9 +224,13 @@ void grootGetal::fibonaccif(){
             break;
         }
     }
-    this->maakList(fibonacci(num));
+    //Check of er een getal is ingevoerd
+    if(flag){
+        this->leesList(fibonacci(num));
+    }
     return;
 }
+
 //Vermenigvuldig getallenreeks a en b en sla deze op in de huidige getallenreeks
 void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
     grootGetal* temp = new grootGetal;
@@ -341,9 +242,11 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
     unsigned int grootte = k;
     unsigned int multA = 0;
     unsigned int multB = 0;
+    unsigned int totalA = a->total;
+    unsigned int totalB = b->total;
     //Reset
     this->vernietig();
-    
+
     if(a->begin == nullptr || b->begin == nullptr || cijfervakA->data == 0 || cijfervakB->data == 0){
         this->voegvoor(0);
         return;
@@ -351,7 +254,7 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
     while(cijfervakA->next != nullptr){//Check of nullptr pointer nog niet is bereikt en doorkruis de list
         cijfervakA = cijfervakA->next;
     }
-    while(cijfervakA->prev != nullptr){ 
+    while(totalA > 0){ 
         numA = cijfervakA->data;
         for(int i = 0; i < multA; i++){
             numA *= 10;
@@ -365,7 +268,7 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
         while(cijfervakB->next != nullptr){//Check of nullptr pointer nog niet is bereikt en doorkruis de list
             cijfervakB = cijfervakB->next;
         }
-        while(cijfervakB->prev != nullptr){
+        while(totalB > 0){
             numB = cijfervakB->data; 
             for(int i = 0; i < multB; i++){
                 numB *= 10;
@@ -373,75 +276,27 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
             for(unsigned int i = 0; i < grootte;i++){
                 multB++;
             }
-            sum+= numB * numA;
+            sum += numB * numA;
             cijfervakB = cijfervakB->prev;
-
+            totalB--;
         }
-        numB = cijfervakB->data;
-        for(int i = 0; i < multB; i++){
-            numB *= 10;
-        }
-        sum += numB * numA;
-
         if(cijfervakA->prev != nullptr){
             cijfervakA= cijfervakA->prev;
         }
-        if(sum >= INT64_MAX || sum < 0){
-            std::cout << std::endl;
-            std::cout << "Error: Operatie kan niet worden verwerkt";
-            std::cout << std::endl;
-            std::cout << "Vermenigvuldiging van twee getallen geeft een getal groter dan 2^63";
-            std::cout << std::endl;
-            return;
-        }
-        temp->maakList(sum);
+        std::cout<<"here" << sum << std::endl;
+        this->displayList();
+        temp->leesList(sum);
         this->add(temp,this);
+        std::cout<<"again";
+        this->displayList();
         multB = 0;
+        totalA--;
+        totalB = b->total;
     }
-    numA = cijfervakA->data;
-    for(int i = 0; i < multA; i++){
-        numA *= 10;
-    }
-    if(b->begin != nullptr){
-        cijfervakB = b->begin;
-    }
-    while(cijfervakB->next != nullptr){//Check of nullptr pointer nog niet is bereikt en doorkruis de list
-        cijfervakB = cijfervakB->next; 
-    }
-    while(cijfervakB->prev != nullptr){
-        numB = cijfervakB->data; 
-        for(int i = 0; i < multB; i++){
-            numB *= 10;
-        }
-        for(unsigned int i = 0; i < grootte;i++){
-            multB++;
-        }
-        sum+= numB * numA;
-        cijfervakB = cijfervakB->prev;
-    }
-    numB = cijfervakB->data;
-    for(int i = 0; i < multB; i++){
-        numB *= 10;
-    }
-    sum += numB * numA;
-
-    if(cijfervakA->prev != nullptr){
-        cijfervakA= cijfervakA->prev;
-    }
-    if(sum >= INT64_MAX || sum < 0){
-        std::cout << std::endl;
-        std::cout << "Error: Operatie kan niet worden verwerkt";
-        std::cout << std::endl;
-        std::cout << "Vermenigvuldiging van twee getallen geeft een getal groter dan 2^63";
-        std::cout << std::endl;
-        return;
-    }
-    temp->maakList(sum);
-    this->add(temp,this);
     return;
 }
 //Voeg getallenreeksen a en b bij elkaar en sla deze op in de huidige getallenreeks
-void grootGetal::add(grootGetal* a, grootGetal* b){;
+void grootGetal::add(grootGetal* a, grootGetal* b){
     cijfervak* cijfervakA = a->begin;
     cijfervak* cijfervakB = b->begin;
     unsigned long long sum = 0;
@@ -451,13 +306,15 @@ void grootGetal::add(grootGetal* a, grootGetal* b){;
     bool carry = false;
     int total = a->total >= b->total ? a->total : b->total;
 
+    if(!total){
+        this->voegvoor(0);
+    }
     //Reset
     this->vernietig();
-    //Check voor carry
+    //Grootste getal voor er carry optreedt
     for(int i = 0;i < k; i++){
         control *= 10;
     }
-
     if(a->begin == nullptr){
         cijfervakA = new cijfervak;
         cijfervakA->data = 0;
@@ -472,7 +329,7 @@ void grootGetal::add(grootGetal* a, grootGetal* b){;
     while(cijfervakB->next != nullptr){
         cijfervakB = cijfervakB->next;  
     }
-
+    //Bereken door tot de laatste cijfervak van de grootste getallenreeks is bereikt
     while(total > 0){
         if(!endA){//Als laatste cijfervakje nog niet is bereikt, voeg waarde toe aan sum
             sum += cijfervakA->data;
@@ -490,20 +347,18 @@ void grootGetal::add(grootGetal* a, grootGetal* b){;
         }else{
             cijfervakB = cijfervakB->prev;
         }
+        total--;
         //Bereken huidige cijfervak en verwerk carry naar volgende cijfervak
         if(sum >= control){
             carry = true;
             sum = sum - control;
             this->voegvoor(sum);
             sum = 1;
-            total--;
             continue;
         }else{
             this->voegvoor(sum);
             sum = 0;
-            total--;
         }
-
     }
     return;
 }
@@ -599,6 +454,101 @@ void grootGetal::displayList() {
         std::cout<<"NULL";
     }
     std::cout << std::endl;
+}
+//Vernietig huidige getallenreeks
+void grootGetal::vernietig(){
+    this->total = 0;
+    cijfervak* temp = this->begin;
+    if(temp == nullptr){
+        return;
+    }
+    while(temp->next != nullptr){
+        temp->prev = nullptr;
+        temp = temp->next;
+    }
+    temp = nullptr;
+    this->begin = nullptr;
+    this->end = nullptr;
+}
+//Kopieer getallenreeks B naar huidige getallenreeks
+void grootGetal::kopieer(grootGetal* B){
+    cijfervak* tempA = new cijfervak;
+    cijfervak* temp = new cijfervak;
+    cijfervak* tempB;
+    int num;
+
+    //Reset
+    this->vernietig();
+    //Doe niets als de getallenreeks van B leeg is
+    if(B->begin != nullptr) {
+        tempB = B->begin;
+    }else{
+        return;
+    }
+    //Stel begin nieuwe getallenreeks
+    this->begin = tempA;
+    //Kopieer cijfervak van B naar een nieuw cijfervak van de nieuwe getallenreeks
+    while(tempB->next !=nullptr){
+        num = tempB->data;
+        tempA->data = num;
+        tempB = tempB->next;
+        //Maak nieuw cijfervak aan en verbind deze met elkaar
+        tempA->next = new cijfervak;
+        temp = tempA;
+        tempA = tempA->next;
+        tempA->prev = temp;
+    }
+    //Herhaal nog een keer
+    num = tempB->data;
+    tempA->data = num;
+    tempA->next = nullptr;
+    //Stel einde nieuwe getallenreeks
+    this->end = tempA;
+}
+//Voeg een cijfervak toe aan de voorkant van de list
+void grootGetal::voegvoor(unsigned long long new_data){
+    struct cijfervak* newcijfervak = new cijfervak;
+    struct cijfervak* first = this->begin; //Stel begin cijfervak naar first
+    newcijfervak->data = new_data;
+
+    //Maak nieuw cijfervak als de getallenreeks leeg is
+    if(this->begin == nullptr) {
+        newcijfervak->prev = nullptr;
+        this->begin = newcijfervak;
+        return;
+    }
+
+    //Stel vorige node van first aan nieuwe node met nieuwe data
+    first->prev = newcijfervak;
+    //Stel volgende node van het nieuwe cijfervak aan de vorige eerste node (first)
+    newcijfervak->next = first;
+    //Stel begin van de getallenreeks aan het nieuwe cijfervak
+    this->begin = newcijfervak;
+    return;
+}
+//Voeg een cijfervak toe aan de achterkant van de list
+void grootGetal::voegachter(unsigned long long new_data){
+    cijfervak* newcijfervak = new cijfervak;
+    //Stel het cijfervak last in als begin van de huidige getallenreeks
+    cijfervak* last = this->begin;
+    //Stel data voor het nieuwe cijfervak
+    newcijfervak->data = new_data;
+    //Check of getallenreeks leeg is stel het nieuwe cijfervak in als begin
+    if (this->begin == nullptr) {
+        newcijfervak->prev = nullptr;
+        this->begin = newcijfervak;
+        return;
+    }
+    //Anders ga naar het laatste cijfervak
+    while(last->next != nullptr){
+        last = last->next;
+    }
+    //Stel newcijfervak als het laatste cijfervak
+    last->next = newcijfervak;
+    
+    //Verbind de laatste cijfervak met de vorige
+    newcijfervak->prev = last;
+    return;
 }
 //Lees invoer per karakter
 char leesKarakter(){
