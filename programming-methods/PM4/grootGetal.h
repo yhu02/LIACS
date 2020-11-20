@@ -21,7 +21,7 @@ class grootGetal{
         void leesGetal();
         void vermenigvuldig(grootGetal*, grootGetal*);
         void add(grootGetal*, grootGetal*);
-        void maakList(unsigned long long);
+        void leesList(unsigned long long);
         void displayList();
         void drukAf(grootGetal*, grootGetal*);
         void submenu(grootGetal*, grootGetal*, stack<grootGetal>&);
@@ -35,6 +35,4 @@ class grootGetal{
 
 char leesKarakter();
 void infoBlok();
-//void displayList(grootGetal&);
-
 #endif
