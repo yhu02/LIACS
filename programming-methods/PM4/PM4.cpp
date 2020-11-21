@@ -12,11 +12,13 @@ using namespace std;
 
 //Main
 int main(){
+
     infoBlok();
     grootGetal *A = new grootGetal;
     grootGetal *B = new grootGetal;
     grootGetal *C = new grootGetal;
     stack<grootGetal>ggA, ggB, ggC;
+    
     while(true){
         cout << "Kies uit 1 van de volgende getallen: A, B, C of (X)Stop" << endl;
         A->drukAf(B,C);

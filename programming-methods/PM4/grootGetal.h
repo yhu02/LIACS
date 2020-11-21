@@ -27,10 +27,10 @@ class grootGetal{
         void voegvoor(unsigned long long);
         void voegachter(unsigned long long);
 
-        long long fibonacci(unsigned int);
-        void fibonaccif();
         void vermenigvuldig(grootGetal*, grootGetal*);
         void add(grootGetal*, grootGetal*);
+        long long fibonacci(unsigned int);
+        void fibonaccif();
         void splitGetal(long long);
         void leesGetal();
         void leesList(unsigned long long);

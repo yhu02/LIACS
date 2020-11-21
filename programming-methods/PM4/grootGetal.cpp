@@ -20,182 +20,185 @@ grootGetal::grootGetal(){
     begin = end = nullptr;
 }
 
-//Maak een k-cijferige getallenreeks van een getal uit iostream
-void grootGetal::leesGetal(){
-    grootGetal* temp = new grootGetal;
-    cijfervak* tempcijfervak;
-    unsigned long long sum = 0;
-    unsigned int count = 0;
-    unsigned int totalcount = 0;
-    unsigned int mult = 0;
-    unsigned int num;
-    bool flag = false;
-    char letter = std::cin.get();
-    //Reset
-    this->vernietig();
-
-    //Bereken grootte van het getal zodat de cijfers goed passen in de cijfervakken
+//Submenu
+void grootGetal::submenu(grootGetal* getal2, grootGetal* getal3, stack<grootGetal> &stapel){
     while(true){
-        if(!isdigit(letter) && letter != '\n'){
-            letter = std::cin.get();
+        grootGetal* temp = new grootGetal;
+        for(int j = 0; j < 44; j++){
+            std::cout << "*";
+        }
+        std::cout << std::endl;
+        //Print 1 van de drie getallen 
+        if(this->id == 0){
+            this->drukAf(getal2, getal3);
+        }
+        else if(this->id == 1){
+            getal3->drukAf(this, getal2);
+        }
+        else if(this->id == 2){
+            getal2->drukAf(getal3, this);
+        }
+        std::cout << std::endl                                              << std::endl;
+        std::cout << "Wat wil je met dit getal doen? Kies uit:"             << std::endl;
+        std::cout << "(G) Een getal invoeren"                               << std::endl;
+        std::cout << "(F) Een zoveelste fibonacci getal invoeren"           << std::endl;
+        std::cout << "(O) De andere getallen met elkaar optellen"           << std::endl;
+        std::cout << "(V) De andere getallen met elkaar vermenigvuldigen"   << std::endl;
+        std::cout << "(S) Een stap terug doen"                              << std::endl;
+        std::cout << "(T) Teruggaan naar het hoofdmenu"                     << std::endl;
+        std::cout << "Stack:" << stapel.size                                << std::endl;
+        std::cout << std::endl                                              << std::endl;
+        switch(leesKarakter()){
+        case('G'):
+        case('g'):
+            this->leesGetal();
+            temp->kopieer(this);
+            stapel.push(temp);
+            break;
+        case('F'):
+        case('f'):
+            this->fibonaccif();
+            temp->kopieer(this);
+            stapel.push(temp);
             continue;
-        }else if(letter == '\n'){
             break;
-        }
-        while(count < grootte){
-            if(!isdigit(letter) && letter != '\n'){
-                letter = std::cin.get();
-                continue;
-            }else if(letter == '\n'){
-                break;
-            }
-            //Indien meer iteraties, vermenigvuldig met 10
-            sum *= sum > 0 ? 10 : sum;
-            sum += (letter - '0');
-            letter = std::cin.get();
-            flag = true;
-            count++;
-            temp->voegachter(sum);
-            temp->total++;
-            sum = 0;
+        case('O'):
+        case('o'):
+            this->add(getal2, getal3);
+            temp->kopieer(this);
+            stapel.push(temp);
+            continue;
             break;
-        }
-        count = 0;
-    }
-
-    //Ga verder als er een getal is ingevoerd
-    if(flag){
-        //Ceil aantal cijfers / grootte van cijfervak = aantal gebruikte cijfervakken
-        count = this->total = temp->total%grootte == 0 ? temp->total/grootte : (temp->total/grootte) + 1;
-        tempcijfervak = temp->begin;
-        
-        while(tempcijfervak->next != nullptr){
-            tempcijfervak = tempcijfervak->next;
-        }
-
-        //Herorden de getallenreeks
-        while(count > 0){
-            for(unsigned int i = 0; i < grootte; i++){
-                num = tempcijfervak->data;
-                for(unsigned int i = 0; i < mult; i++){
-                    num*= 10;
-                }
-                sum += num;
-                if(tempcijfervak->prev == nullptr){
-                    break;
-                }
-                mult++;
-                tempcijfervak = tempcijfervak->prev;
-            }
-            this->voegvoor(sum);
-            mult = 0;
-            sum = 0;
-            count--;
+        case('V'):
+        case('v'):
+            this->vermenigvuldig(getal2, getal3);
+            temp->kopieer(this);
+            stapel.push(temp);
+            break;
+        case('S'):
+        case('s'):
+            this->vernietig();
+            stapel.pop();
+            this->kopieer(stapel.peek());
+            break;
+        case('T'):
+        case('t'):
+            return;
+        default:
+            std::cout << "Ongeldige keuze, probeer opnieuw";
+            continue;
         }
     }
+}
+
+//Print alle 3 getallenreeksen
+void grootGetal::drukAf(grootGetal* getal2, grootGetal* getal3){
+    std::cout << "A:";
+    this->displayList();
+    std::cout << "B:";
+    getal2->displayList();
+    std::cout << "C:";
+    getal3->displayList();
     return;
 }
 
-//Maak een k-cijferige getallenreeks van een enkelcijferige getallenreeks
-void grootGetal::leesList(unsigned long long i){
-    grootGetal* temp = new grootGetal;
-    cijfervak* tempcijfervak;
-    unsigned long long sum = 0;
-    unsigned long long num;
-    unsigned int mult = 0;
-    unsigned int count = 0;
+
+//Kopieer getallenreeks B naar huidige getallenreeks
+void grootGetal::kopieer(grootGetal* B){
+    cijfervak* tempA = new cijfervak;
+    cijfervak* temp = new cijfervak;
+    cijfervak* tempB;
+    int num;
+
     //Reset
     this->vernietig();
-
-    //Maak een enkelcijferige getallenreeks van het getal
-    temp->splitGetal(i);
-
-    count = this->total = temp->total % grootte == 0 ? temp->total / grootte : (temp->total / grootte) + 1;
-    tempcijfervak = temp->begin;
-
-    while(tempcijfervak->next != nullptr){
-        tempcijfervak = tempcijfervak->next;
-    }
-
-    //Herorden de getallenreeks
-    while(count > 0){
-        for(unsigned int i = 0; i < grootte; i++){
-            num = tempcijfervak->data;
-            for(unsigned int i = 0; i < mult; i++){
-                num*= 10;
-            }
-            sum += num;
-            if(tempcijfervak->prev == nullptr){
-                break;
-            }
-            mult++;
-            tempcijfervak = tempcijfervak->prev;
-        }
-        this->voegvoor(sum);
-        mult = 0;
-        sum = 0;
-        count--;
-    }
-    return;
-}
-
-//Splits een getal in een enkelcijferige getallenreeks
-void grootGetal::splitGetal(long long i){
-    //Recursie voor getallen groter dan 9
-    i > 9 ? splitGetal(i / 10) : void();
-    //Voeg getal toe aan getallenreeks
-    long long getal = i % 10;
-    this->voegachter(getal);
-    this->total++;
-}
-
-//Bereken n-ste fibonacci getal; Na ongeveer n = 40 gaat het lang duren
-long long grootGetal::fibonacci(unsigned int n){
-    if  ((n == 0) || (n==1)){
-        return n;
+    //Doe niets als de getallenreeks van B leeg is
+    if(B->begin != nullptr) {
+        tempB = B->begin;
     }else{
-        return (fibonacci(n-1) + fibonacci(n-2));
+        return;
     }
+    //Stel begin nieuwe getallenreeks
+    this->begin = tempA;
+    //Kopieer cijfervak van B naar een nieuw cijfervak van de nieuwe getallenreeks
+    while(tempB->next !=nullptr){
+        num = tempB->data;
+        tempA->data = num;
+        tempB = tempB->next;
+        //Maak nieuw cijfervak aan en verbind deze met elkaar
+        tempA->next = new cijfervak;
+        temp = tempA;
+        tempA = tempA->next;
+        tempA->prev = temp;
+    }
+    //Herhaal nog een keer
+    num = tempB->data;
+    tempA->data = num;
+    tempA->next = nullptr;
+    //Stel einde nieuwe getallenreeks
+    this->end = tempA;
 }
 
-//Maak een k-cijferige fibonacci getallenreeks van een enkelcijferige fibonacci getallenreeks
-void grootGetal::fibonaccif(){
-    unsigned int count = 0;
-    unsigned int num = 0;
-    char letter;
-    bool flag = false;
-    //Reset
-    this->vernietig();
+//Vernietig huidige getallenreeks
+void grootGetal::vernietig(){
+    this->total = 0;
+    cijfervak* temp = this->begin;
+    if(temp == nullptr){
+        return;
+    }
+    while(temp->next != nullptr){
+        delete temp->prev;
+        temp = temp->next;
+    }
+    this->begin = nullptr;
+    this->end = nullptr;
+    delete  temp;
+}
 
-    //Bereken fibonacci getal
-    while(true){
-        if(!isdigit(letter) && letter != '\n'){
-            letter = std::cin.get();
-            continue;
-        }else if(letter == '\n'){
-            break;
-        }
-        while(count < grootte){
-            if(!isdigit(letter) && letter != '\n'){
-                letter = std::cin.get();
-                continue;
-            }else if(letter == '\n'){
-                break;
-            }
-            //Indien meer iteraties, vermenigvuldig met 10
-            num *= num > 0 ? 10 : num;
-            num += (letter - '0');
-            letter = std::cin.get();
-            flag = true;
-            count++;
-            break;
-        }
+//Voeg een cijfervak toe aan de voorkant van de list
+void grootGetal::voegvoor(unsigned long long new_data){
+    struct cijfervak* newcijfervak = new cijfervak;
+    struct cijfervak* first = this->begin; //Stel begin cijfervak naar first
+    newcijfervak->data = new_data;
+
+    //Maak nieuw cijfervak als de getallenreeks leeg is
+    if(this->begin == nullptr) {
+        newcijfervak->prev = nullptr;
+        this->begin = newcijfervak;
+        return;
     }
-    //Check of er een getal is ingevoerd
-    if(flag){
-        //Maak een getallenreeks van fibonacci getal
-        this->leesList(fibonacci(num));
+
+    //Stel vorige node van first aan nieuwe node met nieuwe data
+    first->prev = newcijfervak;
+    //Stel volgende node van het nieuwe cijfervak aan de vorige eerste node (first)
+    newcijfervak->next = first;
+    //Stel begin van de getallenreeks aan het nieuwe cijfervak
+    this->begin = newcijfervak;
+    return;
+}
+
+//Voeg een cijfervak toe aan de achterkant van de list
+void grootGetal::voegachter(unsigned long long new_data){
+    cijfervak* newcijfervak = new cijfervak;
+    //Stel het cijfervak last in als begin van de huidige getallenreeks
+    cijfervak* last = this->begin;
+    //Stel data voor het nieuwe cijfervak
+    newcijfervak->data = new_data;
+    //Check of getallenreeks leeg is stel het nieuwe cijfervak in als begin
+    if (this->begin == nullptr) {
+        newcijfervak->prev = nullptr;
+        this->begin = newcijfervak;
+        return;
     }
+    //Anders ga naar het laatste cijfervak
+    while(last->next != nullptr){
+        last = last->next;
+    }
+    //Stel newcijfervak als het laatste cijfervak
+    last->next = newcijfervak;
+    
+    //Verbind de laatste cijfervak met de vorige
+    newcijfervak->prev = last;
     return;
 }
 
@@ -335,85 +338,182 @@ void grootGetal::add(grootGetal* a, grootGetal* b){
     return;
 }
 
-//Submenu
-void grootGetal::submenu(grootGetal* getal2, grootGetal* getal3, stack<grootGetal> &stapel){
-    while(true){
-        grootGetal* temp = new grootGetal;
-        for(int j = 0; j < 44; j++){
-            std::cout << "*";
-        }
-        std::cout << std::endl;
-        //Print 1 van de drie getallen 
-        if(this->id == 0){
-            this->drukAf(getal2, getal3);
-        }
-        else if(this->id == 1){
-            getal3->drukAf(this, getal2);
-        }
-        else if(this->id == 2){
-            getal2->drukAf(getal3, this);
-        }
-        std::cout << std::endl                                              << std::endl;
-        std::cout << "Wat wil je met dit getal doen? Kies uit:"             << std::endl;
-        std::cout << "(G) Een getal invoeren"                               << std::endl;
-        std::cout << "(F) Een zoveelste fibonacci getal invoeren"           << std::endl;
-        std::cout << "(O) De andere getallen met elkaar optellen"           << std::endl;
-        std::cout << "(V) De andere getallen met elkaar vermenigvuldigen"   << std::endl;
-        std::cout << "(S) Een stap terug doen"                              << std::endl;
-        std::cout << "(T) Teruggaan naar het hoofdmenu"                     << std::endl;
-        std::cout << "Stack:" << stapel.size                                << std::endl;
-        std::cout << std::endl                                              << std::endl;
-        switch(leesKarakter()){
-        case('G'):
-        case('g'):
-            this->leesGetal();
-            temp->kopieer(this);
-            stapel.push(temp);
-            break;
-        case('F'):
-        case('f'):
-            this->fibonaccif();
-            temp->kopieer(this);
-            stapel.push(temp);
-            continue;
-            break;
-        case('O'):
-        case('o'):
-            this->add(getal2, getal3);
-            temp->kopieer(this);
-            stapel.push(temp);
-            continue;
-            break;
-        case('V'):
-        case('v'):
-            this->vermenigvuldig(getal2, getal3);
-            temp->kopieer(this);
-            stapel.push(temp);
-            break;
-        case('S'):
-        case('s'):
-            this->vernietig();
-            stapel.pop();
-            this->kopieer(stapel.peek());
-            break;
-        case('T'):
-        case('t'):
-            return;
-        default:
-            std::cout << "Ongeldige keuze, probeer opnieuw";
-            continue;
-        }
+//Bereken n-ste fibonacci getal; Na ongeveer n = 40 gaat het lang duren
+long long grootGetal::fibonacci(unsigned int n){
+    if  ((n == 0) || (n==1)){
+        return n;
+    }else{
+        return (fibonacci(n-1) + fibonacci(n-2));
     }
 }
 
-//Print alle 3 getallenreeksen
-void grootGetal::drukAf(grootGetal* getal2, grootGetal* getal3){
-    std::cout << "A:";
-    this->displayList();
-    std::cout << "B:";
-    getal2->displayList();
-    std::cout << "C:";
-    getal3->displayList();
+//Maak een k-cijferige fibonacci getallenreeks van een enkelcijferige fibonacci getallenreeks
+void grootGetal::fibonaccif(){
+    unsigned int count = 0;
+    unsigned int num = 0;
+    char letter;
+    bool flag = false;
+    //Reset
+    this->vernietig();
+
+    //Bereken fibonacci getal
+    while(true){
+        if(!isdigit(letter) && letter != '\n'){
+            letter = std::cin.get();
+            continue;
+        }else if(letter == '\n'){
+            break;
+        }
+        while(count < grootte){
+            if(!isdigit(letter) && letter != '\n'){
+                letter = std::cin.get();
+                continue;
+            }else if(letter == '\n'){
+                break;
+            }
+            //Indien meer iteraties, vermenigvuldig met 10
+            num *= num > 0 ? 10 : num;
+            num += (letter - '0');
+            letter = std::cin.get();
+            flag = true;
+            count++;
+            break;
+        }
+    }
+    //Check of er een getal is ingevoerd
+    if(flag){
+        //Maak een getallenreeks van fibonacci getal
+        this->leesList(fibonacci(num));
+    }
+    return;
+}
+
+//Splits een getal in een enkelcijferige getallenreeks
+void grootGetal::splitGetal(long long i){
+    //Recursie voor getallen groter dan 9
+    i > 9 ? splitGetal(i / 10) : void();
+    //Voeg getal toe aan getallenreeks
+    long long getal = i % 10;
+    this->voegachter(getal);
+    this->total++;
+}
+
+//Maak een k-cijferige getallenreeks van een getal uit iostream
+void grootGetal::leesGetal(){
+    grootGetal* temp = new grootGetal;
+    cijfervak* tempcijfervak;
+    unsigned long long sum = 0;
+    unsigned int count = 0;
+    unsigned int totalcount = 0;
+    unsigned int mult = 0;
+    unsigned int num;
+    bool flag = false;
+    char letter = std::cin.get();
+    //Reset
+    this->vernietig();
+
+    //Bereken grootte van het getal zodat de cijfers goed passen in de cijfervakken
+    while(true){
+        if(!isdigit(letter) && letter != '\n'){
+            letter = std::cin.get();
+            continue;
+        }else if(letter == '\n'){
+            break;
+        }
+        while(count < grootte){
+            if(!isdigit(letter) && letter != '\n'){
+                letter = std::cin.get();
+                continue;
+            }else if(letter == '\n'){
+                break;
+            }
+            //Indien meer iteraties, vermenigvuldig met 10
+            sum *= sum > 0 ? 10 : sum;
+            sum += (letter - '0');
+            letter = std::cin.get();
+            flag = true;
+            count++;
+            temp->voegachter(sum);
+            temp->total++;
+            sum = 0;
+            break;
+        }
+        count = 0;
+    }
+
+    //Ga verder als er een getal is ingevoerd
+    if(flag){
+        //Ceil aantal cijfers / grootte van cijfervak = aantal gebruikte cijfervakken
+        count = this->total = temp->total%grootte == 0 ? temp->total/grootte : (temp->total/grootte) + 1;
+        tempcijfervak = temp->begin;
+        
+        while(tempcijfervak->next != nullptr){
+            tempcijfervak = tempcijfervak->next;
+        }
+
+        //Herorden de getallenreeks
+        while(count > 0){
+            for(unsigned int i = 0; i < grootte; i++){
+                num = tempcijfervak->data;
+                for(unsigned int i = 0; i < mult; i++){
+                    num*= 10;
+                }
+                sum += num;
+                if(tempcijfervak->prev == nullptr){
+                    break;
+                }
+                mult++;
+                tempcijfervak = tempcijfervak->prev;
+            }
+            this->voegvoor(sum);
+            mult = 0;
+            sum = 0;
+            count--;
+        }
+    }
+    return;
+}
+
+//Maak een k-cijferige getallenreeks van een enkelcijferige getallenreeks
+void grootGetal::leesList(unsigned long long i){
+    grootGetal* temp = new grootGetal;
+    cijfervak* tempcijfervak;
+    unsigned long long sum = 0;
+    unsigned long long num;
+    unsigned int mult = 0;
+    unsigned int count = 0;
+    //Reset
+    this->vernietig();
+
+    //Maak een enkelcijferige getallenreeks van het getal
+    temp->splitGetal(i);
+
+    count = this->total = temp->total % grootte == 0 ? temp->total / grootte : (temp->total / grootte) + 1;
+    tempcijfervak = temp->begin;
+
+    while(tempcijfervak->next != nullptr){
+        tempcijfervak = tempcijfervak->next;
+    }
+
+    //Herorden de getallenreeks
+    while(count > 0){
+        for(unsigned int i = 0; i < grootte; i++){
+            num = tempcijfervak->data;
+            for(unsigned int i = 0; i < mult; i++){
+                num*= 10;
+            }
+            sum += num;
+            if(tempcijfervak->prev == nullptr){
+                break;
+            }
+            mult++;
+            tempcijfervak = tempcijfervak->prev;
+        }
+        this->voegvoor(sum);
+        mult = 0;
+        sum = 0;
+        count--;
+    }
     return;
 }
 
@@ -429,105 +529,6 @@ void grootGetal::displayList() {
         std::cout<<"NULL";
     }
     std::cout << std::endl;
-}
-
-//Vernietig huidige getallenreeks
-void grootGetal::vernietig(){
-    this->total = 0;
-    cijfervak* temp = this->begin;
-    if(temp == nullptr){
-        return;
-    }
-    while(temp->next != nullptr){
-        delete temp->prev;
-        temp = temp->next;
-    }
-    this->begin = nullptr;
-    this->end = nullptr;
-    delete  temp;
-}
-
-//Kopieer getallenreeks B naar huidige getallenreeks
-void grootGetal::kopieer(grootGetal* B){
-    cijfervak* tempA = new cijfervak;
-    cijfervak* temp = new cijfervak;
-    cijfervak* tempB;
-    int num;
-
-    //Reset
-    this->vernietig();
-    //Doe niets als de getallenreeks van B leeg is
-    if(B->begin != nullptr) {
-        tempB = B->begin;
-    }else{
-        return;
-    }
-    //Stel begin nieuwe getallenreeks
-    this->begin = tempA;
-    //Kopieer cijfervak van B naar een nieuw cijfervak van de nieuwe getallenreeks
-    while(tempB->next !=nullptr){
-        num = tempB->data;
-        tempA->data = num;
-        tempB = tempB->next;
-        //Maak nieuw cijfervak aan en verbind deze met elkaar
-        tempA->next = new cijfervak;
-        temp = tempA;
-        tempA = tempA->next;
-        tempA->prev = temp;
-    }
-    //Herhaal nog een keer
-    num = tempB->data;
-    tempA->data = num;
-    tempA->next = nullptr;
-    //Stel einde nieuwe getallenreeks
-    this->end = tempA;
-}
-
-//Voeg een cijfervak toe aan de voorkant van de list
-void grootGetal::voegvoor(unsigned long long new_data){
-    struct cijfervak* newcijfervak = new cijfervak;
-    struct cijfervak* first = this->begin; //Stel begin cijfervak naar first
-    newcijfervak->data = new_data;
-
-    //Maak nieuw cijfervak als de getallenreeks leeg is
-    if(this->begin == nullptr) {
-        newcijfervak->prev = nullptr;
-        this->begin = newcijfervak;
-        return;
-    }
-
-    //Stel vorige node van first aan nieuwe node met nieuwe data
-    first->prev = newcijfervak;
-    //Stel volgende node van het nieuwe cijfervak aan de vorige eerste node (first)
-    newcijfervak->next = first;
-    //Stel begin van de getallenreeks aan het nieuwe cijfervak
-    this->begin = newcijfervak;
-    return;
-}
-
-//Voeg een cijfervak toe aan de achterkant van de list
-void grootGetal::voegachter(unsigned long long new_data){
-    cijfervak* newcijfervak = new cijfervak;
-    //Stel het cijfervak last in als begin van de huidige getallenreeks
-    cijfervak* last = this->begin;
-    //Stel data voor het nieuwe cijfervak
-    newcijfervak->data = new_data;
-    //Check of getallenreeks leeg is stel het nieuwe cijfervak in als begin
-    if (this->begin == nullptr) {
-        newcijfervak->prev = nullptr;
-        this->begin = newcijfervak;
-        return;
-    }
-    //Anders ga naar het laatste cijfervak
-    while(last->next != nullptr){
-        last = last->next;
-    }
-    //Stel newcijfervak als het laatste cijfervak
-    last->next = newcijfervak;
-    
-    //Verbind de laatste cijfervak met de vorige
-    newcijfervak->prev = last;
-    return;
 }
 
 //Lees invoer per karakter

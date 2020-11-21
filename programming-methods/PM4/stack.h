@@ -13,19 +13,6 @@ class node{
 		node<X>* next;
 };
 
-//Stack met singly linked list implementatie
-template <class X>
-class stack{
-	public:
-		stack();
-		~stack();
-		node<X>* top = nullptr;
-		void push(X*);
-		void pop();
-		X* peek();
-		int size;
-};
-
 //Constructor
 template <class X>
 node<X>::node(){
@@ -33,12 +20,27 @@ node<X>::node(){
 	data = nullptr;
 }
 
+//Stack met singly linked list
+template <class X>
+class stack{
+	public:
+		stack();
+		~stack();
+
+		int size;
+		node<X>* top = nullptr;
+		void push(X*);
+		void pop();
+		X* peek();
+};
+
 template <class X>
 stack<X>::stack(){
 	top = nullptr;
 	size = 0;
 }
 
+//Destructor
 template <class X>
 stack<X>::~stack(){
 	delete top;
@@ -90,5 +92,4 @@ X* stack<X>::peek(){
 		return temp;
 	}
 }
-
 #endif
