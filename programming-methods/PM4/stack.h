@@ -2,6 +2,9 @@
 #define _stack
 #include <iostream>
 
+//Templates moeten in header file
+
+//Node in stack
 template <class X>
 class node{
 	public:
@@ -10,12 +13,7 @@ class node{
 		node<X>* next;
 };
 
-template <class X>
-node<X>::node(){
-	next = nullptr;
-	data = nullptr;
-}
-
+//Stack met singly linked list implementatie
 template <class X>
 class stack{
 	public:
@@ -27,6 +25,14 @@ class stack{
 		X* peek();
 		int size;
 };
+
+//Constructor
+template <class X>
+node<X>::node(){
+	next = nullptr;
+	data = nullptr;
+}
+
 template <class X>
 stack<X>::stack(){
 	top = nullptr;
@@ -38,7 +44,7 @@ stack<X>::~stack(){
 	delete top;
 }
 
-// function to add an element x in the stack
+//Push element naar stack
 template <class X>
 void stack<X>::push(X *gg){
 	if (top == nullptr) {
@@ -59,11 +65,11 @@ void stack<X>::push(X *gg){
 	size++;
 }
 
-// function to pop top element from the stack
+//Pop element van stack
 template <class X>
 void stack<X>::pop(){
 	if (top == nullptr) {
-		std::cout << "Stack is empty" << std::endl;
+		std::cout << "Stack is leeg" << std::endl;
 		return;
 	}
 	else{
@@ -73,7 +79,8 @@ void stack<X>::pop(){
 		size--;
 	}
 }
-// function to return top element in a stack
+
+//Return element van stack
 template <class X>
 X* stack<X>::peek(){
 	if (top)

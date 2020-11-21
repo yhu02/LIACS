@@ -2,6 +2,7 @@
 #define _grootGetal
 #include "stack.h"
 
+//Node in grootgetal
 struct cijfervak {
     cijfervak();
     unsigned long long data;
@@ -9,28 +10,31 @@ struct cijfervak {
     cijfervak* prev;
 };
 
+//Linked list getallenreeks
 class grootGetal{
     public:
         grootGetal();
-        unsigned int id;
+        void submenu(grootGetal*, grootGetal*, stack<grootGetal>&);
+        void drukAf(grootGetal*, grootGetal*);
+    private:
         unsigned int total;
+        unsigned int id;
         struct cijfervak* begin;
         struct cijfervak* end;
-        long long fibonacci(unsigned int);
-        void fibonaccif();
-        void leesGetal();
-        void vermenigvuldig(grootGetal*, grootGetal*);
-        void add(grootGetal*, grootGetal*);
-        void leesList(unsigned long long);
-        void displayList();
-        void drukAf(grootGetal*, grootGetal*);
-        void submenu(grootGetal*, grootGetal*, stack<grootGetal>&);
-        void splitGetal(long long);
-    private:
+
         void kopieer(grootGetal*);
         void vernietig();
         void voegvoor(unsigned long long);
         void voegachter(unsigned long long);
+
+        long long fibonacci(unsigned int);
+        void fibonaccif();
+        void vermenigvuldig(grootGetal*, grootGetal*);
+        void add(grootGetal*, grootGetal*);
+        void splitGetal(long long);
+        void leesGetal();
+        void leesList(unsigned long long);
+        void displayList();
 };
 
 char leesKarakter();

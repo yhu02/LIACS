@@ -6,7 +6,7 @@
 
 using namespace std;
 //Programma van Yvo Hu en Wietske Holwerda
-//Dit programma maakt een nonogram
+//Dit programma manipuleert linked lists
 //Laatste update 17-11-2020
 //Gebruikte compiler GNU g++
 
