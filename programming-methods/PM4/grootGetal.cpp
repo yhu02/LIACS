@@ -3,9 +3,10 @@
 #include <iostream>
 #include <string>
 
-static int idCount = 0;
+//Id voor iedere getallenreeks
+static unsigned int idCount = 0;
 //Cijfervak grootte
-static int grootte = 2;//2^64 past in minimaal 19 en maximaal 20 karakters dus k is maximaal 19 anders undefined behavior
+static unsigned int grootte = 2;//2^64 past in minimaal 19 en maximaal 20 karakters dus k is maximaal 19 anders undefined behavior
 
 //Constructor
 cijfervak::cijfervak(){
@@ -20,24 +21,40 @@ grootGetal::grootGetal(){
     begin = end = nullptr;
 }
 
+cijfervak::~cijfervak(){
+    delete next;
+    delete prev;
+    data = 0;
+}
+
+grootGetal::~grootGetal(){
+    delete begin;
+    delete end;
+    total = 0;
+}
 //Submenu
 void grootGetal::submenu(grootGetal* getal2, grootGetal* getal3, stack<grootGetal> &stapel){
     while(true){
         grootGetal* temp = new grootGetal;
+
         for(int j = 0; j < 44; j++){
             std::cout << "*";
         }
         std::cout << std::endl;
+        
         //Print 1 van de drie getallen 
-        if(this->id == 0){
+        switch(this->id){
+        case(0):
             this->drukAf(getal2, getal3);
-        }
-        else if(this->id == 1){
+            break;
+        case(1):
             getal3->drukAf(this, getal2);
-        }
-        else if(this->id == 2){
+            break;
+        case(2):
             getal2->drukAf(getal3, this);
+            break;
         }
+
         std::cout << std::endl                                              << std::endl;
         std::cout << "Wat wil je met dit getal doen? Kies uit:"             << std::endl;
         std::cout << "(G) Een getal invoeren"                               << std::endl;
@@ -48,6 +65,7 @@ void grootGetal::submenu(grootGetal* getal2, grootGetal* getal3, stack<grootGeta
         std::cout << "(T) Teruggaan naar het hoofdmenu"                     << std::endl;
         std::cout << "Stack:" << stapel.size                                << std::endl;
         std::cout << std::endl                                              << std::endl;
+
         switch(leesKarakter()){
         case('G'):
         case('g'):
@@ -79,7 +97,10 @@ void grootGetal::submenu(grootGetal* getal2, grootGetal* getal3, stack<grootGeta
         case('s'):
             this->vernietig();
             stapel.pop();
-            this->kopieer(stapel.peek());
+            // Check of er nog elementen in de stack zitten
+            if(stapel.size){
+                this->kopieer(stapel.peek());
+            }
             break;
         case('T'):
         case('t'):
@@ -108,7 +129,7 @@ void grootGetal::kopieer(grootGetal* B){
     cijfervak* tempA = new cijfervak;
     cijfervak* temp = new cijfervak;
     cijfervak* tempB;
-    int num;
+    unsigned int num;
 
     //Reset
     this->vernietig();
@@ -137,6 +158,7 @@ void grootGetal::kopieer(grootGetal* B){
     tempA->next = nullptr;
     //Stel einde nieuwe getallenreeks
     this->end = tempA;
+    this->total = B->total;
 }
 
 //Vernietig huidige getallenreeks
@@ -147,12 +169,11 @@ void grootGetal::vernietig(){
         return;
     }
     while(temp->next != nullptr){
-        delete temp->prev;
+        temp->prev = nullptr;
         temp = temp->next;
     }
     this->begin = nullptr;
     this->end = nullptr;
-    delete  temp;
 }
 
 //Voeg een cijfervak toe aan de voorkant van de list
@@ -213,6 +234,8 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
     unsigned int multB = 0;
     unsigned int totalA = a->total;
     unsigned int totalB = b->total;
+    grootGetal* temp;
+    grootGetal* temp2 = new grootGetal;
 
     //Reset
     this->vernietig();
@@ -229,7 +252,7 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
     //Bereken het product van beide getallenreeksen
     while(totalA > 0){ 
         numA = cijfervakA->data;
-        for(int i = 0; i < multA; i++){
+        for(unsigned int i = 0; i < multA; i++){
             numA *= 10;
         }
         for(unsigned int i = 0; i < grootte;i++){
@@ -242,16 +265,26 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
             cijfervakB = cijfervakB->next;
         }
         while(totalB > 0){
+            temp = new grootGetal;
             numB = cijfervakB->data; 
-            for(int i = 0; i < multB; i++){
+            for(unsigned int i = 0; i < multB; i++){
                 numB *= 10;
             }
-            for(unsigned int i = 0; i < grootte;i++){
+            for(unsigned int i = 0; i < grootte; i++){
                 multB++;
             }
-            sum += numB * numA;
+            sum = numB * numA;
+            if((numA != 0) && (sum / numA) != numB) {
+                std::cout << "overflow mpotherfucker";
+                //this->vernietig();
+                return;
+            }
             cijfervakB = cijfervakB->prev;
             totalB--;
+            temp->leesList(sum);
+            this->add(temp2,temp);
+            temp2->kopieer(this);
+            //delete temp;
         }
         if(cijfervakA->prev != nullptr){
             cijfervakA= cijfervakA->prev;
@@ -260,29 +293,27 @@ void grootGetal::vermenigvuldig(grootGetal* a, grootGetal* b){
         totalA--;
         totalB = b->total;
     }
-    //Orden de getallenreeks van sum
-    this->leesList(sum);
+    //delete temp2;
     return;
 }
 
 //Voeg getallenreeksen a en b bij elkaar en sla deze op in de huidige getallenreeks
 void grootGetal::add(grootGetal* a, grootGetal* b){
     cijfervak* cijfervakA = a->begin;
-    cijfervak* cijfervakB;
+    cijfervak* cijfervakB = b->begin;
     unsigned long long sum = 0;
     unsigned long long control = 1;
     bool endA = false;
     bool endB = false;
-    bool carry = false;
-    int total = this->total = a->total >= b->total ? a->total : b->total;
-
+    unsigned int total = this->total = a->total >= b->total ? a->total : b->total;
+    
     if(!total){
         this->voegvoor(0);
     }
     //Reset
     this->vernietig();
     //Grootste getal voor er carry optreedt
-    for(int i = 0; i < grootte; i++){
+    for(unsigned int i = 0; i < grootte; i++){
         control *= 10;
     }
     if(a->begin == nullptr){
@@ -319,12 +350,13 @@ void grootGetal::add(grootGetal* a, grootGetal* b){
         }
         count--;
         //Bereken huidige cijfervak en verwerk carry naar volgende cijfervak
-        if(sum >= control){
+        if(sum >= control){ 
             if(count == 0){
                 //Maak total groter als laatste cijfervak carry bevat
+                //En herhaal nog een keer door count++
+                count++;
                 total++;
             }
-            carry = true;
             sum = sum - control;
             this->voegvoor(sum);
             sum = 1;
@@ -351,7 +383,7 @@ long long grootGetal::fibonacci(unsigned int n){
 void grootGetal::fibonaccif(){
     unsigned int count = 0;
     unsigned int num = 0;
-    char letter;
+    char letter= std::cin.get();
     bool flag = false;
     //Reset
     this->vernietig();
@@ -365,18 +397,13 @@ void grootGetal::fibonaccif(){
             break;
         }
         while(count < grootte){
-            if(!isdigit(letter) && letter != '\n'){
-                letter = std::cin.get();
-                continue;
-            }else if(letter == '\n'){
-                break;
-            }
-            //Indien meer iteraties, vermenigvuldig met 10
+            //Indien meer getallen, vermenigvuldig met 10
             num *= num > 0 ? 10 : num;
             num += (letter - '0');
             letter = std::cin.get();
             flag = true;
             count++;
+            //Check voor het volgende karakter
             break;
         }
     }
@@ -389,7 +416,7 @@ void grootGetal::fibonaccif(){
 }
 
 //Splits een getal in een enkelcijferige getallenreeks
-void grootGetal::splitGetal(long long i){
+void grootGetal::splitGetal(unsigned long long i){
     //Recursie voor getallen groter dan 9
     i > 9 ? splitGetal(i / 10) : void();
     //Voeg getal toe aan getallenreeks
@@ -404,7 +431,6 @@ void grootGetal::leesGetal(){
     cijfervak* tempcijfervak;
     unsigned long long sum = 0;
     unsigned int count = 0;
-    unsigned int totalcount = 0;
     unsigned int mult = 0;
     unsigned int num;
     bool flag = false;

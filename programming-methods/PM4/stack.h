@@ -6,7 +6,7 @@
 
 //Node in stack
 template <class X>
-class node{
+struct node{
 	public:
 		node();
 		X* data;
@@ -85,11 +85,6 @@ void stack<X>::pop(){
 //Return element van stack
 template <class X>
 X* stack<X>::peek(){
-	if (top)
-		return top->data;
-	else{
-		X* temp = new X;
-		return temp;
-	}
+	return top->data;
 }
 #endif
