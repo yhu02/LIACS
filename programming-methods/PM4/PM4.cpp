@@ -6,7 +6,8 @@
 
 using namespace std;
 //Programma van Yvo Hu en Wietske Holwerda
-//Dit programma manipuleert linked lists
+//Dit programma manipuleert grote getallen
+//Met behulp van linked lists
 //Laatste update 17-11-2020
 //Gebruikte compiler GNU g++
 
@@ -44,5 +45,8 @@ int main(){
         }
         break;
     }
+    delete A;
+    delete B;
+    delete C;
     return 0;
 }

@@ -5,7 +5,6 @@
 //Node in grootgetal
 struct cijfervak {
     cijfervak();
-    ~cijfervak();
     unsigned long long data;
     cijfervak* next;
     cijfervak* prev;
@@ -15,7 +14,6 @@ struct cijfervak {
 class grootGetal{
     public:
         grootGetal();
-        ~grootGetal();
         void submenu(grootGetal*, grootGetal*, stack<grootGetal>&);
         void drukAf(grootGetal*, grootGetal*);
     private:
