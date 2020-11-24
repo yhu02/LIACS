@@ -26,11 +26,11 @@ class stack{
 		stack();
 		~stack();
 	private:
+		int size;
 		node<X>* top;
 		void push(X*);
 		void pop();
 		X* peek();
-		int size;
 		friend class grootGetal;
 };
 
