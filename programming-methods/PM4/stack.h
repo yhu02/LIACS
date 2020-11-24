@@ -1,21 +1,20 @@
 #ifndef _stack
 #define _stack
 #include <iostream>
-
 //Templates moeten in header file
 
 //Node in stack
-template <class X>
-struct node{
+template <class Y>
+class node{
 	public:
 		node();
-		X* data;
-		node<X>* next;
+		Y* data;
+		node<Y>* next;
 };
 
 //Constructor
-template <class X>
-node<X>::node(){
+template <class Y>
+node<Y>::node(){
 	next = nullptr;
 	data = nullptr;
 }
@@ -26,12 +25,13 @@ class stack{
 	public:
 		stack();
 		~stack();
-
-		int size;
-		node<X>* top = nullptr;
+	private:
+		node<X>* top;
 		void push(X*);
 		void pop();
 		X* peek();
+		int size;
+		friend class grootGetal;
 };
 
 template <class X>
@@ -52,21 +52,14 @@ stack<X>::~stack(){
 //Push element naar stack
 template <class X>
 void stack<X>::push(X *gg){
-	if (top == nullptr) {
-		top = new node<X>;
-		top->next = nullptr;
-		top->data = gg;
-	}
-	else{
-		node<X>* temp = new node<X>;
+		node<X>* newcijfervak = new node<X>;
 		//Stack overflow
-		if(!temp){ 
+		if(!newcijfervak){ 
         	exit(1); 
 		}
-		temp->data = gg;
-		temp->next = top;
-		top = temp;
-	}
+		newcijfervak->data = gg;
+		newcijfervak->next = top;
+		top = newcijfervak;
 	size++;
 }
 
