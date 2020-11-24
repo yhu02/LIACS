@@ -9,7 +9,7 @@ static unsigned int idCount = 0;
 //Cijfervak grootte
 //Undefined behavior as getal in cijfervak  > 2^64
 //Dat is mogelijk vanaf grootte = 20
-static unsigned int grootte = 19;
+static unsigned int grootte = 3;
 
 //Constructor
 cijfervak::cijfervak(){
@@ -28,6 +28,7 @@ grootGetal::grootGetal(){
 void grootGetal::submenu(grootGetal* getal2, grootGetal* getal3,
                          stack<grootGetal> &stapel){
     while(true){
+        //Delete in stack destructor
         grootGetal* temp = new grootGetal;
 
         for(int j = 0; j < 44; j++){
@@ -102,7 +103,6 @@ void grootGetal::submenu(grootGetal* getal2, grootGetal* getal3,
             std::cout << "Ongeldige keuze, probeer opnieuw";
             continue;
         }
-        delete temp;
     }
 }
 

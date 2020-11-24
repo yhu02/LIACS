@@ -43,7 +43,10 @@ stack<X>::stack(){
 //Destructor
 template <class X>
 stack<X>::~stack(){
-	delete top;
+	while(size){
+		delete top;
+		this->pop();
+	}
 }
 
 //Push element naar stack
