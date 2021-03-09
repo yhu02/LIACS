@@ -12,7 +12,7 @@
 // * experimenten te doen, waarbij een gretige strategie met een optimale
 //   strategie vergeleken wordt.
 //
-// Naam student 1, naam student 2
+// Yvo Hu s2962802
 
 #include <iostream>
 #include <string>

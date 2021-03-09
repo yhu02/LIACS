@@ -7,6 +7,7 @@
 #include "zet.h"
 using namespace std;
 
+const int SteenZijden = 4;
 const int MaxDimensie = 10;  // maximaal aantal rijen en maximaal aantal
                              // kolommen in een spel
 
@@ -15,19 +16,6 @@ class AapjeOmino
     // Default constructor.
     AapjeOmino ();
 
-    // Lees een spel in vanuit tekstbestand invoernaam.
-    // Controleer daarbij
-    // * of het bestand wel te openen is,
-    // * of hoogte en breedte binnen de grenzen vallen,
-    // * of er genoeg stenen zijn om te verdelen over de twee spelers en om
-    //   het spel met een steen te starten,
-    // * en of positie van startsteen daadwerkelijk op het bord ligt.
-    // Retourneer:
-    // * true, als aan alle voorwaarden is voldaan
-    // * false, als niet aan alle voorwaarden is voldaan
-    // Post:
-    // * als aan alle voorwaarden is voldaan, zijn de stenen verdeeld over
-    //   het bord, de twee handen en de pot
     bool leesIn (const char* invoernaam);
 
     // Controleer of we een eindstand hebben bereikt:
@@ -135,7 +123,9 @@ class AapjeOmino
     bool genereerRandomSpel (int hoogte0, int breedte0,
            int nrStenen0, int nrStenenInHand0, int rij0, int kolom0,
            int minGetal, int maxGetal);
-
+    int leesGetal(char& letter, ifstream& invoer);
+    vector<vector<int>> stenen, speler1Stenen, speler2Stenen, potStenen;
+    
   private:
     // TODO: uw eigen memberfuncties en -variabelen
 
@@ -144,7 +134,9 @@ class AapjeOmino
               // in een pair kunnen we een steennummer en een rotatie opslaan
     int hoogte, breedte,  // van het bord
         nrStenen,     // totaal aantal stenen in het spel
-        aanBeurt;     // speler die aan de beurt is
+        aanBeurt,     // speler die aan de beurt is
+        beginStenen,  // aantal beginstenen per speler
+        rij, kolom;   // positie steen 0
 
 
 };
