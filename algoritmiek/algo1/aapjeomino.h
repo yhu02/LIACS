@@ -130,6 +130,7 @@ class AapjeOmino
     // TODO: uw eigen memberfuncties en -variabelen
 
       // alvast enkele membervariabelen
+    vector<int> schuif(vector<int> vec, int schuif);
     pair<int,int> bord[MaxDimensie][MaxDimensie];
               // in een pair kunnen we een steennummer en een rotatie opslaan
     int hoogte, breedte,  // van het bord

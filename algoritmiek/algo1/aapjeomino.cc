@@ -121,17 +121,41 @@ bool AapjeOmino::eindstand ()
 
 void AapjeOmino::drukAf()
 {
-  // TODO: implementeer deze memberfunctie
+  for(int i = 0; i < this->hoogte; i++)
+  {
+    for(int j = 0; j < this->breedte; j++)
+  }
 
 }  // drukAf
 
 //*************************************************************************
 
 vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
-{ vector<Zet> zetten;
-
-  // TODO: implementeer deze memberfunctie
-
+{ 
+  vector<Zet> zetten;
+  for(int i = 0; i < this->hoogte; i++)
+  {
+    for(int j = 0; j < this->breedte; j++)
+    {
+      for(int k = 0; k < int(speler1Stenen.size()); k++)
+      {
+        for(int l = 0; l < SteenZijden; l++)
+        {
+          //Vergelijk 
+          Zet zett;
+          if(!(i == 0) && !(speler1Stenen[k][l] == schuif(stenen[bord[i-1][j].first],bord[i-1][j].second)[0]));                       // noord
+          else if(!(j == this->breedte - 1) && !(speler1Stenen[k][l] == schuif(stenen[bord[i][j+1].first],bord[i][j+1].second)[1]));  // oost
+          else if(!(i == this->hoogte - 1) && !(speler1Stenen[k][l] == schuif(stenen[bord[i+1][j].first],bord[i+1][j].second)[2]));   // zuid
+          else if(!(j == 0) && !(speler1Stenen[k][l] == schuif(stenen[bord[i][j-1].first],bord[i][j-1].second)[3]));                  // west
+          else
+          {
+            zett.setWaardes(k,l,i,j);
+            zetten.push_back(zett);
+          }
+        }
+      }
+    }
+  }
   return zetten;
 
 }  // bepaalMogelijkeZetten
@@ -211,4 +235,13 @@ int AapjeOmino::leesGetal(char& letter, ifstream& invoer){
         letter = invoer.get();
     }
     return sum;
+}
+
+vector<int> AapjeOmino::schuif(vector<int> vec, int schuif)
+{
+  vector<int> vec2 = vec;
+  for(int i = 0; i < SteenZijden; i++){
+    vec[i] = vec2[(schuif + i) % SteenZijden];
+  }
+  return vec;
 }
