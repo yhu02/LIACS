@@ -124,7 +124,8 @@ class AapjeOmino
            int nrStenen0, int nrStenenInHand0, int rij0, int kolom0,
            int minGetal, int maxGetal);
     int leesGetal(char& letter, ifstream& invoer);
-    vector<vector<int>> stenen, speler1Stenen, speler2Stenen, potStenen;
+    vector<vector<int>> stenen, speler1Stenen, speler2Stenen, spelerHuidigStenen, potStenen;
+    void drukAfStenen(vector<vector<int>> stenen);
     
   private:
     // TODO: uw eigen memberfuncties en -variabelen

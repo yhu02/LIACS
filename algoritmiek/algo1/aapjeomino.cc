@@ -48,11 +48,11 @@ bool AapjeOmino::leesIn (const char* invoernaam)
       steen.push_back(som);
       som = leesGetal(letter,invoer);
     }
+    stenen.push_back(steen);
     if(invoer.eof())
     {
       break;
     }
-    stenen.push_back(steen);
   }
   
   //Print de opgeslagen gegevens
@@ -76,6 +76,14 @@ bool AapjeOmino::leesIn (const char* invoernaam)
     this->hoogte >= this->rij && this->breedte >= this->kolom &&// Positie van beginsteen is binnen het bord
     (this->nrStenen >= (beginStenen * 2) + 1))                  //Genoeg stenen voor iedere speler en een beginsteen
   {
+    //Initialiseer het bord
+    for(int i = 0; i < this->hoogte; i++)
+    {
+      for(int j = 0; j < this->breedte; j++)
+      {
+        bord[i][j].first = -1;
+      }
+    }
     //Verspreid de stenen over het bord, de spelers, en de pot
     for(int i = 0; i < nrStenen; i++)
     {
@@ -84,15 +92,15 @@ bool AapjeOmino::leesIn (const char* invoernaam)
       {
         bord[this->rij][this->kolom].first = 0;
         bord[this->rij][this->kolom].second = 0;
-      } else if(i < beginStenen*2)
+      } else if(i <= beginStenen*2)
       {
         //Bitwise AND om de stenen te sorteren op even en oneven indexes
-        if(i & 0)
-        {
-          speler1Stenen.push_back(stenen[i]);
-        } else 
+        if(i & 1)
         {
           speler2Stenen.push_back(stenen[i]);
+        } else 
+        {
+          speler1Stenen.push_back(stenen[i]);
         }
       }else
       {
@@ -121,10 +129,58 @@ bool AapjeOmino::eindstand ()
 
 void AapjeOmino::drukAf()
 {
+  for(int j = 0; j < this->breedte; j++)
+  {
+    cout << "-------";
+  }
+  cout << "\n";
   for(int i = 0; i < this->hoogte; i++)
   {
     for(int j = 0; j < this->breedte; j++)
+    {
+      if(bord[i][j].first >= 0)
+      {
+        cout << "-  " << schuif(stenen[bord[i][j].first],bord[i][j].second)[0] << "  -";
+      }else
+      {
+        cout << "-     -";
+      }
+    }
+    cout << "\n";
+    for(int j = 0; j < this->breedte; j++)
+    {
+      if(bord[i][j].first >= 0)
+      {
+        cout << "-" << schuif(stenen[bord[i][j].first],bord[i][j].second)[1] << "   " << schuif(stenen[bord[i][j].first],bord[i][j].second)[2] << "-";
+      }else
+      {
+        cout << "-     -";
+      }
+    }
+    cout << "\n";
+    for(int j = 0; j < this->breedte; j++)
+    {
+      if(bord[i][j].first >= 0)
+      {
+        cout << "-  " << schuif(stenen[bord[i][j].first],bord[i][j].second)[3] << "  -";
+      }else
+      {
+        cout << "-     -";
+      }
+    }
+    cout << "\n";
+   for(int j = 0; j < this->breedte; j++)
+    {
+      cout << "-------";
+    }
+    cout << "\n";
   }
+  cout << "Pot:";
+  drukAfStenen(potStenen);
+  cout << "Speler 1 stenen:";
+  drukAfStenen(speler1Stenen);
+  cout << "Speler 2 stenen:";
+  drukAfStenen(speler2Stenen);
 
 }  // drukAf
 
@@ -133,13 +189,10 @@ void AapjeOmino::drukAf()
 vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
 { 
   vector<Zet> zetten;
-  for(int i = 0; i < this->hoogte; i++)
-  {
-    for(int j = 0; j < this->breedte; j++)
-    {
-      for(int k = 0; k < int(speler1Stenen.size()); k++)
-      {
-        for(int l = 0; l < SteenZijden; l++)
+  for(int i = 0; i < this->hoogte; i++)                     //Aantal rijen
+    for(int j = 0; j < this->breedte; j++)                  //Aantal kolommen
+      for(int k = 0; k < int(spelerHuidigStenen.size()); k++)    //Aantal stenen in hand
+        for(int l = 0; l < SteenZijden; l++)                //Aantal rotaties
         {
           //Vergelijk 
           Zet zett;
@@ -153,9 +206,6 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
             zetten.push_back(zett);
           }
         }
-      }
-    }
-  }
   return zetten;
 
 }  // bepaalMogelijkeZetten
@@ -222,19 +272,20 @@ bool AapjeOmino::genereerRandomSpel (int hoogte0, int breedte0,
 }  // genereerRandomSpel
 
 //*************************************************************************
-int AapjeOmino::leesGetal(char& letter, ifstream& invoer){
-    int sum = 0;
-    letter = invoer.get();
-    while(isdigit(letter)){
-        if(letter == '\n'){
-            break;
-        }
-        //Indien meer iteraties, vermenigvuldig met 10
-        sum *= sum > 0 ? 10 : sum;
-        sum += (letter - '0');
-        letter = invoer.get();
-    }
-    return sum;
+int AapjeOmino::leesGetal(char& letter, ifstream& invoer)
+{
+  int sum = 0;
+  letter = invoer.get();
+  while(isdigit(letter)){
+      if(letter == '\n'){
+          break;
+      }
+      //Indien meer iteraties, vermenigvuldig met 10
+      sum *= sum > 0 ? 10 : sum;
+      sum += (letter - '0');
+      letter = invoer.get();
+  }
+  return sum;
 }
 
 vector<int> AapjeOmino::schuif(vector<int> vec, int schuif)
@@ -244,4 +295,14 @@ vector<int> AapjeOmino::schuif(vector<int> vec, int schuif)
     vec[i] = vec2[(schuif + i) % SteenZijden];
   }
   return vec;
+}
+
+void AapjeOmino::drukAfStenen(vector<vector<int>> stenen)
+{
+  for(int i = 0; i < int(stenen.size()); i++)
+  {
+    cout << "(" << stenen[i][0] << "," << stenen[i][1] << ",";
+    cout << stenen[i][2] << "," << stenen[i][3] << ")";
+  }
+  cout << "\n";
 }
