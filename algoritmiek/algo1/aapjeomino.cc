@@ -49,6 +49,7 @@ bool AapjeOmino::leesIn (const char* invoernaam)
       steen.push_back(som);
       som = leesGetal(letter,invoer);
     }
+    steen.push_back(i);
     stenen.push_back(steen);
     if(invoer.eof())
     {
@@ -56,20 +57,6 @@ bool AapjeOmino::leesIn (const char* invoernaam)
     }
   }
   
-  //Print de opgeslagen gegevens
-  /*
-  cout << ":" << this->hoogte << ":" << this->breedte << "\n";
-  cout << ":" << this->nrStenen << ":" << this->beginStenen << "\n";
-  cout << ":" << this->rij << ":" << this->kolom << "\n";
-
-  for(long unsigned int i = 0; i < stenen.size(); i++){
-    for(int j = 0; j < SteenZijden; j++){
-        cout << stenen[i][j] << " ";
-    }
-    cout << "\n";
-  }
-  usleep(10000);
-  */
   //Conditie checks
   if(
     this->hoogte < MaxDimensie && this->breedte < MaxDimensie &&// Bord dimensies zijn binnen de limieten
@@ -141,7 +128,7 @@ void AapjeOmino::drukAf()
     {
       if(bord[i][j].first >= 0)
       {
-        cout << "-  " << schuif(stenen[bord[i][j].first],bord[i][j].second)[0] << "  -";
+        cout << "-  " << schuif(stenen[bord[i][j].first],bord[i][j].second)[0] << "  -";//Noord
       }else
       {
         cout << "-     -";
@@ -152,8 +139,8 @@ void AapjeOmino::drukAf()
     {
       if(bord[i][j].first >= 0)
       {
-        cout << "-" << schuif(stenen[bord[i][j].first],bord[i][j].second)[1] << "   ";
-        cout << schuif(stenen[bord[i][j].first],bord[i][j].second)[2] << "-";
+        cout << "-" << schuif(stenen[bord[i][j].first],bord[i][j].second)[3] << "   ";  //West 
+        cout << schuif(stenen[bord[i][j].first],bord[i][j].second)[1] << "-";           //Oost
       }else
       {
         cout << "-     -";
@@ -164,7 +151,7 @@ void AapjeOmino::drukAf()
     {
       if(bord[i][j].first >= 0)
       {
-        cout << "-  " << schuif(stenen[bord[i][j].first],bord[i][j].second)[3] << "  -";
+        cout << "-  " << schuif(stenen[bord[i][j].first],bord[i][j].second)[2] << "  -"; //Zuid
       }else
       {
         cout << "-     -";
@@ -202,44 +189,47 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
       {
         for(int l = 0; l < SteenZijden; l++)                  //Aantal rotaties
         {
-          pair<int,int> noordR = bord[i-1][j];
-          pair<int,int> oostR = bord[i][j+1];
-          pair<int,int> zuidR = bord[i+1][j];
-          pair<int,int> westR = bord[i][j-1];
-          //Vergelijk de getallen in iedere richting ten opzichte van de huidige steen van elkaar
+          bool flag = true;
+          //Vergelijk de getallen in iedere richting ten opzichte van de steen naast de huidige steen aan elkaar
+          if(bord[i][j].first >= 0)
+          {
+            if(i-1 >= 0 && bord[i-1][j].first < 0)
+            {
+              if(i-2 >= 0 && bord[i-2][j].first >= 0)
+              {
+                if(schuif(speler1Stenen[bord[i-1][j].first],l)[0] != stenen[bord[i-2][j].first][2])
+                {
+                  flag = false;
+                }
+              }
+              if(j-1 >= 0 && bord[i-1][j-1].first >= 0)
+              {
+                if(schuif(speler1Stenen[bord[i-1][j].first],l)[3] != stenen[bord[i-1][j-1].first][1])
+                {
+                  flag = false;
+                }
 
-          if(i-1 >= 0 && noordR.first >= 0 && speler1Stenen[k][l] == schuif(stenen[noordR.first],noordR.second)[3]) //noord
-          {
-            zett.setWaardes(k,l,i,j);
-            zetten.push_back(zett);
+              }
+              if(j+1 < this->breedte && bord[i-1][j+1].first >= 0)
+              {
+                if(schuif(speler1Stenen[bord[i-1][j].first],l)[1] != stenen[bord[i-1][j+1].first][3])
+                {
+                  flag = false;
+                }
+              }
+              //cout << bord[i-1][j].first << " ==" << bord[i][j].first << "\n";
+              if(schuif(speler1Stenen[k],l)[2] != stenen[bord[i][j].first][0])
+              {
+                //cout << schuif(speler1Stenen[k],l)[2] << " === " << stenen[bord[i][j].first][0] << " === " << l << "\n";
+                flag = false;
+              }
+              if(flag)
+              {
+                zett.setWaardes(speler1Stenen[k][4],l,i-1,j);
+                zetten.push_back(zett);
+              }
+            }
           }
-          if(j+1 < this->breedte && oostR.first >= 0 && speler1Stenen[k][l] == schuif(stenen[oostR.first],oostR.second)[2]) // oost
-          { 
-            zett.setWaardes(k,l,i,j);
-            zetten.push_back(zett);
-          }
-          if(i+1 < this->hoogte && zuidR.first >= 0 && speler1Stenen[k][l] == schuif(stenen[zuidR.first],zuidR.second)[0]) // zuid
-          {
-            zett.setWaardes(k,l,i,j);
-            zetten.push_back(zett);
-          }
-          if(j-1 >= 0 && westR.first >= 0 && speler1Stenen[k][l] == schuif(stenen[westR.first],westR.second)[1]) // west
-          {
-            zett.setWaardes(k,l,i,j);
-            zetten.push_back(zett);
-          }
-          //Vergelijk 
-          /*
-          if(noordR.first >= 0 && !(i == 0) && !(speler1Stenen[k][l] == schuif(stenen[noordR.first],noordR.second)[0]))   ;            // noord
-          else if(oostR.first >= 0 && !(j == this->breedte - 1) && !(speler1Stenen[k][l] == schuif(stenen[oostR.first],oostR.second)[1])) ;   // oost
-          else if(zuidR.first >= 0 && !(i == this->hoogte - 1) && !(speler1Stenen[k][l] == schuif(stenen[zuidR.first],zuidR.second)[2]))  ;   // zuid
-          else if(westR.first >= 0 && !(j == 0) && !(speler1Stenen[k][l] == schuif(stenen[westR.first],westR.second)[3]))  ;      // west
-          else if(bord[i][j].first >= 0) ;                                                                                                 // Steen al geplaatst
-          else
-          {
-            zett.setWaardes(k,l,i,j);
-            zetten.push_back(zett);
-          }*/
         }
       } 
     }
@@ -271,7 +261,8 @@ void AapjeOmino::wisselSpeler ()
 bool AapjeOmino::doeZet (Zet zet)
 {
   // TODO: implementeer deze memberfunctie
-
+  bord[zet.getRij()][zet.getKolom()].first = zet.getI();
+  bord[zet.getRij()][zet.getKolom()].second = zet.getR();
   return true;
 
 }  // doeZet
@@ -326,36 +317,14 @@ int AapjeOmino::leesGetal(char& letter, ifstream& invoer)
   }
   return sum;
 }
-/*
-int AapjeOmino::leesGetal(char& letter, ifstream& invoer)
-{
-  int sum = 0;
-
-  letter = invoer.get();
-  while(!invoer.eof())
-  {
-    while(!invoer.eof())
-    {
-      letter = invoer.get();
-    }
-    while(isdigit(letter)){
-        //Indien meer iteraties, vermenigvuldig met 10
-        sum *= sum > 0 ? 10 : sum;
-        sum += (letter - '0');
-        letter = invoer.get();
-    }
-  }
-  
-  return sum;
-}*/
 
 
 //herordert een vector met een verschuiving
-vector<int> AapjeOmino::schuif(vector<int> vec, int schuif)
+vector<int> AapjeOmino::schuif(vector<int> vec, int shift)
 {
   vector<int> vec2 = vec;
   for(int i = 0; i < SteenZijden; i++){
-    vec[i] = vec2[(schuif + i) % SteenZijden];
+  vec[i] = vec2[(i + shift) % SteenZijden];
   }
   return vec;
 }
