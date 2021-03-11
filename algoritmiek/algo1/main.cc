@@ -86,7 +86,8 @@ int keuzeUitMenu (size_t nrZetten)
 //   stenen meer en/of de huidige speler kan niets meer doen)
 // * of totdat de gebruiker aangeeft dat hij wil stoppen met het spel
 void doeSpel (AapjeOmino *ao1)
-{ int keuze,
+{
+  int keuze,
       stnr,             // steen die uit pot gehaald wordt
       zetNr,            // nummer van de zet die gedaan moet worden
       score;            // returnwaarde van besteScore
@@ -99,14 +100,12 @@ void doeSpel (AapjeOmino *ao1)
   keuze = 0;
   while (keuze!=4 && !ao1->eindstand())
   {
-    ao1 -> drukAf ();
-
+    ao1 -> drukAf();
     zetten = ao1 -> bepaalMogelijkeZetten ();
     schrijfZetten ("Mogelijke zetten voor speler aan beurt zijn:", zetten);
     nrZetten = zetten.size();
 
     keuze = keuzeUitMenu (nrZetten);
-
     switch (keuze)
     { case 1: if (nrZetten==0)
               { stnr = ao1 -> haalSteenUitPot ();
@@ -190,7 +189,7 @@ void hoofdmenu ()
               cin >> invoernaam;
               if (ao1 -> leesIn (invoernaam))
                 doeSpel (ao1);
-              delete ao1;  // netjes opruimen
+                // netjes opruimen
               break;
       case 2: doeExperimenten ();
               break;
