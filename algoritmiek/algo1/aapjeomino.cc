@@ -22,6 +22,7 @@ bool AapjeOmino::leesIn (const char* invoernaam)
 {
   ifstream invoer;
   char letter;
+  int som;
   //int som = 0;
   invoer.open(invoernaam,ios::in);
   if(invoer.fail())
@@ -40,7 +41,7 @@ bool AapjeOmino::leesIn (const char* invoernaam)
   this->kolom = leesGetal(letter, invoer);
 
   //Lees iedere steen in en sla deze op
-  int som = leesGetal(letter,invoer);
+  som = leesGetal(letter,invoer);
   for(int i = 0; i < this->nrStenen; i++){
     vector<int> steen;
     for(int j = 0; j < SteenZijden; j++)
@@ -97,10 +98,10 @@ bool AapjeOmino::leesIn (const char* invoernaam)
         //Bitwise AND om de stenen te sorteren op even en oneven indexes
         if(i & 1)
         {
-          speler2Stenen.push_back(stenen[i]);
+          speler1Stenen.push_back(stenen[i]);
         } else 
         {
-          speler1Stenen.push_back(stenen[i]);
+          speler2Stenen.push_back(stenen[i]);
         }
       }else
       {
@@ -224,7 +225,7 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
           }
           if(j-1 >= 0 && westR.first >= 0 && speler1Stenen[k][l] == schuif(stenen[westR.first],westR.second)[1]) // west
           {
-            zett.setWaardes(k,l,i,j-1);
+            zett.setWaardes(k,l,i,j);
             zetten.push_back(zett);
           }
           //Vergelijk 
@@ -313,10 +314,11 @@ int AapjeOmino::leesGetal(char& letter, ifstream& invoer)
 {
   int sum = 0;
   letter = invoer.get();
+  while(!isdigit(letter) && !invoer.eof())
+  {
+    letter = invoer.get();
+  }
   while(isdigit(letter)){
-      if(letter == '\n'){
-          break;
-      }
       //Indien meer iteraties, vermenigvuldig met 10
       sum *= sum > 0 ? 10 : sum;
       sum += (letter - '0');
@@ -324,6 +326,29 @@ int AapjeOmino::leesGetal(char& letter, ifstream& invoer)
   }
   return sum;
 }
+/*
+int AapjeOmino::leesGetal(char& letter, ifstream& invoer)
+{
+  int sum = 0;
+
+  letter = invoer.get();
+  while(!invoer.eof())
+  {
+    while(!invoer.eof())
+    {
+      letter = invoer.get();
+    }
+    while(isdigit(letter)){
+        //Indien meer iteraties, vermenigvuldig met 10
+        sum *= sum > 0 ? 10 : sum;
+        sum += (letter - '0');
+        letter = invoer.get();
+    }
+  }
+  
+  return sum;
+}*/
+
 
 //herordert een vector met een verschuiving
 vector<int> AapjeOmino::schuif(vector<int> vec, int schuif)
