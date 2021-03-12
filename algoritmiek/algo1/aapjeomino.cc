@@ -197,37 +197,38 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
             {
               if(i-2 >= 0 && bord[i-2][j].first >= 0)
               {
-                if(schuif(speler1Stenen[bord[i-1][j].first],l)[0] != stenen[bord[i-2][j].first][2])
+                if(schuif(speler1Stenen[bord[i-1][j].first],l)[0] != stenen[bord[i-2][j].first][2]) //
                 {
                   flag = false;
                 }
               }
               if(j-1 >= 0 && bord[i-1][j-1].first >= 0)
               {
-                if(schuif(speler1Stenen[bord[i-1][j].first],l)[3] != stenen[bord[i-1][j-1].first][1])
+                if(schuif(speler1Stenen[bord[i-1][j].first],l)[3] != stenen[bord[i-1][j-1].first][1])//
                 {
                   flag = false;
                 }
-
               }
               if(j+1 < this->breedte && bord[i-1][j+1].first >= 0)
               {
-                if(schuif(speler1Stenen[bord[i-1][j].first],l)[1] != stenen[bord[i-1][j+1].first][3])
+                if(schuif(speler1Stenen[bord[i-1][j].first],l)[1] != stenen[bord[i-1][j+1].first][3])//
                 {
                   flag = false;
                 }
               }
               //cout << bord[i-1][j].first << " ==" << bord[i][j].first << "\n";
-              if(schuif(speler1Stenen[k],l)[2] != stenen[bord[i][j].first][0])
+              if(schuif(speler1Stenen[k],l)[2] != stenen[bord[i][j].first][0])                        //Zuid
               {
-                //cout << schuif(speler1Stenen[k],l)[2] << " === " << stenen[bord[i][j].first][0] << " === " << l << "\n";
                 flag = false;
               }
-              if(flag)
-              {
-                zett.setWaardes(speler1Stenen[k][4],l,i-1,j);
-                zetten.push_back(zett);
-              }
+            } else
+            {
+              flag = false;
+            }
+            if(flag)
+            {
+              zett.setWaardes(speler1Stenen[k][4],l,i-1,j);
+              zetten.push_back(zett);
             }
           }
         }
@@ -324,7 +325,7 @@ vector<int> AapjeOmino::schuif(vector<int> vec, int shift)
 {
   vector<int> vec2 = vec;
   for(int i = 0; i < SteenZijden; i++){
-  vec[i] = vec2[(i + shift) % SteenZijden];
+  vec[i] = vec2[(4-shift + i)%SteenZijden ]; // shift vector elementen met n = shift naar rechts tot het einde en weer naar het begin.
   }
   return vec;
 }
