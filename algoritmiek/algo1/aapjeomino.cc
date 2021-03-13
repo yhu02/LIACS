@@ -181,6 +181,8 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
 { 
   vector<Zet> zetten;
   Zet zett;
+  int x[SteenZijden] = {0, 1, 0, -1}; // kolom
+  int y[SteenZijden] = {-1, 0, 1, 0}; // rij
   for(int i = 0; i < this->hoogte; i++)                       //Aantal rijen
   {
     for(int j = 0; j < this->breedte; j++)                    //Aantal kolommen
@@ -189,47 +191,29 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
       {
         for(int l = 0; l < SteenZijden; l++)                  //Aantal rotaties
         {
-          bool flag = true;
-          //Vergelijk de getallen in iedere richting ten opzichte van de steen naast de huidige steen aan elkaar
-          if(bord[i][j].first >= 0)
+          bool flag = false;
+          for(int m = 0; m < SteenZijden; m++)                //Rotaties voor de steen naast de huidige steen
           {
-            if(i-1 >= 0 && bord[i-1][j].first < 0)
+            //Vergelijk de getallen in iedere richting ten opzichte van de steen naast de huidige steen aan elkaar
+            if(bord[i][j].first >= 0)
             {
-              if(i-2 >= 0 && bord[i-2][j].first >= 0)
+              if(i-1  >= 0 && j>=0 && bord[i-1][j].first < 0)
               {
-                if(schuif(speler1Stenen[bord[i-1][j].first],l)[0] != stenen[bord[i-2][j].first][2]) //
+                cout << endl << bord[i-1][j].first << ":::" << k << endl;
+                if(!(i-2 >= 0 && j>= 0 && bord[i-2][j].first >= 0 && schuif(speler1Stenen[bord[i-1][j].first],l)[0] != stenen[bord[i-2][j].first][2]) && 
+                !(i-1 >= 0 && j-1 >= 0 && bord[i-1][j-1].first >= 0 && schuif(speler1Stenen[bord[i-1][j].first],l)[3] != stenen[bord[i-1][j-1].first][1]) &&
+                !(i-1 >= 0 && j+1 < this->breedte && bord[i-1][j+1].first >= 0 && schuif(speler1Stenen[bord[i-1][j].first],l)[1] != stenen[bord[i-1][j+1].first][3]) &&
+                !(i-1 >= 0 && j>=0 && schuif(speler1Stenen[k],l)[2] != stenen[bord[i][j].first][0]))
                 {
-                  flag = false;
+                    flag = true;
                 }
               }
-              if(j-1 >= 0 && bord[i-1][j-1].first >= 0)
-              {
-                if(schuif(speler1Stenen[bord[i-1][j].first],l)[3] != stenen[bord[i-1][j-1].first][1])//
-                {
-                  flag = false;
-                }
-              }
-              if(j+1 < this->breedte && bord[i-1][j+1].first >= 0)
-              {
-                if(schuif(speler1Stenen[bord[i-1][j].first],l)[1] != stenen[bord[i-1][j+1].first][3])//
-                {
-                  flag = false;
-                }
-              }
-              //cout << bord[i-1][j].first << " ==" << bord[i][j].first << "\n";
-              if(schuif(speler1Stenen[k],l)[2] != stenen[bord[i][j].first][0])                        //Zuid
-              {
-                flag = false;
-              }
-            } else
-            {
-              flag = false;
             }
-            if(flag)
-            {
-              zett.setWaardes(speler1Stenen[k][4],l,i-1,j);
-              zetten.push_back(zett);
-            }
+          }
+          if(flag)
+          {
+            zett.setWaardes(speler1Stenen[k][4],l,i-1,j);
+            zetten.push_back(zett);
           }
         }
       } 
@@ -341,3 +325,27 @@ void AapjeOmino::drukAfStenen(vector<vector<int>> stenen)
   cout << "\n";
 
 }
+/*// i         j  
+void AapjeOmino::bepaalMogelijkeZettenf(int rij, int kolom, int nr, int zijde)
+{
+  if(bord[rij][kolom].first >= 0)
+  {
+    int x[SteenZijden] = {0, 1, 0, -1}; // kolom
+    int y[SteenZijden] = {-1, 0, 1, 0}; // rij
+    if(i-1 >= 0 && j >= 0 && bord[i-1][j].first < 0)
+    {
+      if(!(i-2 >= 0 && bord[i-2][j].first >= 0 && schuif(speler1Stenen[bord[i-1][j].first],l)[0] != stenen[bord[i-2][j].first][2]) && 
+      !(j-1 >= 0 && bord[i-1][j-1].first >= 0 && schuif(speler1Stenen[bord[i-1][j].first],l)[3] != stenen[bord[i-1][j-1].first][1]) &&
+      !(j+1 < this->breedte && bord[i-1][j+1].first >= 0 && schuif(speler1Stenen[bord[i-1][j].first],l)[1] != stenen[bord[i-1][j+1].first][3]) &&
+      !(schuif(speler1Stenen[k],l)[2] != stenen[bord[i][j].first][0]))
+      {
+          flag = true;
+      }
+    }
+    if(flag)
+    {
+      zett.setWaardes(speler1Stenen[k][4],l,i-1,j);
+      zetten.push_back(zett);
+    }
+  }
+}*/

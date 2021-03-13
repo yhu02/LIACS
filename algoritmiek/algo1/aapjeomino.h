@@ -129,7 +129,7 @@ class AapjeOmino
     
   private:
     // TODO: uw eigen memberfuncties en -variabelen
-
+    void bepaalMogelijkeZettenf(int rij, int kolom, int nr, int zijde);
       // alvast enkele membervariabelen
     vector<int> schuif(vector<int> vec, int schuif);
     pair<int,int> bord[MaxDimensie][MaxDimensie];
