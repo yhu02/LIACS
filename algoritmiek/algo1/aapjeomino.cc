@@ -290,7 +290,7 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
   Zet zett;
   int x[SteenZijden] = {0, 1, 0, -1}; // kolom
   int y[SteenZijden] = {-1, 0, 1, 0}; // rij
-  int arr[] = {0,1,2,3};
+  int arr[] = {2,3,0,1};
   
   for(int i = 0; i < int(speler1Stenen.size()); i++)
   {
@@ -307,7 +307,6 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
             {
               for(int m = 0; m < SteenZijden; m++)
               {
-                int count = 0;
                 bool flag = true;
                 for(int n = 0; n < SteenZijden; n++)
                 {
@@ -315,24 +314,12 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
                   }
                   else if(bord[j+y[l]+y[n]][k+x[l]+x[n]].first >= 0)
                   {
-                    if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[l]] != schuif(speler1Stenen[i],m)[n])
+                    if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] != schuif(speler1Stenen[i],m)[n])
                     {
-                      flag = false;
-                      //cout << schuif(stenen[bord[j+y[l]+y[m]][k+x[l]+x[m]].first],bord[j+y[l]+y[m]][k+x[l]+x[m]].second)[0] << "," << schuif(stenen[bord[j+y[l]+y[m]][k+x[l]+x[m]].first],bord[j+y[l]+y[m]][k+x[l]+x[m]].second)[1] << ","<< schuif(stenen[bord[j+y[l]+y[m]][k+x[l]+x[m]].first],bord[j+y[l]+y[m]][k+x[l]+x[m]].second)[2] << ","<< schuif(stenen[bord[j+y[l]+y[m]][k+x[l]+x[m]].first],bord[j+y[l]+y[m]][k+x[l]+x[m]].second)[3] <<endl;
-                      
-                    }else if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[l]] == schuif(speler1Stenen[i],m)[n])
-                    {
-                      
-                    }else{
                       flag = false;
                     }
-                  }else if(bord[j+y[l]+y[n]][k+x[l]+x[n]].first < 0)
-                  {
-                  }else{
-                    flag = false;
                   }
                 }
-                
                 if(flag)
                 {
                   zett.setWaardes(speler1Stenen[i][4],m,j+y[l],k+x[l]);
