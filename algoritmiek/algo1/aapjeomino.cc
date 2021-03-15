@@ -106,10 +106,13 @@ bool AapjeOmino::leesIn (const char* invoernaam)
 
 bool AapjeOmino::eindstand ()
 {
-  //if(speler1Stenen.size() == 0 || speler2Stenen.size == 0())
-
+  if(        //(speler1Stenen.size() == 0 || speler2Stenen.size() == 0) ||
+    (bepaalMogelijkeZetten().size() == 0 && potStenen.size() == 0)
+  )
+  {
+      return true;
+  }
   return false;
-  return true;
 
 }  // eindstand
 
@@ -175,6 +178,8 @@ void AapjeOmino::drukAf()
   drukAfStenen(speler1Stenen);
   cout << "Speler 2 stenen:";
   drukAfStenen(speler2Stenen);
+  cout << "Speler aan zet stenen:";
+  //drukAfStenen((*huidigStenen));
 
   
 
@@ -185,9 +190,21 @@ void AapjeOmino::drukAf()
 
 int AapjeOmino::haalSteenUitPot ()
 {
-  // TODO: implementeer deze memberfunctie
-
-  return 0;
+  if(beurt)
+  {
+    huidigStenen = &speler1Stenen;
+  }
+  else
+  {
+    huidigStenen = &speler2Stenen;
+  }
+  if(int(potStenen.size()))
+  {
+    (*huidigStenen).push_back(potStenen[0]);
+    potStenen.erase(potStenen.begin());
+    return (*huidigStenen).back()[4];
+  }
+  return -1;
 
 }  // haalSteenUitPot
 
@@ -195,15 +212,30 @@ int AapjeOmino::haalSteenUitPot ()
 
 void AapjeOmino::wisselSpeler ()
 {
-  // TODO: implementeer deze memberfunctie
-
+    beurt ? beurt = 0 : beurt = 1;                       //Wissel speler
 }  // wisselSpeler
 
 //*************************************************************************
 
-bool AapjeOmino::doeZet (Zet zet)
+bool AapjeOmino::doeZet (Zet zet)                                //Implementatie kan geen ongeldige zetten uitvoeren<=========================
 {
-  // TODO: implementeer deze memberfunctie
+  if(beurt)                                                     //Check wie zijn beurt het is
+  {                                                             // En wijs pointer naar de hand van de speler die aan de beurt is
+    huidigStenen = &speler1Stenen;                               
+    beurt = 0;                                  
+  }else
+  {
+    huidigStenen = &speler2Stenen;
+    beurt = 1;
+  }
+  for(int i = 0; i < int(huidigStenen->size());i++)               //Herhaal voor iedere steen in hand
+  {
+    
+    if((*huidigStenen)[i][4] == zet.getI())                       //Check of de steennummer van de zet overeenkomt met steennummer in hand
+    {
+      (*huidigStenen).erase((*huidigStenen).begin() + i);          //Verwijder steen uit hand van speler
+    }
+  }
   bord[zet.getRij()][zet.getKolom()].first = zet.getI();
   bord[zet.getRij()][zet.getKolom()].second = zet.getR();
   return true;
@@ -298,8 +330,8 @@ void AapjeOmino::drukAfStenen(vector<vector<int>> stenen)
 {
   for(int i = 0; i < int(stenen.size()); i++)
   {
-    cout << "(" << stenen[i][0] << "," << stenen[i][1] << ",";
-    cout << stenen[i][2] << "," << stenen[i][3] << ")";
+    cout << " [" << stenen[i][4] << "]"<< "(" << stenen[i][0] << "," << stenen[i][1] << ",";
+    cout << stenen[i][2] << "," << stenen[i][3] << ") ";
   }
   cout << "\n";
 
@@ -312,8 +344,16 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
   int x[SteenZijden] = {0, 1, 0, -1}; // Kolom
   int y[SteenZijden] = {-1, 0, 1, 0}; // Rij
   int arr[] = {2,3,0,1};              // Richting vergelijking op basis van de positie van de vergelijkende steen
-  
-  for(int i = 0; i < int(speler1Stenen.size()); i++)    //Herhaal voor elke steen
+
+  if(beurt)
+  {
+    huidigStenen = &speler1Stenen;
+  }else
+  {
+    huidigStenen = &speler2Stenen;
+  }
+
+  for(int i = 0; i < int((*huidigStenen).size()); i++)    //Herhaal voor elke steen
   {
     for(int j = 0;j < hoogte; j++)
     {
@@ -336,10 +376,10 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
                   }
                   else if(bord[j+y[l]+y[n]][k+x[l]+x[n]].first >= 0)                  //Check of de buurvakken van de buurvak niet leeg is
                   {
-                    if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] != schuif(speler1Stenen[i],m)[n])   //Vergelijk alle buurvakken van de buurvak die niet leeg zijn
+                    if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] != schuif((*huidigStenen)[i],m)[n])   //Vergelijk alle buurvakken van de buurvak die niet leeg zijn
                     {
                       flag = false;
-                    }else if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] == schuif(speler1Stenen[i],m)[n]){ //+1 Zetscore voor elk buurvak van de buurvak die bestaan en passen met de hudige rotatie
+                    }else if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] == schuif((*huidigStenen)[i],m)[n]){ //+1 Zetscore voor elk buurvak van de buurvak die bestaan en passen met de hudige rotatie
                       som++;
                     }
                   }
@@ -350,7 +390,7 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
                   for(int p = 0;  p < int(zetten.size()); p++)                           //Detecteer herhalingen, en skip deze zetten
                   {
                      if(
-                        zetten[p].getI() == speler1Stenen[i][4] && 
+                        zetten[p].getI() == (*huidigStenen)[i][4] && 
                         zetten[p].getR() == m &&
                         zetten[p].getRij() == j+y[l] &&
                         zetten[p].getKolom() == k+x[l])
@@ -360,7 +400,7 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
                   }
                   if(flag2)                 //Check of er geen herhalende zetten zijn voorgekomen
                   {                         //Stop de zet in de zetten vector
-                    nieuweZet.setWaardes(speler1Stenen[i][4],m,j+y[l],k+x[l],som);
+                    nieuweZet.setWaardes((*huidigStenen)[i][4],m,j+y[l],k+x[l],som);
                     zetten.push_back(nieuweZet);
                   }
                 }

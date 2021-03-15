@@ -47,36 +47,10 @@ class AapjeOmino
     // * de speler aan beurt is nog niet veranderd
     int haalSteenUitPot ();
 
-    // Wissel de speler die aan de beurt is.
-    // Pre:
-    // * de speler aan beurt is klaar met zijn beurt
-    // Post:
-    // * de speler aan beurt is de andere speler geworden
     void wisselSpeler ();
 
-    // Doe een zet voor de speler die aan de beurt is:
-    // steen i met rotatie r op vakje (rij,kolom), samen in parameter zet.
-    // Controleer eerst of het wel een geldige zet is:
-    // * i en r zijn geldige nummers voor de steen en de rotatie
-    // * (rij,kolom) is een geldig, vrij vakje, grenzend aan de stenen die
-    //   al op het bord liggen
-    // * steen i is in de hand van de speler die aan de beurt is
-    // * steen i past met rotatie r op vakje (rij,kolom)
-    // Retourneer:
-    // * true, als dit een geldige zet is
-    // * false, als dit geen geldige zet is.
-    // Post:
-    // * als het een geldige zet is, is de zet uitgevoerd:
-    //   - de steen ligt op het bord, en is uit de hand van de speler die
-    //     aan de beurt was,
-    //   - de speler aan beurt is gewisseld,
-    // * als het geen geldige zet is, is de stand niet veranderd.
     bool doeZet (Zet zet);
 
-    // Bepaal alle goede zetten voor de speler die aan de beurt is:
-    // mogelijke zetten met zoveel mogelijk buurvakjes.
-    // Retourneer:
-    // * een vector met al deze zetten
     vector<Zet> bepaalGoedeZetten ();
 
     // Bepaal met behulp van brute force de eindscore voor de speler die in
@@ -120,8 +94,10 @@ class AapjeOmino
            int nrStenen0, int nrStenenInHand0, int rij0, int kolom0,
            int minGetal, int maxGetal);
     int leesGetal(char& letter, ifstream& invoer);
-    vector<vector<int>> stenen, speler1Stenen, speler2Stenen, spelerHuidigStenen, potStenen;
+    vector<vector<int>> stenen, speler1Stenen, speler2Stenen, potStenen;
+    vector<vector<int>>* huidigStenen;
     void drukAfStenen(vector<vector<int>> stenen);
+    bool beurt = 1;
     
   private:
     // TODO: uw eigen memberfuncties en -variabelen
