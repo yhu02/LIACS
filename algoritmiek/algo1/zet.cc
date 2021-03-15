@@ -13,6 +13,7 @@ Zet::Zet ()
   r = 0;
   rij = 0;
   kolom = 0;
+  som = 0;
 
 }  // default constructor
 
@@ -26,7 +27,7 @@ void Zet::setDefaultWaardes ()
 
 //*************************************************************************
 
-void Zet::setWaardes (int i0, int r0, int rij0, int kolom0)
+void Zet::setWaardes (int i0, int r0, int rij0, int kolom0, int som0)
 {
   if (i0>=0)
     i = i0;
@@ -55,6 +56,14 @@ void Zet::setWaardes (int i0, int r0, int rij0, int kolom0)
   { kolom = 0;
     cout << endl;
     cout << "kolom0 mag niet negatief zijn, maar is " << kolom0 << endl;
+  }
+
+  if (som0>=0)
+    som = som0;
+  else
+  { som = 0;
+    cout << endl;
+    cout << "som0 mag niet negatief zijn, maar is " << som0 << endl;
   }
 
 }  // setWaardes
@@ -88,6 +97,13 @@ int Zet::getRij ()
 int Zet::getKolom ()
 {
   return kolom;
+
+}  // getKolom
+
+//*************************************************************************
+int Zet::getSom ()
+{
+  return som;
 
 }  // getKolom
 

@@ -28,10 +28,6 @@ class AapjeOmino
     // speler aan beurt) af op het scherm.
     void drukAf ();
 
-    // Bepaal alle mogelijke zetten voor de speler die aan de beurt is:
-    // combinaties (steen, rotatie, rij, kolom) die aansluiten bij de stenen
-    // op het bord.
-    // Retourneer: een vector met al deze zetten
     vector<Zet> bepaalMogelijkeZetten ();
 
     // Haal voor de speler die op dit moment aan de beurt is,

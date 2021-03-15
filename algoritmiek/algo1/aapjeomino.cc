@@ -215,9 +215,30 @@ bool AapjeOmino::doeZet (Zet zet)
 vector<Zet> AapjeOmino::bepaalGoedeZetten ()
 { vector<Zet> zetten;
 
-  // TODO: implementeer deze memberfunctie
+  int besteScore = 0;
+  vector<Zet> besteZetten;
+  Zet nieuweZet;
 
-  return zetten;
+  zetten = bepaalMogelijkeZetten();           //Neem alle mogelijke zetten
+  for(int i = 0; i<int(zetten.size());i++)    //Neem de hoogste zetscore van alle zetten
+  {
+    if(zetten[i].getSom() > besteScore)
+    {
+      besteScore = zetten[i].getSom();
+    }
+  }
+
+  for(int i = 0; i<int(zetten.size());i++)    //Zet alle zetten waarvan de zetscore gelijk is aan de hoogste zetscore in de besteZetten vector
+  {
+    if(zetten[i].getSom() == besteScore)
+    {
+      cout << "hier" << besteScore << endl;
+      nieuweZet.setWaardes(zetten[i].getI(),zetten[i].getR(),zetten[i].getRij(),zetten[i].getKolom(),zetten[i].getSom());
+      besteZetten.push_back(nieuweZet);
+    }
+  }
+
+  return besteZetten;                          //Retourneer de beste zetten
 
 }  // bepaalGoedeZetten
 
@@ -287,43 +308,61 @@ void AapjeOmino::drukAfStenen(vector<vector<int>> stenen)
 vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
 { 
   vector<Zet> zetten;
-  Zet zett;
-  int x[SteenZijden] = {0, 1, 0, -1}; // kolom
-  int y[SteenZijden] = {-1, 0, 1, 0}; // rij
-  int arr[] = {2,3,0,1};
+  Zet nieuweZet;
+  int x[SteenZijden] = {0, 1, 0, -1}; // Kolom
+  int y[SteenZijden] = {-1, 0, 1, 0}; // Rij
+  int arr[] = {2,3,0,1};              // Richting vergelijking op basis van de positie van de vergelijkende steen
   
-  for(int i = 0; i < int(speler1Stenen.size()); i++)
+  for(int i = 0; i < int(speler1Stenen.size()); i++)    //Herhaal voor elke steen
   {
     for(int j = 0;j < hoogte; j++)
     {
       for(int k = 0;k < breedte; k++)
       {
-        if(bord[j][k].first >= 0)
+        if(bord[j][k].first >= 0)                       //Check of er een steen bestaat op de hudige plek
         {
-          for(int l = 0;l < SteenZijden; l++)
+          for(int l = 0;l < SteenZijden; l++)           //Check alle buurvakken van de huidige steen
           {
-            if(j+y[l] < 0 || k+x[l] < 0||j+y[l] >= hoogte ||k+x[l] >= breedte){}
-            else if(bord[j+y[l]][k+x[l]].first < 0)
+            if(j+y[l] < 0 || k+x[l] < 0||j+y[l] >= hoogte ||k+x[l] >= breedte){}      //Check of de buurvak binnen het bord is
+            else if(bord[j+y[l]][k+x[l]].first < 0)                                   //Check of de buurvak leeg is
             {
-              for(int m = 0; m < SteenZijden; m++)
+              for(int m = 0; m < SteenZijden; m++)                                    //Check alle rotaties van de buurvak
               {
                 bool flag = true;
-                for(int n = 0; n < SteenZijden; n++)
+                int som = 0;
+                for(int n = 0; n < SteenZijden; n++)                                  //Check alle buurvakken van de buurvak
                 {
-                  if(j+y[l]+y[n] < 0 || k+x[l]+x[n] < 0 || j+y[l]+y[n] >= hoogte|| k+x[l]+x[n] >= breedte){
+                  if(j+y[l]+y[n] < 0 || k+x[l]+x[n] < 0 || j+y[l]+y[n] >= hoogte|| k+x[l]+x[n] >= breedte){     //Check of de buurvakken van de buurvak binnen het bord is 
                   }
-                  else if(bord[j+y[l]+y[n]][k+x[l]+x[n]].first >= 0)
+                  else if(bord[j+y[l]+y[n]][k+x[l]+x[n]].first >= 0)                  //Check of de buurvakken van de buurvak niet leeg is
                   {
-                    if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] != schuif(speler1Stenen[i],m)[n])
+                    if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] != schuif(speler1Stenen[i],m)[n])   //Vergelijk alle buurvakken van de buurvak die niet leeg zijn
                     {
                       flag = false;
+                    }else if(schuif(stenen[bord[j+y[l]+y[n]][k+x[l]+x[n]].first],bord[j+y[l]+y[n]][k+x[l]+x[n]].second)[arr[n]] == schuif(speler1Stenen[i],m)[n]){ //+1 Zetscore voor elk buurvak van de buurvak die bestaan en passen met de hudige rotatie
+                      som++;
                     }
                   }
                 }
-                if(flag)
+                if(flag)                     //Check of een zet geldig is
                 {
-                  zett.setWaardes(speler1Stenen[i][4],m,j+y[l],k+x[l]);
-                  zetten.push_back(zett);
+                  bool flag2 = true;                                                     //Flag om herhalingen te detecteren
+                  for(int p = 0;  p < int(zetten.size()); p++)                           //Detecteer herhalingen, en skip deze zetten
+                  {
+                     if(
+                        zetten[p].getI() == speler1Stenen[i][4] && 
+                        zetten[p].getR() == m &&
+                        zetten[p].getRij() == j+y[l] &&
+                        zetten[p].getKolom() == k+x[l])
+                    {
+                      flag2 = false;
+                    }
+                  }
+                  if(flag2)                 //Check of er geen herhalende zetten zijn voorgekomen
+                  {                         //Stop de zet in de zetten vector
+                    nieuweZet.setWaardes(speler1Stenen[i][4],m,j+y[l],k+x[l],som);
+                    zetten.push_back(nieuweZet);
+                  }
                 }
               }
             }
@@ -332,71 +371,8 @@ vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
       }
     }
   }
-  return zetten;
+  return zetten;                      //Retourneer alle mogelijke zetten
 
 }  // bepaalMogelijkeZetten 
 
 
-/*
-
-vector<Zet> AapjeOmino::bepaalMogelijkeZetten ()
-{ 
-  vector<Zet> zetten;
-  Zet zett;
-  int x[SteenZijden] = {0, 1, 0, -1}; // kolom
-  int y[SteenZijden] = {-1, 0, 1, 0}; // rij
-
-  for(int i = 0; i < int(speler1Stenen.size());i++)                //Hoeveelste steen
-  {
-    for(int j = 0;j < hoogte;j++)                      
-    {
-      for(int k = 0;k < breedte;k++)
-      {
-        for(int l = 0;l < SteenZijden;l++)
-        {
-          if(bord[j][k].first >=0 && j+y[l] >= 0 && k+x[l]>= 0 && j+y[l] < hoogte && k+x[l] < breedte && bord[j+y[l]][k+x[l]].first < 0)
-          { 
-            int total = 0;
-            for(int n = 0;n < SteenZijden;n++)
-            {
-              bool flag = true;
-              for(int m = 0;m < SteenZijden;m++)
-              {
-                if(j+y[l]+y[m] >= 0 && k+x[l]+x[m] >= 0 && j+y[l]+y[m] < hoogte && k+x[l]+x[m] < breedte)
-                {
-                  if(bord[j+y[l]+y[m]][k+x[l]+x[m]].first >= 0)
-                  {
-                    if(schuif(stenen[bord[j+y[l]+y[m]][k+x[l]+x[m]].first],bord[j+y[l]+y[m]][k+x[l]+x[m]].second)[l]!=schuif(speler1Stenen[i],n)[m])
-                    {
-                      cout << "zero";
-                      flag = false;
-                    }else if(schuif(stenen[bord[j+y[l]+y[m]][k+x[l]+x[m]].first],bord[j+y[l]+y[m]][k+x[l]+x[m]].second)[l]==schuif(speler1Stenen[i],n)[m])
-                    {
-                      //
-                    }
-
-                  }else if(bord[j+y[l]+y[m]][k+x[l]+x[m]].first < 0){
-                    cout << "skip: " << j+y[l]+y[m] << "," << k+x[l]+x[m] << endl;
-                  }
-                }
-              }
-              if(flag)
-              {
-                speler1Stenen[i][5] = total; 
-                //cout << "total" << total;
-                zett.setWaardes(speler1Stenen[i][4],n,j+y[l],k+x[l]);
-                zetten.push_back(zett);
-              }
-              total = 0;
-            }      
-          }
-        }
-      }
-    }
-  }
-
-  return zetten;
-
-}  // bepaalMogelijkeZetten 
-
-*/

@@ -15,13 +15,14 @@ class Zet
     
     // Geef alle vier velden een waarde.
     // Controleer nog wel of het zinnige waardes zijn.
-    void setWaardes (int i0, int r0, int rij0, int kolom0);
+    void setWaardes (int i0, int r0, int rij0, int kolom0, int som0);
 
     // Vier getters:
     int getI ();
     int getR ();
     int getRij ();
     int getKolom ();
+    int getSom ();
 
     // Druk de vier waardes van de zet af op het scherm
     void drukAf ();
@@ -29,7 +30,8 @@ class Zet
   private:
     int i,  // nummer van de steen
         r,  // rotatie
-        rij, kolom;  // vakje op het bord
+        rij, kolom, // vakje op het bord
+        som; //Aantal buurvakjes
 
 };
 
