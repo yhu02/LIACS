@@ -162,7 +162,10 @@ void doeSpel (AapjeOmino *ao1)
 // Voert de experimenten uit zoals beschreven in de opdracht.
 void doeExperimenten ()
 {
-  // TODO: implementeer deze functie
+  AapjeOmino *ao1;
+  ao1 = new AapjeOmino ();
+  ao1->genereerRandomSpel(9,9,14,5,4,4,0,9);
+  doeSpel(ao1);
 
 }  // doeExperimenten
 

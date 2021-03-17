@@ -18,10 +18,6 @@ class AapjeOmino
 
     bool leesIn (const char* invoernaam);
 
-    // Controleer of we een eindstand hebben bereikt:
-    // * een van de twee spelers heeft geen stenen meer
-    // * of er is geen mogelijke zet voor de speler die aan de beurt is,
-    //   terwijl de pot leeg is
     bool eindstand ();
 
     // Druk de hele stand (bord, stenen in de twee handen en de pot,
@@ -30,26 +26,13 @@ class AapjeOmino
 
     vector<Zet> bepaalMogelijkeZetten ();
 
-    // Haal voor de speler die op dit moment aan de beurt is,
-    // een steen uit de pot.
-    // Controleer eerst
-    // * of de pot niet leeg is
-    // * of de speler deze beurt al geen steen uit de pot gehaald heeft
-    // * of de speler al geen bruikbare stenen in de hand heeft
-    // Retourneer:
-    // * het nummer van de uit de pot gehaalde steen, als het kan en mag
-    //   om een steen uit de pot te halen
-    // * -1, als het niet kan of mag
-    // Post:
-    // * als het kan en mag om een steen uit de pot te halen,
-    //   is deze steen verhuisd van de pot naar de hand van de speler
-    //   die aan de beurt is
-    // * de speler aan beurt is nog niet veranderd
     int haalSteenUitPot ();
 
     void wisselSpeler ();
 
     bool doeZet (Zet zet);
+
+    bool undoeZet(Zet zet);
 
     vector<Zet> bepaalGoedeZetten ();
 
@@ -72,32 +55,16 @@ class AapjeOmino
     // * de stand in het spel is nog onveranderd
     int besteScore (Zet &besteZet, long long &aantalStanden);
 
-    // Genereer een spel met bepaalde parameters en random getallen tussen
-    // minGetal en maxGetal (inclusief) op de stenen.
-    // Controleer eerst
-    // * of hoogte en breedte binnen de grenzen vallen,
-    // * of er genoeg stenen zijn om te verdelen over de twee spelers en om
-    //   het spel met een steen te starten,
-    // * en of positie (rij0,kolom0) van startsteen daadwerkelijk op het bord
-    //   ligt.
-    // Retourneer:
-    // * true, als alle parameters OK zijn
-    // * false, als minstens 1 parameter niet OK is
-    // Post:
-    // * als alle parameters OK zijn
-    //   - is een eventueel al in het object aanwezige stand overschreven
-    //   - zijn de nieuwe stenen gegenereerd en verdeeld over het bord,
-    //     de twee handen en de pot
-    // * als niet alle parameters OK zijn, is een eventueel in het object
-    //   aanwezige stand niet veranderd
     bool genereerRandomSpel (int hoogte0, int breedte0,
            int nrStenen0, int nrStenenInHand0, int rij0, int kolom0,
            int minGetal, int maxGetal);
     int leesGetal(char& letter, ifstream& invoer);
     vector<vector<int>> stenen, speler1Stenen, speler2Stenen, potStenen;
-    vector<vector<int>>* huidigStenen;
+    vector<vector<int>>* huidigStenen = &speler1Stenen;
+    vector<Zet> zetten;
+    vector<Zet> oudeZetten;
     void drukAfStenen(vector<vector<int>> stenen);
-    bool beurt = 1;
+    int winnend(int stand);
     
   private:
     // TODO: uw eigen memberfuncties en -variabelen
@@ -108,9 +75,11 @@ class AapjeOmino
               // in een pair kunnen we een steennummer en een rotatie opslaan
     int hoogte, breedte,  // van het bord
         nrStenen,     // totaal aantal stenen in het spel
-        aanBeurt,     // speler die aan de beurt is
+        aanBeurt = 1,     // speler die aan de beurt is
         beginStenen,  // aantal beginstenen per speler
         rij, kolom;   // positie steen 0
+
+    int uitPotGehaald;
 
 
 };
