@@ -164,7 +164,7 @@ void doeExperimenten ()
 {
   AapjeOmino *ao1;
   ao1 = new AapjeOmino ();
-  ao1->genereerRandomSpel(9,9,14,5,4,4,0,9);
+  ao1->genereerRandomSpel(9,9,30,10,4,4,0,9);
   doeSpel(ao1);
 
 }  // doeExperimenten

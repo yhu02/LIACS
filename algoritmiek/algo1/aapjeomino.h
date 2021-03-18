@@ -65,6 +65,7 @@ class AapjeOmino
     vector<Zet> oudeZetten;
     void drukAfStenen(vector<vector<int>> stenen);
     int winnend(int stand);
+    int uitPotGehaald2;
     
   private:
     // TODO: uw eigen memberfuncties en -variabelen
@@ -79,7 +80,7 @@ class AapjeOmino
         beginStenen,  // aantal beginstenen per speler
         rij, kolom;   // positie steen 0
 
-    int uitPotGehaald;
+    //int uitPotGehaald;
 
 
 };

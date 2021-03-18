@@ -194,14 +194,14 @@ void AapjeOmino::drukAf()
 int AapjeOmino::haalSteenUitPot ()
 {
 // wisselSpeler();
-cout << "one";
+cout << "one" << speler1Stenen.size() << ":" << speler2Stenen.size();
   if(int(potStenen.size()) >= 1)
   {
-    cout << "two";
+    cout << "two" << speler1Stenen.size() << ":" << speler2Stenen.size();
     (*huidigStenen).push_back(potStenen[0]);
-    cout << "three";
+    cout << "three" << speler1Stenen.size() << ":" << speler2Stenen.size();
     potStenen.erase(potStenen.begin());
-    cout << "four" << (*huidigStenen).back()[4] << endl;
+    cout << "four" << speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
     return (*huidigStenen).back()[4];
   }else
   {
@@ -240,6 +240,9 @@ bool AapjeOmino::doeZet (Zet zet)                                //Implementatie
   }
   bord[zet.getRij()][zet.getKolom()].first = zet.getI();
   bord[zet.getRij()][zet.getKolom()].second = zet.getR();
+          oudeZetten.push_back(zet);
+
+  wisselSpeler();
   return true;
 
 }  
@@ -250,6 +253,8 @@ bool AapjeOmino::undoeZet (Zet zet)
 
   //(*huidigStenen).push_back(stenen[zet.getI()]);
   bord[zet.getRij()][zet.getKolom()].first = -1;
+  wisselSpeler();
+  //(*huidigStenen).push_back(stenen[zet.getI()]); 
 
   return true;
 
@@ -291,74 +296,67 @@ vector<Zet> AapjeOmino::bepaalGoedeZetten ()
 
 int AapjeOmino::besteScore (Zet &besteZet, long long &aantalStanden)
 {
+         // cout << "first" << speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
+
   int score = 0;
   int score2 = 0;
-  int uitPotGehaald2 = -1;
-  
+  int uitPotGehaald = -1;
+  vector<Zet> nieuweZetten;
+
   if(eindstand())
   { 
-    
-    //wisselSpeler();
-
-    aantalStanden = 0;
+    cout << "eindstand bereikt" << speler1Stenen.size()  << ":" << speler2Stenen.size();
     score = speler2Stenen.size() - speler1Stenen.size();
-    //cout << "ending" << score << endl;
-    cout << "one" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-   
-
+    if(aanBeurt){
+      score = -score;
+    }           
+    aantalStanden = 0;
     return score;
   }else
   {
-    
-    zetten = bepaalMogelijkeZetten();
+  
+    nieuweZetten = bepaalMogelijkeZetten();
     if(zetten.size() == 0)
     {
-      uitPotGehaald2 = haalSteenUitPot();
+      
     }
-    zetten = bepaalMogelijkeZetten();
     if(zetten.size() == 0)
     {
-      cout << "break";
-
     }
     else
     {
-      for(int i = 0; i < int(zetten.size()); i++)
+      for(int i = 0;  i < int(nieuweZetten.size()); i++)
       {
-          cout << "four" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-          cout << "aanbeurt" << aanBeurt << endl;
-          doeZet(zetten[i]);
-          //cout << "[" << i << "]" << aanBeurt << "-";
+        
+        doeZet(nieuweZetten[i]);
 
-          oudeZetten.push_back(zetten[i]);
-          cout << "three" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-          wisselSpeler();
-          
-          //cout << "two" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-          
-          score2 = besteScore(zetten[i],aantalStanden);
-          
-          if(score2 > score){
-            score = score2;
-          }
-          //cout << oudeZetten.size();
-          wisselSpeler();
-          cout << "two" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-          if(uitPotGehaald2 != -1)
-          {
-            potStenen.push_back(stenen[oudeZetten.back().getI()]);
-          }else{
-            cout << "under" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-            (*huidigStenen).push_back(stenen[oudeZetten.back().getI()]); 
-            cout << "after" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-          }
-                            cout << "between" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-          undoeZet(oudeZetten.back());
-          cout << "one" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
-          oudeZetten.pop_back();
-          cout << "zero" <<  score<< ": " <<speler1Stenen.size() << ":" << speler2Stenen.size() << endl;
+        cout << endl << "[" << oudeZetten.size() << "]";
+        for(int j = 0; j < oudeZetten.size(); j ++)
+        {
+          cout << "<===>" << oudeZetten[j].getI();
+        }
+        cout << ",";
+                cout << "index:" << i << endl;
+        score2 = besteScore(oudeZetten.back(), aantalStanden);
+        if(score2 > score || score2 < -score){
+          score = score2;
+        }
+        undoeZet(oudeZetten.back());
+        (*huidigStenen).push_back(stenen[oudeZetten.back().getI()]);
+
+        oudeZetten.pop_back();
+
+       // cout << "index2:" << i << ":" << nieuweZetten.size() << endl;
+        
       }
+      //cout << "between:" << oudeZetten.back().getI() << ":";
+                  //wisselSpeler();
+      //cout << speler1Stenen.size() << "," << speler2Stenen.size();
+      //nieuweZetten = bepaalMogelijkeZetten();
+      return score2;
+
     }
+
   }
 
   aantalStanden++;
