@@ -21,7 +21,11 @@ Zet::Zet ()
 
 void Zet::setDefaultWaardes ()
 {
-  // TODO: implementeer deze functie
+  i = -1;
+  r = -1;
+  rij = -1;
+  kolom = -1;
+  som = -1;
 
 }  // setDefaultWaardes
 
