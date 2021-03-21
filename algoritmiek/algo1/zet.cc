@@ -9,11 +9,11 @@ using namespace std;
 
 Zet::Zet ()
 {
-  i = 0;
-  r = 0;
-  rij = 0;
-  kolom = 0;
-  som = 0;
+  i = -1;
+  r = -1;
+  rij = -1;
+  kolom = -1;
+  som = -1;
 
 }  // default constructor
 
