@@ -15,7 +15,9 @@
 // Yvo Hu s2962802
 
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <cmath>
 #include <ctime>  // voor clock() en clock_t
 #include "standaard.h"
 #include "zet.h"
@@ -162,10 +164,68 @@ void doeSpel (AapjeOmino *ao1)
 // Voert de experimenten uit zoals beschreven in de opdracht.
 void doeExperimenten ()
 {
-  AapjeOmino *ao1;
-  ao1 = new AapjeOmino ();
-  ao1->genereerRandomSpel(9,9,30,10,4,4,0,9);
-  doeSpel(ao1);
+  ofstream bestand("experiment.txt");
+  bestand << "nr, besteScore, aantalStanden, tijd, scores2 " << endl;
+  
+  for(int i = 8; i <= 30; i++)
+  {
+    int besteScores[10];
+    int standen[10];
+    double tijd[10];
+    int scores2[10];
+
+    double besteScoresSom = 0;
+    double standenSom = 0;
+    double tijdSom = 0;
+    double scores2Som = 0;
+
+    for(int j = 0; j < 10; j++)
+    {
+      long long aantalStanden = 0;
+      Zet besteZet;
+      clock_t t1, t2;
+      AapjeOmino *ao1;
+      AapjeOmino *ao2;
+
+      ao1 = new AapjeOmino ();
+      ao2 = new AapjeOmino ();
+
+      ao1->genereerRandomSpel(7,7,i,round(i/4),3,3,1,i);
+      ao2->genereerRandomSpel(7,7,i,round(i/4),3,3,1,i);
+
+
+      t1 = clock();
+      besteScores[j] = ao1->besteScore(besteZet, aantalStanden);
+      t2 = clock();
+      standen[j] = aantalStanden;
+
+      scores2[j] = ao2->besteScore2(besteZet, aantalStanden);
+
+      tijd[j] = (((double)(t2-t1))/CLOCKS_PER_SEC);
+
+      delete ao1;
+      delete ao2;
+    }
+
+    for(int j = 0; j < 10; j++)
+    {
+      besteScoresSom += besteScores[j];
+      standenSom     += standen[j];
+      tijdSom        += tijd[j];
+      scores2Som     += scores2[j];
+    }
+    besteScoresSom  = int((besteScoresSom/10)*100)/double(100);
+    standenSom      = int((standenSom/10)*100)/double(100);
+    tijdSom         = tijdSom;
+    scores2Som      = int((scores2Som/10)*100)/double(100);
+    bestand << i              << ", ";
+    bestand << besteScoresSom << ", ";
+    bestand << standenSom     << ", ";
+    bestand << tijdSom        << ", ";
+    bestand << scores2Som     << endl;
+
+  }
+  bestand.close();
 
 }  // doeExperimenten
 
@@ -215,3 +275,13 @@ int main ()
 
 }
 
+string truncate(float val, int numDigits)
+{
+  std::string output = std::to_string(val).substr(0, numDigits+1);
+  if (output.find('.') ==  string::npos ||
+      output.back() == '.')
+  {
+    output.pop_back();
+  }
+  return output;
+}

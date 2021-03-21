@@ -33,17 +33,20 @@ class AapjeOmino
 
     int besteScore (Zet &besteZet, long long &aantalStanden);   //Bepaal best mogelijke score op basis van de huidige stand
 
+    int besteScore2 (Zet &besteZet, long long &aantalStanden);   //Doeexperimenten specificaties
+
     bool genereerRandomSpel (int hoogte0, int breedte0,          //Genereer random spel
            int nrStenen0, int nrStenenInHand0, int rij0, int kolom0,
            int minGetal, int maxGetal);
+    bool aantalStandenFlag = true;
   private:
-    int leesGetal(char& letter, ifstream& invoer);              //Lees getal uit bestand
+    int leesGetal (char& letter, ifstream& invoer);              //Lees getal uit bestand
 
-    void drukAfStenen(vector<vector<int>> stenen);              //Druk alle stenen af in de vector stenen
+    void drukAfStenen (vector<vector<int>> stenen);              //Druk alle stenen af in de vector stenen
 
-    void bepaalMogelijkeZettenf(int rij, int kolom, int nr, int zijde);
+    void bepaalMogelijkeZettenf (int rij, int kolom, int nr, int zijde);
 
-    vector<int> schuif(vector<int> vec, int schuif);            //Verschuif de elementen in vec met schuif naar rechts en weer terug naar begin
+    vector<int> schuif (vector<int> vec, int schuif);            //Verschuif de elementen in vec met schuif naar rechts en weer terug naar begin
 
     pair<int,int> bord[MaxDimensie][MaxDimensie];               // in een pair kunnen we een steennummer en een rotatie opslaan
 
@@ -51,13 +54,14 @@ class AapjeOmino
 
     vector<vector<int>>* huidigStenen;                                      //Pointer naar de hand van de huidige speler 
 
-    vector<Zet> zetten;                                                     //Vector met alle huidige zetten van de huidige speler
-
     vector<Zet> oudeZetten;                                                 //Vector met alle zetten die gedaan zijn door beide spelers
+
+    void wisselSpeler2 ();                                                   //Wissel van beurt
     
     bool doeZet2 (Zet zet);                                                 //Doe een zet in zetten
     
-    bool undoeZet(Zet zet);                                                 //Verwijder steen van bord
+    bool undoeZet (Zet zet);                                                 //Verwijder steen van bord
+
 
     int huidigStand;                                                        //Counter met de huidige stand
 
@@ -67,6 +71,7 @@ class AapjeOmino
         beginStenen,      // aantal beginstenen per speler
         rij, kolom,       // positie steen 0
         score;            // score initialiseren
+    
 
 };
 
