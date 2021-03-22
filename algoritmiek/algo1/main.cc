@@ -17,7 +17,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cmath>
 #include <ctime>  // voor clock() en clock_t
 #include "standaard.h"
 #include "zet.h"
@@ -167,41 +166,41 @@ void doeExperimenten ()
   ofstream bestand("experiment.txt");
   bestand << "nr, besteScore, aantalStanden, tijd, scores2 " << endl;
   
-  for(int i = 8; i <= 30; i++)
+  for(int i = 8; i <= 30; i++)                                              //Doorloop aantal beginstenen
   {
-    int besteScores[10];
+    int besteScores[10];                                                    //Arrays for de waardes van de resultaten
     int standen[10];
     double tijd[10];
-    int scores2[10];
+    int besteScores2[10];
 
-    double besteScoresSom = 0;
+    double besteScoresSom = 0;                                              //Variabelen om de waardes in op te slaan
     double standenSom = 0;
     double tijdSom = 0;
-    double scores2Som = 0;
+    double besteScores2Som = 0;
 
-    for(int j = 0; j < 10; j++)
+    for(int j = 0; j < 10; j++)                                             //Doorloop het programma 10 keer
     {
-      long long aantalStanden = 0;
+      long long aantalStanden = 0;                                          //Initialiseer aantalstanden
       Zet besteZet;
       clock_t t1, t2;
-      AapjeOmino *ao1;
+      AapjeOmino *ao1;                                                      //Pointers naar een AapjeOmino object
       AapjeOmino *ao2;
 
-      ao1 = new AapjeOmino ();
+      ao1 = new AapjeOmino ();                                              //Wijs naar een AapjeOmino object
       ao2 = new AapjeOmino ();
 
-      ao1->genereerRandomSpel(7,7,i,round(i/4),3,3,1,i);
-      ao2->genereerRandomSpel(7,7,i,round(i/4),3,3,1,i);
+      ao1->genereerRandomSpel(7,7,i,i/4,3,3,1,i);                           //Genereer spellen
+      ao2->genereerRandomSpel(7,7,i,i/4,3,3,1,i);
 
 
-      t1 = clock();
-      besteScores[j] = ao1->besteScore(besteZet, aantalStanden);
+      t1 = clock();                                                         //Check de tijd die het duurt om het te bereken
+      besteScores[j] = ao1->besteScore(besteZet, aantalStanden);            //Bereken besteScore
       t2 = clock();
-      standen[j] = aantalStanden;
+      standen[j] = aantalStanden;                                           //Bereken aantalStanden
 
-      scores2[j] = ao2->besteScore2(besteZet, aantalStanden);
+      besteScores2[j] = ao2->besteScore2(besteZet, aantalStanden);               //Bereken besteScore2
 
-      tijd[j] = (((double)(t2-t1))/CLOCKS_PER_SEC);
+      tijd[j] = (((double)(t2-t1))/CLOCKS_PER_SEC);                 
 
       delete ao1;
       delete ao2;
@@ -212,17 +211,17 @@ void doeExperimenten ()
       besteScoresSom += besteScores[j];
       standenSom     += standen[j];
       tijdSom        += tijd[j];
-      scores2Som     += scores2[j];
+      besteScores2Som     += besteScores2[j];
     }
     besteScoresSom  = int((besteScoresSom/10)*100)/double(100);
     standenSom      = int((standenSom/10)*100)/double(100);
     tijdSom         = tijdSom;
-    scores2Som      = int((scores2Som/10)*100)/double(100);
+    besteScores2Som      = int((besteScores2Som/10)*100)/double(100);
     bestand << i              << ", ";
     bestand << besteScoresSom << ", ";
     bestand << standenSom     << ", ";
     bestand << tijdSom        << ", ";
-    bestand << scores2Som     << endl;
+    bestand << besteScores2Som     << endl;
 
   }
   bestand.close();
@@ -273,15 +272,4 @@ int main ()
 
   return 0;
 
-}
-
-string truncate(float val, int numDigits)
-{
-  std::string output = std::to_string(val).substr(0, numDigits+1);
-  if (output.find('.') ==  string::npos ||
-      output.back() == '.')
-  {
-    output.pop_back();
-  }
-  return output;
 }
