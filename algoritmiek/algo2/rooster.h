@@ -3,11 +3,15 @@
 #ifndef RoosterHVar  // voorkom dat dit bestand meerdere keren
 #define RoosterHVar  // ge-include wordt
 
+#include <iostream>
+#include <fstream>
+#include <vector>
 #include "constantes.h"
+#include "vak.h"
 
 class Rooster
-{ public:
-
+{ 
+  public:
     // Default constructor
     Rooster ();
 
@@ -84,6 +88,8 @@ class Rooster
     // * rooster bevat een rooster voor alle ingelezen vakken.
     void bepaalRoosterGretig (int rooster[MaxNrTijdsloten][MaxNrZalen]);
 
+    int leesGetal(std::ifstream& invoer);
+
   private:
     // TODO: uw eigen memberfuncties en -variabelen
 
@@ -92,6 +98,9 @@ class Rooster
         nrZalen,       // aantal beschikbare zalen
         nrDocenten,
         nrVakken;
+
+    std::vector<std::vector<int>> tijdSlotenDocenten;
+    std::vector<Vak> vakken;
 
       // Een datastructuur voor de docenten en hun beschikbaarheden.
       // En een datastructuur voor de vakken, met hun docenten en tracks.
