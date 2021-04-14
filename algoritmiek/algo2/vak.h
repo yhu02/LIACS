@@ -14,6 +14,8 @@ class Vak
     Vak(std::string vakNaam, int nrDocent, int nrTracks);
     void voegTrackToe(int track);
     std::vector<int> krijgTracks();
+    std::string krijgVakNaam();
+    int krijgNrDocent();
 
   private:
     std::string vakNaam;

@@ -20,3 +20,13 @@ std::vector<int> Vak::krijgTracks()
 {
   return this->tracks;
 }
+
+std::string Vak::krijgVakNaam()
+{
+    return this->vakNaam;
+}
+
+int Vak::krijgNrDocent()
+{
+    return this->nrDocent;
+}
