@@ -67,6 +67,9 @@ class Rooster
 
     // Druk parameter rooster overzichtelijk af op het scherm
     // (dag, tijd, zaal, naam van vak, nummer van docent).
+    // Pre:
+    // * er is al een instantie ingelezen, en parameter rooster
+    //   bevat een rooster voor die instantie
     void drukAfRooster (int rooster[MaxNrTijdsloten][MaxNrZalen]);
 
     // Bepaal op een gretige manier een rooster voor de ingelezen vakken,
