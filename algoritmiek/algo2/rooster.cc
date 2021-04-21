@@ -3,11 +3,10 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 #include "standaard.h"
 #include "rooster.h"
 #include "vak.h"
-
-using namespace std;
 
 //*************************************************************************
 
@@ -22,13 +21,12 @@ Rooster::Rooster ()
 
 bool Rooster::leesIn (const char* invoerNaam)
 {
-  ifstream invoer;                                                                                                                                      
-  int som;                              
+  std::ifstream invoer;                                                                                                                                      
 
-  invoer.open(invoerNaam,ios::in);
+  invoer.open(invoerNaam,std::ios::in);
   if(invoer.fail())
   {
-    cout << "fail";
+    std::cout << "fail";
     return false;
   } 
   invoer >> nrDagen >> nrUrenPerDag >> nrZalen >> nrDocenten;
@@ -114,7 +112,36 @@ void Rooster::drukAf ()
 bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
                         long long &aantalDeelroosters)
 {
-  // TODO: implementeer deze memberfunctie
+
+  for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
+  {
+    for(int z = 0; z < this->nrZalen; z++)
+    {
+      rooster[s][z] = -1;
+    }
+  }
+  /*
+  
+  for(int v = 0; v < this->vakken.size(); v++)
+  {
+    for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
+    {
+      for(int z = 0; z < this->nrZalen; z++)
+      {
+        rooster[s][z] = -1;
+        std::cout << rooster[s][z] << "\n";
+        if(true)
+        {
+
+        }
+        else
+        {
+
+        }
+      }
+    }
+  }*/
+  
 
   return true;
 
@@ -125,7 +152,6 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
 bool Rooster::bepaalMinRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
                         long long &aantalDeelroosters)
 {
-  // TODO: implementeer deze memberfunctie
 
   return true;
 
@@ -135,7 +161,50 @@ bool Rooster::bepaalMinRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
 
 void Rooster::drukAfRooster (int rooster[MaxNrTijdsloten][MaxNrZalen])
 {
-  // TODO: implementeer deze memberfunctie
+  std::cout << "          ";
+  for(int u = 0; u < this->nrUrenPerDag; u++)
+  {
+    std::cout << "|";
+    for(int i = 1; i < this->nrZalen; i++)
+    {
+      std::cout << " ";
+      if(i & 1)
+        std::cout << " ";
+    }
+    std::cout << " " << u;
+    for(int i = 1; i < this->nrZalen; i++)
+    {
+      std::cout << " ";
+      if(!(i & 1))
+        std::cout << " ";
+    }
+    std::cout << "|";
+  }
+
+  
+  for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
+  {
+    if(s % this->nrUrenPerDag == 0)
+    {
+      std::cout << "\n";
+      std::cout << this->weekDag((s/this->nrUrenPerDag));
+    }
+
+    std::cout << "|";
+    for(int z = 0; z < this->nrZalen; z++)
+    {
+      if(rooster[s][z] != -1)
+      {
+        std::cout <<  " " << 0;
+      }else{
+        std::cout <<  -1;
+      }
+      if(z+1 < this->nrZalen)
+        std::cout << "|";
+
+    }
+    std::cout << "|";
+  }
 
 }  // drukAfRooster
 
@@ -146,3 +215,27 @@ void Rooster::bepaalRoosterGretig (int rooster[MaxNrTijdsloten][MaxNrZalen])
   // TODO: implementeer deze functie
 
 }  // bepaalRoosterGretig
+
+std::string Rooster::weekDag(int nrDag)
+{
+  std::string dag;
+  switch(nrDag)
+  {
+    case 0:
+      dag = "Maandag   ";
+      break;
+    case 1:
+      dag = "Dinsdag   ";
+      break;
+    case 2:
+      dag = "Woensdag  ";
+      break;
+    case 3:
+      dag = "Donderdag ";
+      break;
+    case 4:
+      dag = "Vrijdag   ";
+      break;
+  }
+  return dag;
+}

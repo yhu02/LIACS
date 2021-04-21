@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 #include "constantes.h"
 #include "vak.h"
 
@@ -28,10 +29,10 @@ class Rooster
     // * true, als het bestand te openen was.
     //   In dat geval is alle ingelezen informatie in het object opgeslagen.
     // * false, anders
-    bool leesIn (const char* invoerNaam);
+    bool leesIn (const char* invoerNaam); //////////////////////////////////////////////////////////////
 
     // Druk de informatie van de instantie af op het scherm.
-    void drukAf ();
+    void drukAf (); //////////////////////////////////////////////////////////////////////////////
 
     // Bepaal zo mogelijk een rooster voor de verschillende tracks,
     // rekening houdend met de beschikbaarheid van de docenten,
@@ -91,6 +92,7 @@ class Rooster
     int leesGetal(std::ifstream& invoer);
 
   private:
+    std::string weekDag(int nrDag);
     // TODO: uw eigen memberfuncties en -variabelen
 
     int nrDagen,       // aantal dagen in het rooster
@@ -101,6 +103,7 @@ class Rooster
 
     std::vector<std::vector<int>> tijdSlotenDocenten;
     std::vector<Vak> vakken;
+    std::vector<int> vakkenInRooster;
 
       // Een datastructuur voor de docenten en hun beschikbaarheden.
       // En een datastructuur voor de vakken, met hun docenten en tracks.
