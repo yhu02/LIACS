@@ -11,10 +11,13 @@ Vak::Vak(std::string vakNaam, int nrDocent, int nrTracks)
   this->vakNaam   = vakNaam; 
   this->nrDocent  = nrDocent;
   this->nrTracks  = nrTracks;
-  this->nrVak     = nrVakCount;
-  nrVakCount++;
+  this->nrVak     = Vak::nrVakCount;
+  Vak::nrVakCount++;
 }
+Vak::~Vak()
+{
 
+}
 void Vak::voegTrackToe(int track)
 {
   this->tracks.push_back(track);

@@ -54,15 +54,14 @@ bool Rooster::leesIn (const char* invoerNaam)
 
     invoer >> vakNaam >> nrDocent >> nrTracks;
 
-    Vak* vak = new Vak(vakNaam, nrDocent, nrTracks);
+    Vak vak(vakNaam, nrDocent, nrTracks);
     for(int j = 0; j < nrTracks; j++)
     {
       int track;
       invoer >> track;
-      vak->voegTrackToe(track);
+      vak.voegTrackToe(track);
     }
-    vakken.push_back(*vak);
-    delete vak;
+    vakken.push_back(vak);
   }
 
   return true;
@@ -113,6 +112,8 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
 {
   //Initialisatie
   aantalDeelroosters = 0;
+  std::vector<Vak> vakken_temp = this->vakken;
+  Vak::nrVakCount = 0;
   for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
   {
     for(int z = 0; z < this->nrZalen; z++)
@@ -120,7 +121,7 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
       rooster[s][z] = -1;
     }
   }
-  std::vector<Vak> vakken_temp = this->vakken;
+
   for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
   {
     for(int z = 0; z < this->nrZalen; z++)
@@ -133,9 +134,7 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
         continue;
       };
     }
-    std::cout << s;
   }
-  std::cout << "false";
 
   return false;
 
@@ -189,7 +188,11 @@ bool Rooster::bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
 //Controleer of er aan alle condities worden voldaan
 bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
 {
-  if(conditie2(rooster, s) && conditie3(rooster, s, z))
+  if( conditie2(rooster, s) &&
+      conditie3(rooster, s, z) &&
+      conditie4(rooster, s, z) &&
+      conditie5(rooster, s, z) && 
+      conditie6(rooster, s, z))
   {
     return true;
   }
@@ -203,18 +206,21 @@ bool Rooster::conditie2(int rooster[MaxNrTijdsloten][MaxNrZalen], int s)
   for(int i = 0; i < this->nrZalen; i++)
   {
     int nrVak = rooster[s][i];
-    std::vector<int> vakTracks = this->vakken[nrVak].krijgTracks();
-    for(int i = 0; i < int(vakTracks.size()); i++)
-    {
-
-      for(int j = 0; j < int(alleTracks.size()); j++)
+    if(nrVak != -1)
+    {    
+      std::vector<int> vakTracks = this->vakken[nrVak].krijgTracks();
+      for(int i = 0; i < int(vakTracks.size()); i++)
       {
-        if(vakTracks[i] == alleTracks[j])
+
+        for(int j = 0; j < int(alleTracks.size()); j++)
         {
-          return false;
+          if(vakTracks[i] == alleTracks[j])
+          {
+            return false;
+          }
         }
+        alleTracks.push_back(vakTracks[i]);
       }
-      alleTracks.push_back(vakTracks[i]);
     }
   }
   return true;
@@ -235,6 +241,22 @@ bool Rooster::conditie3(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
   }
   return false;
 }
+
+bool Rooster::conditie4(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
+{
+  return true;
+}
+
+bool Rooster::conditie5(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
+{
+  return true;
+}
+
+bool Rooster::conditie6(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
+{
+  return true;
+}
+
 //*************************************************************************
 
 bool Rooster::bepaalMinRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],

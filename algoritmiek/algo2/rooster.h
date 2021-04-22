@@ -94,6 +94,12 @@ class Rooster
     bool checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
     bool conditie2(int rooster[MaxNrTijdsloten][MaxNrZalen], int s);
     bool conditie3(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
+    bool conditie4(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
+    bool conditie5(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
+    bool conditie6(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
+
+
+
 
   private:
     bool bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],

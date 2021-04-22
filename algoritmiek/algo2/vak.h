@@ -12,15 +12,17 @@ class Vak
 {
   public:  
     Vak(std::string vakNaam, int nrDocent, int nrTracks);
+    ~Vak();
     void voegTrackToe(int track);
     std::vector<int> krijgTracks();
     std::string krijgVakNaam();
     int krijgNrDocent();
     int krijgNrVak();
+    static int nrVakCount;
+
 
   private:
     std::string vakNaam;
-    static int nrVakCount;
     int nrVak;
     int nrDocent;
     int nrTracks;
