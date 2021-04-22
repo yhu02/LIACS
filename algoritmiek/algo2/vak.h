@@ -16,9 +16,12 @@ class Vak
     std::vector<int> krijgTracks();
     std::string krijgVakNaam();
     int krijgNrDocent();
+    int krijgNrVak();
 
   private:
     std::string vakNaam;
+    static int nrVakCount;
+    int nrVak;
     int nrDocent;
     int nrTracks;
     std::vector<int> tracks;

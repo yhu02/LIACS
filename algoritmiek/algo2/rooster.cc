@@ -112,7 +112,8 @@ void Rooster::drukAf ()
 bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
                         long long &aantalDeelroosters)
 {
-
+  //Initialisatie
+  aantalDeelroosters = 0;
   for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
   {
     for(int z = 0; z < this->nrZalen; z++)
@@ -120,33 +121,99 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
       rooster[s][z] = -1;
     }
   }
-  /*
-  
-  for(int v = 0; v < this->vakken.size(); v++)
+  std::vector<Vak> vakken_temp = this->vakken;
+  for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
   {
-    for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
+    for(int z = 0; z < this->nrZalen; z++)
     {
-      for(int z = 0; z < this->nrZalen; z++)
+      if(bepaalRoosterRecursief(rooster, aantalDeelroosters, vakken_temp))
       {
-        rooster[s][z] = -1;
-        std::cout << rooster[s][z] << "\n";
-        if(true)
-        {
-
-        }
-        else
-        {
-
-        }
-      }
+        return true;
+      }else{
+        continue;
+      };
     }
-  }*/
-  
+    std::cout << s;
+  }
+  std::cout << "false";
+  return false;
 
-  return true;
 
 }  // bepaalRooster
 
+bool Rooster::bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
+                        long long &aantalDeelroosters, std::vector<Vak> &vakken_temp)
+{
+  //vakken.pop_back();
+  aantalDeelroosters++;
+  
+
+  for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
+  {
+    for(int z = 0; z < this->nrZalen; z++)
+    {
+      for(int v = 0; v < int(vakken_temp.size());v++)
+      {
+        if(!checkCondities(rooster, s, z))
+          return false;
+          
+        if(rooster[s][z] != -1)
+        {
+          continue;
+        }else{
+          Vak vak = vakken_temp[v];
+          rooster[s][z] = vak.krijgNrVak();
+          std::cout << vak.krijgNrDocent();
+          //std::cout << "hier" << vakken_temp[v].krijgNrVak() << ":" << v;
+          vakken_temp.erase(vakken_temp.begin() + v);
+          if(vakken_temp.size() > 0)
+          {
+            if(bepaalRoosterRecursief(rooster, aantalDeelroosters, vakken_temp))
+            {
+              return true;
+            }else{
+              rooster[s][z] = -1;
+              vakken_temp.insert(vakken_temp.begin() + v, vak);
+              continue;
+            }
+          }else{
+            return true;
+          }
+        }
+
+      }
+    }
+  }
+  
+  return false;
+}
+
+bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
+{
+  std::vector<int> alleTracks;
+  for(int i = 0; i < MaxNrZalen; i++)
+  {
+    int nrVak = rooster[s][i];
+    std::cout << nrVak << ":" << s << std::endl;
+    /*
+    std::vector<int> vakTracks = this->vakken[nrVak].krijgTracks();
+    for(int i = 0; i < int(vakTracks.size()); i++)
+    {
+
+      for(int j = 0; j < int(alleTracks.size()); j++)
+      {
+        if(vakTracks[i] == alleTracks[j])
+        {
+          return false;
+        }
+      }
+
+      alleTracks.push_back(vakTracks[i]);
+    
+    }*/
+  }
+  return true;
+}
 //*************************************************************************
 
 bool Rooster::bepaalMinRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
@@ -161,6 +228,7 @@ bool Rooster::bepaalMinRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
 
 void Rooster::drukAfRooster (int rooster[MaxNrTijdsloten][MaxNrZalen])
 {
+  // Uren per dag
   std::cout << "          ";
   for(int u = 0; u < this->nrUrenPerDag; u++)
   {
@@ -180,10 +248,10 @@ void Rooster::drukAfRooster (int rooster[MaxNrTijdsloten][MaxNrZalen])
     }
     std::cout << "|";
   }
-
   
   for(int s = 0; s < (this->nrUrenPerDag * this->nrDagen); s++)
   {
+    // Dagen
     if(s % this->nrUrenPerDag == 0)
     {
       std::cout << "\n";
@@ -195,7 +263,7 @@ void Rooster::drukAfRooster (int rooster[MaxNrTijdsloten][MaxNrZalen])
     {
       if(rooster[s][z] != -1)
       {
-        std::cout <<  " " << 0;
+        std::cout <<  " " << rooster[s][z];
       }else{
         std::cout <<  -1;
       }
@@ -239,3 +307,6 @@ std::string Rooster::weekDag(int nrDag)
   }
   return dag;
 }
+
+
+

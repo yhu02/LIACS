@@ -4,11 +4,15 @@
 #include <string>
 #include "vak.h"
 
+int Vak::nrVakCount = 0;
+
 Vak::Vak(std::string vakNaam, int nrDocent, int nrTracks)
 {
   this->vakNaam   = vakNaam; 
   this->nrDocent  = nrDocent;
-  this-> nrTracks = nrTracks;
+  this->nrTracks  = nrTracks;
+  this->nrVak     = nrVakCount;
+  nrVakCount++;
 }
 
 void Vak::voegTrackToe(int track)
@@ -23,10 +27,15 @@ std::vector<int> Vak::krijgTracks()
 
 std::string Vak::krijgVakNaam()
 {
-    return this->vakNaam;
+  return this->vakNaam;
 }
 
 int Vak::krijgNrDocent()
 {
-    return this->nrDocent;
+  return this->nrDocent;
+}
+
+int Vak::krijgNrVak()
+{
+  return this->nrVak;
 }

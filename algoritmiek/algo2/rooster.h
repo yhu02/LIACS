@@ -91,7 +91,11 @@ class Rooster
 
     int leesGetal(std::ifstream& invoer);
 
+    bool checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
+
   private:
+    bool bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
+                  long long &aantalDeelroosters, std::vector<Vak> &vakken);
     std::string weekDag(int nrDag);
     // TODO: uw eigen memberfuncties en -variabelen
 
