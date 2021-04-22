@@ -190,7 +190,7 @@ bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, in
 {
   if( conditie2(rooster, s) &&
       conditie3(rooster, s, z) &&
-      conditie4(rooster, s, z) &&
+      conditie4(rooster) &&
       conditie5(rooster, s, z) && 
       conditie6(rooster, s, z))
   {
@@ -242,8 +242,33 @@ bool Rooster::conditie3(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
   return false;
 }
 
-bool Rooster::conditie4(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
+bool Rooster::conditie4(int rooster[MaxNrTijdsloten][MaxNrZalen])
 {
+
+  for(int nrDag = 0; nrDag < this->nrDagen; nrDag++)
+  {
+    std::vector<int> docentenVandaag;
+    for(int s = (nrDag * nrUrenPerDag); s < ((nrDag + 1) * nrUrenPerDag); s++)
+    {
+      for(int z = 0; z < this->nrZalen; z++)
+      {
+        int nrVak = rooster[s][z];
+        if(nrVak != -1)
+        {    
+          int nrDocent = this->vakken[nrVak].krijgNrDocent();
+
+          for(int i = 0; i < int(docentenVandaag.size()); i++)
+          {
+            if(docentenVandaag[i] == nrDocent)
+            {
+              return false;
+            }
+          }
+          docentenVandaag.push_back(nrDocent);
+        }
+      }
+    }
+  }
   return true;
 }
 
