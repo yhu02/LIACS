@@ -126,8 +126,11 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
   {
     for(int z = 0; z < this->nrZalen; z++)
     {
+
       if(bepaalRoosterRecursief(rooster, aantalDeelroosters, vakken_temp))
       {
+                  std::cout << "here"  << "[]" << vakken_temp.size();
+
         return true;
       }else{
         continue;
@@ -136,6 +139,7 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
     std::cout << s;
   }
   std::cout << "false";
+
   return false;
 
 
@@ -144,7 +148,6 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
 bool Rooster::bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
                         long long &aantalDeelroosters, std::vector<Vak> &vakken_temp)
 {
-  //vakken.pop_back();
   aantalDeelroosters++;
   
 
@@ -152,28 +155,27 @@ bool Rooster::bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
   {
     for(int z = 0; z < this->nrZalen; z++)
     {
-      for(int v = 0; v < int(vakken_temp.size());v++)
+      for(int v = 0; v < int(vakken_temp.size()); v++)
       {
-        if(!checkCondities(rooster, s, z))
-          return false;
-          
         if(rooster[s][z] != -1)
         {
           continue;
         }else{
           Vak vak = vakken_temp[v];
           rooster[s][z] = vak.krijgNrVak();
-          std::cout << vak.krijgNrDocent();
-          //std::cout << "hier" << vakken_temp[v].krijgNrVak() << ":" << v;
           vakken_temp.erase(vakken_temp.begin() + v);
-          if(vakken_temp.size() > 0)
+          if(!checkCondities(rooster, s))
           {
+            rooster[s][z] = -1;
+            vakken_temp.insert(vakken_temp.begin() + v, vak);
+
+
+            continue;
+          }else if(vakken_temp.size() > 0){
             if(bepaalRoosterRecursief(rooster, aantalDeelroosters, vakken_temp))
             {
               return true;
             }else{
-              rooster[s][z] = -1;
-              vakken_temp.insert(vakken_temp.begin() + v, vak);
               continue;
             }
           }else{
@@ -187,15 +189,24 @@ bool Rooster::bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
   
   return false;
 }
-
-bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
+//Controleer of er aan alle condities worden voldaan
+bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s)
+{
+  //if(conditie2(rooster, s))
+  if(conditie2(rooster, s))
+  {
+    return true;
+  }
+  return false;
+}
+//Voorwaarde 2 in de opdracht
+bool Rooster::conditie2(int rooster[MaxNrTijdsloten][MaxNrZalen], int s)
 {
   std::vector<int> alleTracks;
-  for(int i = 0; i < MaxNrZalen; i++)
+
+  for(int i = 0; i < this->nrZalen; i++)
   {
     int nrVak = rooster[s][i];
-    std::cout << nrVak << ":" << s << std::endl;
-    /*
     std::vector<int> vakTracks = this->vakken[nrVak].krijgTracks();
     for(int i = 0; i < int(vakTracks.size()); i++)
     {
@@ -207,10 +218,8 @@ bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, in
           return false;
         }
       }
-
       alleTracks.push_back(vakTracks[i]);
-    
-    }*/
+    }
   }
   return true;
 }
