@@ -91,8 +91,9 @@ class Rooster
 
     int leesGetal(std::ifstream& invoer);
 
-    bool checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s);
+    bool checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
     bool conditie2(int rooster[MaxNrTijdsloten][MaxNrZalen], int s);
+    bool conditie3(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z);
 
   private:
     bool bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],

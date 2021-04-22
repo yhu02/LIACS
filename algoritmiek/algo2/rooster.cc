@@ -34,16 +34,15 @@ bool Rooster::leesIn (const char* invoerNaam)
   for(int i = 0; i < nrDocenten; i++)
   {
     int beschikbareTijdSloten;
-    std::vector<int>* tijdSloten = new std::vector<int>;
+    std::vector<int> tijdSloten;
     invoer >> beschikbareTijdSloten;
     for(int j = 0; j < beschikbareTijdSloten; j++)
     {
       int tijdSlot;
       invoer >> tijdSlot;
-      tijdSloten->push_back(tijdSlot);
+      tijdSloten.push_back(tijdSlot);
     }
-    tijdSlotenDocenten.push_back(*tijdSloten);
-    delete tijdSloten;
+    tijdSlotenDocenten.push_back(tijdSloten);
   }
 
   invoer >> nrVakken;
@@ -84,7 +83,7 @@ void Rooster::drukAf ()
   {
     std::cout << std::endl;
     std::cout << "Docent:" <<  i << std::endl;
-    std::cout << "Tijdsloten:" << std::endl;
+    std::cout << "Tijdsloten:" << this->tijdSlotenDocenten[i].size() << std::endl;
     for(int j = 0; j < int(this->tijdSlotenDocenten[i].size()); j++)
     {
       std::cout << this->tijdSlotenDocenten[i][j] << " ";
@@ -129,8 +128,6 @@ bool Rooster::bepaalRooster (int rooster[MaxNrTijdsloten][MaxNrZalen],
 
       if(bepaalRoosterRecursief(rooster, aantalDeelroosters, vakken_temp))
       {
-                  std::cout << "here"  << "[]" << vakken_temp.size();
-
         return true;
       }else{
         continue;
@@ -164,7 +161,7 @@ bool Rooster::bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
           Vak vak = vakken_temp[v];
           rooster[s][z] = vak.krijgNrVak();
           vakken_temp.erase(vakken_temp.begin() + v);
-          if(!checkCondities(rooster, s))
+          if(!checkCondities(rooster, s, z))
           {
             rooster[s][z] = -1;
             vakken_temp.insert(vakken_temp.begin() + v, vak);
@@ -190,10 +187,9 @@ bool Rooster::bepaalRoosterRecursief(int rooster[MaxNrTijdsloten][MaxNrZalen],
   return false;
 }
 //Controleer of er aan alle condities worden voldaan
-bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s)
+bool Rooster::checkCondities(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
 {
-  //if(conditie2(rooster, s))
-  if(conditie2(rooster, s))
+  if(conditie2(rooster, s) && conditie3(rooster, s, z))
   {
     return true;
   }
@@ -222,6 +218,22 @@ bool Rooster::conditie2(int rooster[MaxNrTijdsloten][MaxNrZalen], int s)
     }
   }
   return true;
+}
+
+//Voorwaarde 3 in de opdracht
+bool Rooster::conditie3(int rooster[MaxNrTijdsloten][MaxNrZalen], int s, int z)
+{
+  int nrVak = rooster[s][z];
+  int nrDocent = this->vakken[nrVak].krijgNrDocent();
+
+  for(int i = 0; i < int(this->tijdSlotenDocenten[nrDocent].size()); i++)
+  {
+    if(this->tijdSlotenDocenten[nrDocent][i] == s)
+    {
+      return true;
+    }
+  }
+  return false;
 }
 //*************************************************************************
 
