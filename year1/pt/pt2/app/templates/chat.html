@@ -1,0 +1,260 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Flask-SocketIO Test</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+		integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"
+		integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ=="
+		crossorigin="anonymous"></script>
+	<script type="text/javascript" charset="utf-8">
+
+		var socket = io();
+
+		var current_user = null;		//Track current user
+		var last_clicked = null;		//Track last clicked user- or group name
+		var last_clicked_class = null;	//Track last clicked user- or group type
+
+		var ping_pong_times = [];		//Ping times to server
+		var start_time;					//Ping start time
+
+		var group_map = {};				//List groups with their members user is in
+		var new_group_members = []		//List members for new group
+		var active_users = {};			//Track active users
+
+		//Initialisation of global variables
+		socket.on('connecting', function (msg) {
+			current_user = msg['current_user']
+			active_groups = msg['active_groups']
+
+			for (var i = 0; i < active_groups.length; i++) {
+				socket.emit('join', { 'room': active_groups[i] })
+			}
+			socket.emit('session_map', { "socket_id": socket.id })
+		});
+		
+		//Clear chat if other user has diconnected
+		socket.on('chat_close', function (msg) {
+			if (last_clicked == msg['left_user']) {
+				$('#chat').empty()
+				$('#to-chat').text(last_clicked + ' has left');
+			}
+		})
+		
+		//Select active user or group
+		function select(to, class_name) {
+			$('#chat').empty()
+			$('#to-chat').text(to);
+			last_clicked = to;
+
+			var data = {
+				"from_user": current_user,
+				"to": to,
+				"class_name": class_name
+			};
+
+			socket.emit('get_chat', { 'data': data })
+		}
+
+		//Send messages to user
+		socket.on('push_message', function (msg) {
+			messages = msg['messages']
+
+			from_user = msg['from_user']
+
+			to = msg['to']
+			class_name = msg['class_name']
+			printMessages(messages, from_user, to, class_name)
+
+		})
+
+		//Send message to server
+		function pushMessage(chat_message, last_clicked_class) {
+			body = chat_message.substring(0, 140) //Truncate string to database post size
+			var message = {
+				"body": body,
+				"to": last_clicked,
+				"from_user": current_user,
+				"class_name": last_clicked_class
+			}
+			socket.emit('add_message', { message })
+		}
+
+		//Display the messages in a chat window
+		function printMessages(messages, from_user, to, class_name) {
+			messages_count = Object.keys(messages).length //Amount of messsages
+			to_class = null;
+			to_user = null;
+
+			//Display message if chat window with corresponding user/group is open
+			if ((class_name == 'user' && (from_user == last_clicked || to == last_clicked)) ||
+				(class_name == 'group' && (group_map[to].includes(from_user) && to == last_clicked))) {
+				//Display all messages received
+				for (var i = 0; i < messages_count; i++) {
+					//Assign message styling depending on who send message
+					to_user = messages[i]['from_username']
+					if (to_user == current_user) {
+						to_class = "me";
+
+					} else {
+						to_class = "you";
+					}
+					//Display chat message
+					$('#chat').append(
+						'<li class="' + to_class + '">\
+							<div class="entente">\
+								<span class="status green"></span>\
+								<h2>' + to_user + '</h2>\
+								<h3>' + messages[i]['timestamp'] + '</h3>\
+							</div>\
+							<div class="triangle"></div>\
+							<div class="message">' + messages[i]['body'] + '</div>\
+						</li>');
+				}
+			}
+			//Scroll to most recent message
+			var objDiv = $('#chat')[0];
+			objDiv.scrollTop = objDiv.scrollHeight;
+		}
+
+		//Create group window
+		function createGroupWindow() {
+			new_group_members = []
+			new_group_members.push(current_user);
+			$('#selected_users').text("")
+			$('.hover_bkgr_fricc').show();
+		}
+
+		//Add user to group, or remove from group in group creation window
+		function addUser(user_name) {
+			if (new_group_members.includes(user_name)) {
+				const index = new_group_members.indexOf(user_name);
+				if (index > -1) {
+					new_group_members.splice(index, 1);
+				}
+			} else {
+				new_group_members.push(user_name)
+			}
+			$('#selected_users').text(new_group_members)
+		}
+
+		//Create group and check input
+		function createGroup() {
+			$('#error_msg').text("")
+
+			if (new_group_members.length < 3) {
+				$('#error_msg').text("Group is too small")
+			} else {
+				var new_group_name = $('#new_group_name').val();
+				if (new_group_name == "") {
+					$('#error_msg').text("Group name must be enterd")
+					return;
+				}
+				$('.hover_bkgr_fricc').hide();
+				socket.emit('create_group', { 'group_members': new_group_members, 'group_name': new_group_name })
+			}
+		}
+
+		//Join newly created group
+		socket.on('join_request', function (msg) {
+			room = msg['group_name'];
+			socket.emit('join', { 'room': room })
+		})
+
+		// Interval function that tests message latency by sending a "ping"
+		// message. The server then responds with a "pong" message and the
+		// round trip time is measured.
+
+		window.setInterval(function () {
+			start_time = (new Date).getTime();
+			socket.emit('my_ping');
+		}, 1000);
+
+		// Handler for the "pong" message. When the pong is received, the
+		// time from the ping is stored, and the average of the last 30
+		// samples is average and displayed.
+		socket.on('my_pong', function (msg) {
+			var latency = (new Date).getTime() - start_time;
+			var sum = 0;
+			group_map = msg.active_groups;
+
+			//Add latency status
+			ping_pong_times.push(latency);
+			ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
+			for (var i = 0; i < ping_pong_times.length; i++)
+				sum += ping_pong_times[i];
+			$('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
+
+			//Refresh active lists
+			$('#active_users').empty();
+			$('#active_users2').empty();
+			$('#active_groups').empty();
+
+			active_users = msg['active_users']
+			$('#count').text('Active Users: ' + (Object.keys(active_users).length - 1));
+			$('#current-user').text('Hello ' + current_user); //Greet current user
+
+			//Add user to active users list
+			for (user in active_users) {
+				if (active_users[user] != current_user) {
+					$('#active_users').append('<li onclick="last_clicked_class = &#39;user&#39;;select(this.innerHTML, last_clicked_class);">' + active_users[user] + '</li>');
+					$('#active_users2').append('<li onclick="addUser(this.innerHTML)">' + active_users[user] + '</li>');
+				}
+			}
+
+			//Add group to active groups list
+			for (group in msg['active_groups']) {
+				$('#active_groups').append('<li onclick="last_clicked_class = &#39;group&#39;;select(this.innerHTML, last_clicked_class);">' + group + '</li>');
+			}
+		});
+	</script>
+</head>
+
+{% extends "base_2.html" %}
+
+{% block content %}
+<div id="current-user">Hello</div>
+<p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
+<div id="container">
+	<aside>
+		<a class="trigger_popup_fricc" id="count">Active Users:</a>
+		<ul id="active_users"></ul>
+		<a class="trigger_popup_fricc">Groups</a>
+		<ul id="active_groups"></ul>
+		<a class="trigger_popup_fricc" onclick=" createGroupWindow();">Create Group</a>
+		<div class="hover_bkgr_fricc">
+			<span class="helper"></span>
+			<div>
+				<div class="popupCloseButton" onclick="$('.hover_bkgr_fricc').hide();">&times;</div>
+				<div><b>Select users</b></div>
+				<ul id="active_users2"></ul>
+				<div id="error_msg"></div>
+				<div>Selected Users:</div>
+				<div id="selected_users"></div>
+				<textarea id="new_group_name" placeholder="Group name"></textarea>
+				<div id="create_group_submit" onclick="createGroup()">Submit</div>
+			</div>
+		</div>
+	</aside>
+	<main>
+		<header>
+			<div>
+				<h2 id="to-chat" style="text-align: center;">Select a user from the list</h2>
+			</div>
+		</header>
+		<ul id="chat">
+
+		</ul>
+		<footer>
+			<textarea id="text-body" placeholder="Type your message"></textarea>
+			<div id="send-button" onclick="pushMessage(document.getElementById('text-body').value, last_clicked_class)">
+				Send</div>
+		</footer>
+	</main>
+</div>
+
+{% endblock %}
+
+</html>

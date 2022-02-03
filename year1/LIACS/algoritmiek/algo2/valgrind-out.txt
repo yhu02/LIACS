@@ -1,0 +1,311 @@
+==48018== Memcheck, a memory error detector
+==48018== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==48018== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==48018== Command: ./Rooster
+==48018== Parent PID: 3366
+==48018== 
+--48018-- 
+--48018-- Valgrind options:
+--48018--    --leak-check=full
+--48018--    --show-leak-kinds=all
+--48018--    --track-origins=yes
+--48018--    --verbose
+--48018--    --log-file=valgrind-out.txt
+--48018-- Contents of /proc/version:
+--48018--   Linux version 5.8.0-49-generic (buildd@lgw01-amd64-055) (gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #55~20.04.1-Ubuntu SMP Fri Mar 26 01:01:07 UTC 2021
+--48018-- 
+--48018-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand
+--48018-- Page sizes: currently 4096, max supported 4096
+--48018-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--48018-- Reading syms from /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
+--48018--   Considering /usr/lib/x86_64-linux-gnu/ld-2.31.so ..
+--48018--   .. CRC mismatch (computed 975d0390 wanted 30bd717f)
+--48018--   Considering /lib/x86_64-linux-gnu/ld-2.31.so ..
+--48018--   .. CRC mismatch (computed 975d0390 wanted 30bd717f)
+--48018--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.31.so ..
+--48018--   .. CRC is valid
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--48018--    object doesn't have a symbol table
+--48018--    object doesn't have a dynamic symbol table
+--48018-- Scheduler: using generic scheduler lock implementation.
+--48018-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==48018== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-48018-by-eclipthyx-on-???
+==48018== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-48018-by-eclipthyx-on-???
+==48018== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-48018-by-eclipthyx-on-???
+==48018== 
+==48018== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==48018== don't want to do, unless you know exactly what you're doing,
+==48018== or are doing some strange experiment):
+==48018==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=48018 ...command...
+==48018== 
+==48018== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==48018==   /path/to/gdb ./Rooster
+==48018== and then give GDB the following command
+==48018==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=48018
+==48018== --pid is optional if only one valgrind process is running
+==48018== 
+--48018-- REDIR: 0x4022e10 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--48018-- REDIR: 0x4022be0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--48018--    object doesn't have a symbol table
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--48018--    object doesn't have a symbol table
+==48018== WARNING: new redirection conflicts with existing -- ignoring it
+--48018--     old: 0x04022e10 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--48018--     new: 0x04022e10 (strlen              ) R-> (2007.0) 0x0483f060 strlen
+--48018-- REDIR: 0x401f5f0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
+--48018-- REDIR: 0x4023370 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28
+--48018--    object doesn't have a symbol table
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+--48018--    object doesn't have a symbol table
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
+--48018--   Considering /usr/lib/x86_64-linux-gnu/libc-2.31.so ..
+--48018--   .. CRC mismatch (computed 86b78530 wanted e380f01c)
+--48018--   Considering /lib/x86_64-linux-gnu/libc-2.31.so ..
+--48018--   .. CRC mismatch (computed 86b78530 wanted e380f01c)
+--48018--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.31.so ..
+--48018--   .. CRC is valid
+--48018-- Reading syms from /usr/lib/x86_64-linux-gnu/libm-2.31.so
+--48018--   Considering /usr/lib/x86_64-linux-gnu/libm-2.31.so ..
+--48018--   .. CRC mismatch (computed fcb42c76 wanted f6c95789)
+--48018--   Considering /lib/x86_64-linux-gnu/libm-2.31.so ..
+--48018--   .. CRC mismatch (computed fcb42c76 wanted f6c95789)
+--48018--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libm-2.31.so ..
+--48018--   .. CRC is valid
+--48018-- REDIR: 0x4afa600 (libc.so.6:memmove) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af9900 (libc.so.6:strncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa930 (libc.so.6:strcasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af9220 (libc.so.6:strcat) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af9960 (libc.so.6:rindex) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afbdd0 (libc.so.6:rawmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4b16e60 (libc.so.6:wmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4b169a0 (libc.so.6:wcscmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa760 (libc.so.6:mempcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa590 (libc.so.6:bcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af9890 (libc.so.6:strncmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af92d0 (libc.so.6:strcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa6c0 (libc.so.6:memset) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4b16960 (libc.so.6:wcschr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af97f0 (libc.so.6:strnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af93b0 (libc.so.6:strcspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa980 (libc.so.6:strncasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af9350 (libc.so.6:strcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afaad0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4b180d0 (libc.so.6:wcsnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4b169e0 (libc.so.6:wcscpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af99a0 (libc.so.6:strpbrk) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af9280 (libc.so.6:index) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af97b0 (libc.so.6:strlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4b02d20 (libc.so.6:memrchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa9d0 (libc.so.6:strcasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa550 (libc.so.6:memchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4b16ab0 (libc.so.6:wcslen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4af9c60 (libc.so.6:strspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa8d0 (libc.so.6:stpncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afa870 (libc.so.6:stpcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afbe10 (libc.so.6:strchrnul) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4afaa20 (libc.so.6:strncasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--48018-- REDIR: 0x4be2490 (libc.so.6:__strrchr_avx2) redirected to 0x483ea10 (rindex)
+--48018-- REDIR: 0x4af4260 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
+--48018-- REDIR: 0x4be2660 (libc.so.6:__strlen_avx2) redirected to 0x483ef40 (strlen)
+--48018-- REDIR: 0x4bdec50 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x48421e0 (bcmp)
+--48018-- REDIR: 0x4bddb60 (libc.so.6:__strcmp_avx2) redirected to 0x483fed0 (strcmp)
+--48018-- REDIR: 0x4be5650 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4843660 (mempcpy)
+--48018-- REDIR: 0x4905c10 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x483bdf0 (operator new(unsigned long))
+--48018-- REDIR: 0x4afa120 (libc.so.6:__GI_strstr) redirected to 0x4843ca0 (__strstr_sse2)
+--48018-- REDIR: 0x4905c70 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x483c510 (operator new[](unsigned long))
+--48018-- REDIR: 0x4be5670 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x48429f0 (memmove)
+--48018-- REDIR: 0x4903e60 (libstdc++.so.6:operator delete(void*)) redirected to 0x483cf50 (operator delete(void*))
+--48018-- REDIR: 0x4903e90 (libstdc++.so.6:operator delete[](void*)) redirected to 0x483d6e0 (operator delete[](void*))
+--48018-- REDIR: 0x4af4850 (libc.so.6:free) redirected to 0x483c9d0 (free)
+==48018== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
+==48018== 
+==48018== Process terminating with default action of signal 11 (SIGSEGV)
+==48018==  Access not within mapped region at address 0x1FFE801FF8
+==48018== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
+==48018==    at 0x10B1C0: Rooster::bepaalRoosterRecursief(int (*) [5], long long&, std::vector<Vak, std::allocator<Vak> >&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==  If you believe this happened as a result of a stack
+==48018==  overflow in your program's main thread (unlikely but
+==48018==  possible), you can try to increase the size of the
+==48018==  main thread stack using the --main-stacksize= flag.
+==48018==  The main thread stack size used in this run was 8388608.
+==48018== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
+==48018== 
+==48018== Process terminating with default action of signal 11 (SIGSEGV)
+==48018==  Access not within mapped region at address 0x1FFE801FD8
+==48018== Stack overflow in thread #1: can't grow stack to 0x1ffe801000
+==48018==    at 0x4831134: _vgnU_freeres (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so)
+==48018==  If you believe this happened as a result of a stack
+==48018==  overflow in your program's main thread (unlikely but
+==48018==  possible), you can try to increase the size of the
+==48018==  main thread stack using the --main-stacksize= flag.
+==48018==  The main thread stack size used in this run was 8388608.
+==48018== 
+==48018== HEAP SUMMARY:
+==48018==     in use at exit: 75,878 bytes in 20 blocks
+==48018==   total heap usage: 83 allocs, 63 frees, 86,362 bytes allocated
+==48018== 
+==48018== Searching for pointers to 20 not-freed blocks
+==48018== Checked 7,447,712 bytes
+==48018== 
+==48018== 12 bytes in 1 blocks are still reachable in loss record 1 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10E203: __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DB90: std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D0A5: std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E9FA: std::_Vector_base<int, std::allocator<int> >::_M_create_storage(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E350: std::_Vector_base<int, std::allocator<int> >::_Vector_base(unsigned long, std::allocator<int> const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DCC8: std::vector<int, std::allocator<int> >::vector(std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D56C: Vak::Vak(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D5DE: void __gnu_cxx::new_allocator<Vak>::construct<Vak, Vak const&>(Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C801: void std::allocator_traits<std::allocator<Vak> >::construct<Vak, Vak const&>(std::allocator<Vak>&, Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BB5F: std::vector<Vak, std::allocator<Vak> >::push_back(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10AA53: Rooster::leesIn(char const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 20 bytes in 3 blocks are still reachable in loss record 2 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10E203: __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DB90: std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D0A5: std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E9FA: std::_Vector_base<int, std::allocator<int> >::_M_create_storage(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E350: std::_Vector_base<int, std::allocator<int> >::_Vector_base(unsigned long, std::allocator<int> const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DCC8: std::vector<int, std::allocator<int> >::vector(std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D56C: Vak::Vak(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D5DE: void __gnu_cxx::new_allocator<Vak>::construct<Vak, Vak const&>(Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C801: void std::allocator_traits<std::allocator<Vak> >::construct<Vak, Vak const&>(std::allocator<Vak>&, Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C96C: void std::vector<Vak, std::allocator<Vak> >::_M_realloc_insert<Vak const&>(__gnu_cxx::__normal_iterator<Vak*, std::vector<Vak, std::allocator<Vak> > >, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BB97: std::vector<Vak, std::allocator<Vak> >::push_back(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 25 bytes in 1 blocks are still reachable in loss record 3 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x49A06FC: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x10D535: Vak::Vak(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D5DE: void __gnu_cxx::new_allocator<Vak>::construct<Vak, Vak const&>(Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C801: void std::allocator_traits<std::allocator<Vak> >::construct<Vak, Vak const&>(std::allocator<Vak>&, Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BB5F: std::vector<Vak, std::allocator<Vak> >::push_back(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10AA53: Rooster::leesIn(char const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FC79: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 25 bytes in 1 blocks are still reachable in loss record 4 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x49A06FC: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x10D535: Vak::Vak(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E80B: void std::_Construct<Vak, Vak const&>(Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E086: Vak* std::__uninitialized_copy<false>::__uninit_copy<__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*>(__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, __gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DA0B: Vak* std::uninitialized_copy<__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*>(__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, __gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10CD3A: Vak* std::__uninitialized_copy_a<__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*, Vak>(__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, __gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*, std::allocator<Vak>&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BCF2: std::vector<Vak, std::allocator<Vak> >::vector(std::vector<Vak, std::allocator<Vak> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10B0F4: Rooster::bepaalRooster(int (*) [5], long long&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10F8DD: menuVoorInstantie(Rooster*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FC95: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 32 bytes in 4 blocks are still reachable in loss record 5 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10E203: __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DB90: std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D0A5: std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E9FA: std::_Vector_base<int, std::allocator<int> >::_M_create_storage(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E350: std::_Vector_base<int, std::allocator<int> >::_Vector_base(unsigned long, std::allocator<int> const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DCC8: std::vector<int, std::allocator<int> >::vector(std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D56C: Vak::Vak(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E80B: void std::_Construct<Vak, Vak const&>(Vak*, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E086: Vak* std::__uninitialized_copy<false>::__uninit_copy<__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*>(__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, __gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DA0B: Vak* std::uninitialized_copy<__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*>(__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, __gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10CD3A: Vak* std::__uninitialized_copy_a<__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*, Vak>(__gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, __gnu_cxx::__normal_iterator<Vak const*, std::vector<Vak, std::allocator<Vak> > >, Vak*, std::allocator<Vak>&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 96 bytes in 1 blocks are still reachable in loss record 6 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10FC31: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 96 bytes in 1 blocks are still reachable in loss record 7 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10E524: __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::allocate(unsigned long, void const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DE07: std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::allocate(std::allocator<std::vector<int, std::allocator<int> > >&, unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D405: std::_Vector_base<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_allocate(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C538: void std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_realloc_insert<std::vector<int, std::allocator<int> > const&>(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BB17: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::push_back(std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10A8D0: Rooster::leesIn(char const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FC79: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 256 bytes in 1 blocks are still reachable in loss record 8 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10E68D: __gnu_cxx::new_allocator<Vak>::allocate(unsigned long, void const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DF37: std::allocator_traits<std::allocator<Vak> >::allocate(std::allocator<Vak>&, unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D7D9: std::_Vector_base<Vak, std::allocator<Vak> >::_M_allocate(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C930: void std::vector<Vak, std::allocator<Vak> >::_M_realloc_insert<Vak const&>(__gnu_cxx::__normal_iterator<Vak*, std::vector<Vak, std::allocator<Vak> > >, Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BB97: std::vector<Vak, std::allocator<Vak> >::push_back(Vak const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10AA53: Rooster::leesIn(char const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FC79: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 256 bytes in 1 blocks are still reachable in loss record 9 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10E68D: __gnu_cxx::new_allocator<Vak>::allocate(unsigned long, void const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DF37: std::allocator_traits<std::allocator<Vak> >::allocate(std::allocator<Vak>&, unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D7D9: std::_Vector_base<Vak, std::allocator<Vak> >::_M_allocate(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D984: std::_Vector_base<Vak, std::allocator<Vak> >::_M_create_storage(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10CC30: std::_Vector_base<Vak, std::allocator<Vak> >::_Vector_base(unsigned long, std::allocator<Vak> const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BCA4: std::vector<Vak, std::allocator<Vak> >::vector(std::vector<Vak, std::allocator<Vak> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10B0F4: Rooster::bepaalRooster(int (*) [5], long long&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10F8DD: menuVoorInstantie(Rooster*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FC95: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 308 bytes in 3 blocks are still reachable in loss record 10 of 13
+==48018==    at 0x483BE63: operator new(unsigned long) (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x10E203: __gnu_cxx::new_allocator<int>::allocate(unsigned long, void const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DB90: std::allocator_traits<std::allocator<int> >::allocate(std::allocator<int>&, unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D0A5: std::_Vector_base<int, std::allocator<int> >::_M_allocate(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E9FA: std::_Vector_base<int, std::allocator<int> >::_M_create_storage(unsigned long) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10E350: std::_Vector_base<int, std::allocator<int> >::_Vector_base(unsigned long, std::allocator<int> const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10DCC8: std::vector<int, std::allocator<int> >::vector(std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10D1F8: void __gnu_cxx::new_allocator<std::vector<int, std::allocator<int> > >::construct<std::vector<int, std::allocator<int> >, std::vector<int, std::allocator<int> > const&>(std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C40A: void std::allocator_traits<std::allocator<std::vector<int, std::allocator<int> > > >::construct<std::vector<int, std::allocator<int> >, std::vector<int, std::allocator<int> > const&>(std::allocator<std::vector<int, std::allocator<int> > >&, std::vector<int, std::allocator<int> >*, std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10C581: void std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::_M_realloc_insert<std::vector<int, std::allocator<int> > const&>(__gnu_cxx::__normal_iterator<std::vector<int, std::allocator<int> >*, std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > > >, std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10BB17: std::vector<std::vector<int, std::allocator<int> >, std::allocator<std::vector<int, std::allocator<int> > > >::push_back(std::vector<int, std::allocator<int> > const&) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10A8D0: Rooster::leesIn(char const*) (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 1,024 bytes in 1 blocks are still reachable in loss record 11 of 13
+==48018==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x4ADBE83: _IO_file_doallocate (filedoalloc.c:101)
+==48018==    by 0x4AEC04F: _IO_doallocbuf (genops.c:347)
+==48018==    by 0x4AEB0AF: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:745)
+==48018==    by 0x498E478: std::ostream::put(char) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x498E6A7: std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x10FB85: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 1,024 bytes in 1 blocks are still reachable in loss record 12 of 13
+==48018==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x4ADBE83: _IO_file_doallocate (filedoalloc.c:101)
+==48018==    by 0x4AEC04F: _IO_doallocbuf (genops.c:347)
+==48018==    by 0x4AEAE23: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:486)
+==48018==    by 0x4AEC105: _IO_default_uflow (genops.c:362)
+==48018==    by 0x4964720: __gnu_cxx::stdio_sync_filebuf<char, std::char_traits<char> >::underflow() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x4972D7E: std::istream::sentry::sentry(std::istream&, bool) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x4973001: std::istream::operator>>(int&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x10FC11: hoofdmenu() (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018==    by 0x10FD46: main (in /home/eclipthyx/Desktop/LIACS/algoritmiek/algo2/Rooster)
+==48018== 
+==48018== 72,704 bytes in 1 blocks are still reachable in loss record 13 of 13
+==48018==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==48018==    by 0x4901C19: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28)
+==48018==    by 0x4011B89: call_init.part.0 (dl-init.c:72)
+==48018==    by 0x4011C90: call_init (dl-init.c:30)
+==48018==    by 0x4011C90: _dl_init (dl-init.c:119)
+==48018==    by 0x4001139: ??? (in /usr/lib/x86_64-linux-gnu/ld-2.31.so)
+==48018== 
+==48018== LEAK SUMMARY:
+==48018==    definitely lost: 0 bytes in 0 blocks
+==48018==    indirectly lost: 0 bytes in 0 blocks
+==48018==      possibly lost: 0 bytes in 0 blocks
+==48018==    still reachable: 75,878 bytes in 20 blocks
+==48018==         suppressed: 0 bytes in 0 blocks
+==48018== 
+==48018== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

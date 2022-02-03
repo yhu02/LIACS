@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\title{PT2}
+\author{Yvo Hu s2962802 }
+\date{February 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Introductie}
+\subsection{}
+Het rooster moet voldoen aan de volgende eisen:\\ \\
+1. Elk vak wordt dus ingeroosterd op 1 tijdslot (van 1 uur) in de week, in 1 zaal.\\ \\
+2. Er worden geen vakken van dezelfde track op hetzelfde tijdslot ingeroosterd. Studenten
+kunnen dus alle vakken van hun track volgen.\\ \\
+3.  Een docent geeft alleen college op tijdsloten waarop hij/zij beschikbaar is om college te
+geven.\\ \\
+4. Een docent geeft hoogstens 1 keer per dag college. Zo heeft hij/zij voldoende tijd voor
+de voorbereiding.\\ \\
+5. Een track biedt elke dag of nul of minstens twee vakken aan, zodat studenten niet voor
+1 vak naar de universiteit hoeven te komen. Deze eis vervalt alleen voor een track als het theoretisch
+onmogelijk is om aan de eis te voldoen, bijvoorbeeld als een track maar 1 vak kent.\\ \\
+6.  Een track heeft op een dag dat het vakken aanbiedt, hoogstens 1 tussenuur.\\ \\
+De opdracht is om met behulp van backtracking een algoritme te bedenken dat een rooster kan maken op basis van deze eisen.
+ 
+ \newpage
+\section{Rooster}
+Het rooster wordt stapsgewijs opgebouwd door te itereren over een lijst vakken die na elke successvolle recursie kleiner wordt met het betreffende vak dat wordt geplaatst. Indien de recursie niet successvol is, wordt het vak weer van het rooster geveegd en terug in de lijst gestopt.\\ \\
+Het plaatsen van de vakken in het rooster begint bij het eerste tijdslot en zaal, en itereert vervolgens over alle vakken tot er een geschikte combinatie is gevonden. \\ \\
+Als er geen geschikte combinatie is gevonden, wordt de volgende tijdslot en zaal combinatie bekeken tot elke optie is bekeken. Indien de combinatie successvol is, roepen we de recursieve functie aan en herhaald dit alles zich opnieuw tot er geen vakken meer over zijn om te plaatsen\\ \\
+Er zijn enkele extra datastructuren aangemaakt om gemakkelijker aan de eisen van het rooster te voldoen. Er is een klasse Vak aangemaakt dat alle informatie van een vak bevat. Instanties van klasse vak worden vervolgens opgeslagen in een vector, en deze worden geindexeerd op volgorde vanaf het moment dat ze zijn ingelezen. \\ \\
+Vervolgens zijn er ook nog de volgende 2D vectoren:\\ \\
+docenten, deze bevat alle beschikbare tijdsloten per docent, geindexeerd op docentnummer. \\ \\
+tracks, deze bevat alle vakken per track, geindexeerd op tracknummer. \\ \\
+En ook nog een 1D vector uitzondering1Tracks. Deze bevat alle tracks die voldoen aan uitzondering 1 van de 5de eis van de opdracht.
+\newpage
+\section{Andere situaties}
+In eis 5 van de opdracht wordt er gevraagd naar 2 andere situaties wanneer het theoretisch onmogelijk is voor een track om of 0 of 2 vakuren te hebben als het aantal vakken van een track groter is dan 2. De uitzonderingen zijn: \\ \\
+1. Een docent geeft meer dan de helft van de vakken van een track. Een docent kan maar 1 lesuur per dag geven. Voorbeeld: docent 1 geeft 2 vakken in een track, docent 2 geeft 1 vak in hetzelfde track. Docent 1 kan een vak geven op dezelfde dag als docent 2, maar geen twee vakken op dezelfde dag. Het overige vak moet worden ingeroosterd op een andere dag\\ \\ 
+2. Het aantal lesuren op een dag is kleiner of gelijk aan 1.
+Een track kan niet meerdere vakuren op hetzelfde tijdslot inroosteren, en moet het de overige vakken op een andere dag inroosteren.
+\section{Zalensymmetrie}
+*Er is geprobeerd om zalensymmetrie te implementeren maar het huidige prototype werkt niet en is gecommenteerd.\\ \\
+Indien het wel werkte is er een 3D vector roosterVakCombinaties aangemaakt. Deze bevat op ieder tijdslot een 2D vector met geprobeerde vakCombinaties, die op hun beurt een 1D vector zijn met vakken. Deze wordt gereset elke keer dat er bepaalRooster of bepaalMinrooster wordt aangeroepen (niet de recursieve hulpfunctie)\\ \\
+Na het plaatsen van een vak, wordt er gekeken of deze vakkencombinatie in alle zalen op hetzelfde tijddslot al voorkomt in roosterVakCombinaties[tijdslot] en worden de berekeningen overgeslagen omdat deze al een keer eerder berekent zijn. Indien het nog niet bestaat wordt de huidige vakken combinatie in alle zalen op het huidige tijdslot toegevoegd aan roosterVakCombinaties[tijdslot]. 
+
+\newpage
+\section{Gretig}
+Het rooster kan ook worden bepaald met een gretig algoritme.
+Hier wordt voor elk vak in een tijdslot een score bepaald. Het vak met de beste score krijgt daarbij het tijdslot toegewezen als beste vak op tijdslot s. Dit doen we voor alle tijdsloten in het rooster.\\ \\
+Het gretige algoritme vindt dat de best mogelijke keuze op het moment is om het eerstmogelijke vak te plaatsen met de hoogste score op een bepaald tijdslot. Vakken die op latere tijdsloten dezelfde score behalen, worden overgeslagen. Na het plaatsen van een vak wordt voor ieder tijdslot opnieuw de beste score en vak bepaald. Dit herhaald zich tot er geen vakken meer over zijn.\\ \\
+Ieder van de eisen in de opdracht heeft een bepaalde waarde. Indien aan deze eis wordt voldaan, wordt deze waarde opgeteld bij de score van het vak op een bepaald tijdslot. De indexering van de eisen houden verband met de eisen die genoemd zijn in de introductie. De waarde van deze eisen zijn als volgt:\\ \\
+2. 3, Dit is een belangrijke eis. Een student zou alle vakken van zijn track moeten kunnen volgen. Dit is niet alleen voordelig voor de leerling, maar ook efficient voor de universiteit. Anders zou bijvoorbeeld een zaal helemaal leeg kunnen zijn omdat studenten een ander vak, dat op hetzelfde tijdstip plaatsvindt, belangrijker vinden        \\ \\
+3. 3, Dit is een belangrijke eis. Een docent zou niet ingeroosterd moeten worden op een tijdstip dat hij of zij niet heeft afgesproken met de universiteit. Dit is ten slotte een schending van het arbeidscontract         \\  \\
+4. 2, Dit is een tamelijk belangrijke eis. Een docent hoort genoeg tijd te hebben tussen het lesgeven om zich te kunnen voorbereiden op de volgende les.\\\\
+5. 1, Dit is een onbelangrijke eis. De tijd van studenten is niks waard.\\\\
+6. 2, Dit is een tamelijk belangrijke eis. Het reizen heen en weer is 1 ding, maar tussen de lessen door nog urenlang laten wachten gaat het algoritme te ver.\\\\
+\section{Geen oplossing gretig}
+-
+\section{Appendix}
+\subsection{main}
+\lstinputlisting{main.cc}
+\subsection{constantes}
+\lstinputlisting{constantes.h}
+\subsection{standaard}
+\lstinputlisting{standaard.h}
+\lstinputlisting{standaard.cc}
+\subsection{rooster}
+\lstinputlisting{rooster.h}
+\lstinputlisting{rooster.cc}
+\subsection{vak}
+\lstinputlisting{vak.h}
+\lstinputlisting{vak.cc}
+
+\section{makefile}
+\lstinputlisting{Makefile}
+\end{document}

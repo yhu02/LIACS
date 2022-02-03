@@ -1,0 +1,9 @@
+(x y)
+a b c d e f
+(a b) c
+a (b c)
+(\x x)(\y y a v d s)
+(\x \y x)(\z y)
+(\x \y x)(\z y)(u)
+(\x y)((\x x x)(\x x x))
+(\x x x)(\x x x)

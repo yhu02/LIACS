@@ -1,0 +1,8 @@
+exp a(b|cd)*ef****
+exp a(a|b)(aa|ab|ba|bb)*a
+dot test.dot
+mat aa
+mat aaa
+mat abaa
+mat aba
+end

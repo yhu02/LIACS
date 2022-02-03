@@ -1,0 +1,50 @@
+Twe2de testinvoer vo2r Program2e2rmethoden (De)Code    
+
+Bevat wat me2r moeilijkheden: backslashes bijvo2rbe2ld.
+En rare getal2en.
+
+Let er op dat "lege" regels niet gecode2rd worden:
+
+
+
+
+
+
+
+
+Hier begint de tekst we2r.
+Nu de backslashes:
+Eerst e2n: \\, dan twe2 \\2, en drie \\3 en vier \\4
+Of ve2l: \\60 tot zover;
+of a2n het eind van e2n regel: \\43
+Of a2n het begin:
+\\17 Stop.
+En met cijfers erbij:
+\\\3\\\3\\2\4\\\4\\2\3\4\\\3\\\4\3\\\4\\2\42\5\4\\\5\\\5\62\\2\6\\\53\\\7\4\\\6\\\92\0\7\\\7\8\\5\7\8\\\7\8\\4\7\\2\8
+
+En nog wat rare getal2en:
+Dit is me2stal INT_MAX: \2\1\4\7\4\8\3\6\4\7, hier ga2t het omkeren mis.
+En hier o2k: \12\4\7\96
+\1\9\6
+Ma2r er zijn al2erlei varianten:
+\2\1\4\7\4\8\3\6\4\1: omkeren OK, optel2en fout
+\2\1\4\7\42\7\4\1\2: palindro2m
+\2\1\4\7\4\5\7\3\1\2: omkeren OK, optel2en fout 
+\2\1\4\7\4\8\3\6\4\3: omkeren fout
+\2\1\4\7\4\8\3\6\42: omkeren fout
+\2\1\4\7\4\8\3\6\4\5: omkeren fout
+\2\1\4\7\4\8\3\6\4\6: omkeren fout
+\12\4\7\4\8\3\6\4\3: omkeren fout
+\12\4\7\4\8\3\6\42: omkeren fout!13
+\12\4\7\4\8\3\6\4\5: omkeren fout
+\12\4\7\4\8\3\6\4\6: omkeren fout
+\12\4\7\4\8\3\6\4\7: omkeren fout
+\12\4\7\4\8\3\6\4\8: omkeren fout
+
+Eigenlijk moet je bij het omkeren op INT_MAX let2en, 
+EN bij het optel2en!
+
+
+
+
+

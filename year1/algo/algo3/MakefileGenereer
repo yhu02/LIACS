@@ -1,0 +1,15 @@
+CC = g++
+
+CompileParms = -c -Wall -std=c++11
+
+OBJS = standaard.o genereerinstantie.o
+
+Opdr: $(OBJS)
+	$(CC) $(OBJS) -o Genereer
+
+standaard.o: standaard.cc constantes.h standaard.h
+	$(CC) $(CompileParms)  standaard.cc
+
+genereerinstantie.o: genereerinstantie.cc standaard.h
+	$(CC) $(CompileParms)  genereerinstantie.cc
+

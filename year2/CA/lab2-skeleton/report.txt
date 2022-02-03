@@ -1,0 +1,97 @@
+Authors: Yvo Hu, 2962802 & Seyed Saqlain Zeidi s2982048
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+The pipeline registers display debugging information. Furthermore, they are used as one of the subsequent stages. 
+Throughout the stages, the pipeline registers keep track of the PC.
+
+IF -> ID
+The adder increments PC with 4 bytes so the next instruction words has enough bits (32) to be stored properly.
+The PC stores the instruction words. These instruction words are propagated to the Instruction memory.
+Instruction memory decodes the instruction word. This is necessary for obtaining the right instruction with the right values.
+The multiplexer fills containers with values and chooses a value with setselector.
+
+ID -> EX
+The values from the decoded instruction word have to be processed.
+Values reach their given destinations in the Registers component.
+The registers will propagate its values to the multiplexers in the next stage when it is called.
+Sign-extend gives the program the possibility to increase the number of bits of a binary number while preserving
+the number's sign.
+
+EX -> M
+The control signal has to be kept track of for conditions
+The type has to be kept track of for conditions.
+The multiplexers are the inputs for the ALU. 
+The ALU performs the actual instruction.
+
+
+M -> WB
+The control signal has to be kept track of for conditions
+The type has to be kept track of for conditions
+The result from the ALU may be written to a register
+The register destination must be specified
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Parts of the emulator that do not work:
+The emulator does not implement hazard detection or insert any stalls, but the emulator will work if there 
+are enough NOP instructions in between regular RV32I and RV64I instructions.
+The emulator also doesnt implement the following instructions;
+FENCE, FENCE.I, ECALL, EBREAK
+All of the CSSR instructions
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Micro programs that have been written:
+All of the basic arithmetic and shift operations have been implemented in their own file.
+AUIPC and LUI have been implemented in their own file.
+JAL, JALR, have been implemented in jump.bin.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+The modified basic.bin, hello.bin and comp.bin files that will work with the -p option are listed under ../lab2-test-programs/src_modified
+The original files are listed under ../lab2-test-programs/src
+You will be able to build the correct binary by changing the SRC_DIR in the MakeFile to the corresponding path
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+The Program Counter is initialised in processor.cc, as is the mux that controls the PC.
+The Memory stage can influence this mux so that it jumps to a specific address. If the mux does not jump, it defaults to PC + 4.
+
+We have implemented a global debug mode variable to either just (-d) display the instruction, or, additionally (-D), show the different values in each 
+stage of the pipeline. This shows how instructions are propagated through the pipelines at each stage after each clock cycle.
+
+The Control Unit uses the funct7, funct3 and opcode fields to decide which type and signal corresponds to the instruction.
+The instruction decoder uses the function getBits(start, end, instructionword) to retrieve the values at and between start and end from the instruction word.
+ControlUnit is set with controlUnit.setControl(funct7, funct3, opcode) to retrieve the type and signal.
+The instruction type format will then be known and the getImmediate() function will be able to retrieve the correct bits from the instruction.
+
+We have reserved 4 bits of the control signal for ALU operations, specifically 0b1111. 
+If any of these bits are empty, the ALU will not perform any operations and be skipped.
+We have made a special case for the load and store operations in this regard, where, if any of these bits 0b110000 are enabled, 
+0b111 will function as the left shift amount to denote the size of the load/store operation and they will not be used in the ALU.
+Branch operations have been reserved for the bit 0b1000000.
+Set operations have been reserved for the bit 0b10000000.
+Jump operations use a combination of type J and signal bit 0b100000000
+to distinguish JAL and JALR.
+
+As mentioned before, at the control unit section, we have assigned an enum class type to each instruction . 
+This enhances readability and is used for various conditions.
+For instance, they are used in conjunction with the control signals to set and get different values.
+
+We have also implemented a generic version of the DataMemory class.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Yvo Hu: 
+We have worked on this project together in evenings while talking on Discord.
+I mainly worked on the structure of the project and some of the details. The collaboration was efficient.
+
+Seyed Saqlain Zeidi:
+We have worked on this project together in evenings while talking on Discord.
+I helped with the structure, implemented some things and tested the program. I think the collaboration was good.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+No branch prediction has been implemented
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

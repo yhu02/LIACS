@@ -1,0 +1,9 @@
+exp + / * ^ x 3 - y sin + * 2 x 6 + -3.7 * 15 x 5
+dot test.dot
+exp * x cos * * pi x 2
+print
+diff
+print
+simp
+print
+end

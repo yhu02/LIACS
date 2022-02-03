@@ -1,0 +1,16 @@
+Group 8, Class 3, members:
+ - Valentijn Stokkermans s2805197
+ - Seyed Saqlain Zeidi s2982048
+ - Yvo Hu s2962802
+
+Compiler:c++17
+OS: Linux, ubuntu (wsl2)
+
+The program has no know defects.
+
+We implemented aplha conversion and beta reduction to simplify the parse tree.
+
+We take a line from the input file, make tokens from this string, parse the
+tokens into a tree, perform alpha conversion and beta reduction on the tree if
+possible, then we check if the types of the judgement match. If they do we print
+the tree, if not we give an error and exit with status 1.
