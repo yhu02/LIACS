@@ -1,4 +1,0 @@
-[*.{c,cpp,cc,h,hpp}]
-guidelines = 80
-indent_style = space
-indent_size = 2

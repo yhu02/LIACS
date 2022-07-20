@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "errno-base.h": "c",
+        "fuse_common.h": "c"
+    }
+}

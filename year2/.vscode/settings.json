@@ -57,6 +57,13 @@
         "ratio": "cpp",
         "regex": "cpp",
         "iomanip": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "stdlib.h": "c",
+        "constants.h": "c",
+        "job.h": "c",
+        "signal.h": "c",
+        "stack.h": "c",
+        "signal_handler.h": "c",
+        "fcntl.h": "c"
     }
 }

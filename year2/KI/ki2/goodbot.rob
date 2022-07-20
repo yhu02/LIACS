@@ -1,0 +1,86 @@
+Published Name goodbot
+Published Author Seyed Saqlain Zeidi, Yvo Hu
+
+Published Country The Netherlands
+
+Published Language RC300
+
+Bank Bank_1
+Bjump 25,1
+
+Bank Bank_2
+Bank Bank_3
+Bank Bank_4
+Bank Bank_5
+Bank Bank_6
+Bank Bank_7
+Bank Bank_8
+Bank Bank_9
+Bank Bank_10
+Bank Bank_11
+Bank Bank_12
+Bank Bank_13
+Bank Bank_14
+Bank Bank_15
+Bank Bank_16
+Bank Bank_17
+Bank Bank_18
+Bank Bank_19
+Bank Bank_20
+Bank Bank_21
+Bank Bank_22
+Bank Bank_23
+Bank Bank_24
+
+Bank Main_Bank_25
+  Set #1, 0
+  Set #2, 0
+  @NeutralizerStart
+    Create 1,1,0
+    Trans 26,1
+    Set %active,1
+    Turn 0
+    Add #1,1
+  Comp #1,200
+    Jump @NeutralizerStart
+
+  @SwarmStart
+    Trans 27,1
+    Turn 0
+    Add #2,1
+  Comp #2,10
+    Jump @SwarmStart
+
+Bank Neutralizer_Bank_26
+  Trans 1,1
+  Trans 1,2
+  Trans 1,4
+  Turn 1
+
+Bank Swarm_Bank_27
+  Trans 1,1
+  Turn 0
+
+Bank Bank_28
+Bank Bank_29
+Bank Bank_30
+Bank Bank_31
+Bank Bank_32
+Bank Bank_33
+Bank Bank_34
+Bank Bank_35
+Bank Bank_36
+Bank Bank_37
+Bank Bank_38
+Bank Bank_39
+Bank Bank_40
+Bank Bank_41
+Bank Bank_42
+Bank Bank_43
+Bank Bank_44
+Bank Bank_45
+Bank Bank_46
+Bank Bank_47
+Bank Bank_48
+Bank Bank_49
+Bank Bank_50

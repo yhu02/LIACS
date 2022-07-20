@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rv64-emu", "rv64-emu.vcxproj", "{F2CD1369-91A4-4908-A1F2-92E974B30D13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+		SDL-Debug|x64 = SDL-Debug|x64
+		SDL-Release|x64 = SDL-Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.Debug|x64.ActiveCfg = Debug|x64
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.Debug|x64.Build.0 = Debug|x64
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.Release|x64.ActiveCfg = Release|x64
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.Release|x64.Build.0 = Release|x64
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.SDL-Debug|x64.ActiveCfg = SDL-Debug|x64
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.SDL-Debug|x64.Build.0 = SDL-Debug|x64
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.SDL-Release|x64.ActiveCfg = SDL-Release|x64
+		{F2CD1369-91A4-4908-A1F2-92E974B30D13}.SDL-Release|x64.Build.0 = SDL-Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C981A43B-84C1-4964-BB26-3901968E487F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,170 @@
+Directory listing (ls -alR)
+===========================
+
+.:
+total 4
+drwxr-xr-x  2 root root     0 Jan  1  1970 .
+drwxrwxrwt 23 root root  4096 Apr 30 17:15 ..
+-rw-rw----  1 root root    71 Jan  1  1970 file1.txt
+-rw-rw----  1 root root  1420 Jan  1  1970 file2.txt
+-rw-rw----  1 root root 16330 Jan  1  1970 file3.txt
+-rw-rw----  1 root root 16330 Jan  1  1970 file4.txt
+-rw-rw----  1 root root  1065 Jan  1  1970 file5.txt
+-rw-rw----  1 root root 21959 Jan  1  1970 large.txt
+-rw-rw----  1 root root    18 Jan  1  1970 small.txt
+drwxrwx---  2 root root     0 Jan  1  1970 sub1
+drwxrwx---  2 root root     0 Jan  1  1970 sub2
+drwxrwx---  2 root root     0 Jan  1  1970 sub3
+drwxrwx---  2 root root     0 Jan  1  1970 sub4
+drwxrwx---  2 root root     0 Jan  1  1970 test1
+drwxrwx---  2 root root     0 Jan  1  1970 test2
+drwxrwx---  2 root root     0 Jan  1  1970 test3
+
+./sub1:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxr-xr-x 2 root root 0 Jan  1  1970 ..
+drwxrwx--- 2 root root 0 Jan  1  1970 sub11
+drwxrwx--- 2 root root 0 Jan  1  1970 sub12
+
+./sub1/sub11:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxrwx--- 2 root root 0 Jan  1  1970 ..
+drwxrwx--- 2 root root 0 Jan  1  1970 sub111
+drwxrwx--- 2 root root 0 Jan  1  1970 sub112
+
+./sub1/sub11/sub111:
+total 0
+drwxrwx--- 2 root root     0 Jan  1  1970 .
+drwxrwx--- 2 root root     0 Jan  1  1970 ..
+-rw-rw---- 1 root root 21959 Jan  1  1970 large.txt
+-rw-rw---- 1 root root    18 Jan  1  1970 small.txt
+
+./sub1/sub11/sub112:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxrwx--- 2 root root 0 Jan  1  1970 ..
+
+./sub1/sub12:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxrwx--- 2 root root 0 Jan  1  1970 ..
+drwxrwx--- 2 root root 0 Jan  1  1970 sub21
+
+./sub1/sub12/sub21:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxrwx--- 2 root root 0 Jan  1  1970 ..
+
+./sub2:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxr-xr-x 2 root root 0 Jan  1  1970 ..
+drwxrwx--- 2 root root 0 Jan  1  1970 sub21
+
+./sub2/sub21:
+total 0
+drwxrwx--- 2 root root     0 Jan  1  1970 .
+drwxrwx--- 2 root root     0 Jan  1  1970 ..
+-rw-rw---- 1 root root 21959 Jan  1  1970 large.txt
+-rw-rw---- 1 root root    18 Jan  1  1970 small.txt
+drwxrwx--- 2 root root     0 Jan  1  1970 sub211
+drwxrwx--- 2 root root     0 Jan  1  1970 sub212
+
+./sub2/sub21/sub211:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxrwx--- 2 root root 0 Jan  1  1970 ..
+
+./sub2/sub21/sub212:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxrwx--- 2 root root 0 Jan  1  1970 ..
+
+./sub3:
+total 0
+drwxrwx--- 2 root root     0 Jan  1  1970 .
+drwxr-xr-x 2 root root     0 Jan  1  1970 ..
+-rw-rw---- 1 root root 21959 Jan  1  1970 large.txt
+-rw-rw---- 1 root root    18 Jan  1  1970 small.txt
+
+./sub4:
+total 0
+drwxrwx--- 2 root root  0 Jan  1  1970 .
+drwxr-xr-x 2 root root  0 Jan  1  1970 ..
+-rw-rw---- 1 root root 29 Jan  1  1970 10.txt
+-rw-rw---- 1 root root 29 Jan  1  1970 11.txt
+-rw-rw---- 1 root root 29 Jan  1  1970 12.txt
+-rw-rw---- 1 root root 29 Jan  1  1970 13.txt
+-rw-rw---- 1 root root 29 Jan  1  1970 14.txt
+-rw-rw---- 1 root root 29 Jan  1  1970 15.txt
+-rw-rw---- 1 root root 29 Jan  1  1970 16.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 1.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 2.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 3.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 4.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 5.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 6.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 7.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 8.txt
+-rw-rw---- 1 root root 28 Jan  1  1970 9.txt
+
+./test1:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxr-xr-x 2 root root 0 Jan  1  1970 ..
+
+./test2:
+total 0
+drwxrwx--- 2 root root     0 Jan  1  1970 .
+drwxr-xr-x 2 root root     0 Jan  1  1970 ..
+-rw-rw---- 1 root root    71 Jan  1  1970 file1.txt
+-rw-rw---- 1 root root  1420 Jan  1  1970 file2.txt
+-rw-rw---- 1 root root 16330 Jan  1  1970 file3.txt
+-rw-rw---- 1 root root 16330 Jan  1  1970 file4.txt
+-rw-rw---- 1 root root  1065 Jan  1  1970 file5.txt
+
+./test3:
+total 0
+drwxrwx--- 2 root root 0 Jan  1  1970 .
+drwxr-xr-x 2 root root 0 Jan  1  1970 ..
+
+
+MD5 checksums of the files
+==========================
+
+a4195c1cd88942fdcbc747029db5fb5a  ./sub1/sub11/sub111/small.txt
+acbec5cf4d59cecdf22ef5129beec07f  ./sub1/sub11/sub111/large.txt
+a4195c1cd88942fdcbc747029db5fb5a  ./sub2/sub21/small.txt
+acbec5cf4d59cecdf22ef5129beec07f  ./sub2/sub21/large.txt
+a4195c1cd88942fdcbc747029db5fb5a  ./sub3/small.txt
+acbec5cf4d59cecdf22ef5129beec07f  ./sub3/large.txt
+87cefd9c51fefd4d46370487a2ac3726  ./sub4/1.txt
+662c0e335b61089d2d12ce4b45096539  ./sub4/2.txt
+187dabc898a626e0ac38ffea7a63fe69  ./sub4/3.txt
+ff53b4cff06a4fbbc2c5516e944755df  ./sub4/4.txt
+6337ce2579076a78c93ba1895e6d0239  ./sub4/5.txt
+c48687a07c986b170662ff45186b92c7  ./sub4/6.txt
+e2fcb133b4f68bd923ca5cc60eab278d  ./sub4/7.txt
+5efe606456f42d71a5ef450940036612  ./sub4/8.txt
+2878193ed33f0766618368e4c918d15c  ./sub4/9.txt
+71d586de072ce9d46cc1ffeac0b53677  ./sub4/10.txt
+77326ec079a4675350e2d6f1ac645788  ./sub4/11.txt
+e2e2c96a400121c6a5c708cd3e77e667  ./sub4/12.txt
+e82c65b7644590f46af6012f2549747a  ./sub4/13.txt
+130a7faf9047980bab183af77f7efd98  ./sub4/14.txt
+24b41a690ec3d08c906f4dae5df7e7aa  ./sub4/15.txt
+43311238e22ef678d1715a0f98a99c1f  ./sub4/16.txt
+a4195c1cd88942fdcbc747029db5fb5a  ./small.txt
+acbec5cf4d59cecdf22ef5129beec07f  ./large.txt
+6b8d91211b247b4eef395dc8789ed52d  ./test2/file1.txt
+7320de03916e08e86693ad75ef8800dc  ./test2/file2.txt
+9fdb85c793cf43095c11acff998b9a2f  ./test2/file3.txt
+9fdb85c793cf43095c11acff998b9a2f  ./test2/file4.txt
+93b47be308f91225e4716ac09f839609  ./test2/file5.txt
+6b8d91211b247b4eef395dc8789ed52d  ./file1.txt
+7320de03916e08e86693ad75ef8800dc  ./file2.txt
+9fdb85c793cf43095c11acff998b9a2f  ./file3.txt
+9fdb85c793cf43095c11acff998b9a2f  ./file4.txt
+93b47be308f91225e4716ac09f839609  ./file5.txt

@@ -1,0 +1,24 @@
+Published Name Chessboard
+Published Author Seyed Saqlain Zeidi, Yvo Hu
+Published Country The Netherlands
+Published Language RC300
+
+Bank Remove
+  @MainLoop
+  Add #1, 1
+  Create 2, 2, 0
+  Trans 2, 1
+  Trans 1, 2
+  Set %Active, 1
+  Turn 1
+  Comp #1, 4
+  Jump @MainLoop
+  Die
+  
+Bank Fill
+  Create 2, 2, 0
+  Trans 2, 1
+  Trans 1, 2
+  Set %Active, 1
+  @Loop
+  Jump @Loop
