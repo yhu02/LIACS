@@ -1,0 +1,24 @@
+#container {
+    display: table;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+#modal {
+    font-family: 'Lato', sans-serif;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 28pt;
+    white-space: nowrap;
+}
+
+.extra-top-margin {
+    margin-top: 12pt;
+}
+
+.lato {
+  font-family: 'Lato', sans-serif;
+}

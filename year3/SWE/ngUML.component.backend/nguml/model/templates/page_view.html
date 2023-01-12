@@ -1,0 +1,29 @@
+{% extends 'application_header.html' %}
+
+<main role="main" class="container">
+    {% block content %}
+        <form method="post" >
+            {{ html | safe }}
+
+            {% csrf_token %}
+        </form>
+    {% endblock %}
+</main>
+
+{% block sidebar-nav %}
+    {{ application.name }}<br>
+    {% for category in  categories %}
+        -<a href="/model/applications/{{ application.id }}/category/{{ category.id }}">{{ category.name }}</a><br>
+        {% for page in category.pages.all %}
+            &nbsp;&nbsp;&nbsp;-><a href="/model/applications/{{ application.id }}/page/{{ page.id }}">{{ page.name }}</a><br>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+
+{% block javascript %}
+    <link href="/static/css/{{ application.id }}.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/static/js/page_view.js"></script>
+{% endblock %}

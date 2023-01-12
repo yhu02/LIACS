@@ -1,0 +1,43 @@
+:root {
+    --spacing: 1rem;
+    --bg: white;
+    --lightgray: #f4f4f4;
+    --gray: #dde1e6;
+    --darkgray: #525252;
+}
+
+/* Spacing shorthands */
+.mt {
+    margin-top: var(--spacing);
+}
+.mb {
+    margin-bottom: var(--spacing);
+}
+
+/* Custom elements */
+.FlowNavigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing);
+    margin-bottom: calc(var(--spacing) * 2);
+}
+
+/* Carbon component changes */
+.bx--text-input, .bx--text-area {
+    background-color: var(--bg);
+}
+
+.cds--file__container .cds--file--label,  .cds--fieldset .cds--label, label {
+    font-size: 0.75rem;
+    letter-spacing: 0.32px;
+    color: var(--darkgray);
+    font-weight: 400;
+}
+
+.cds--file__container .cds--label-description {
+    margin-top: calc(var(--spacing) / 2);
+}
+
+.cds--fieldset {
+    padding-left: 0;
+}

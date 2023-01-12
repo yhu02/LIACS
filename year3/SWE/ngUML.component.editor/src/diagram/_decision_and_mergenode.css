@@ -1,0 +1,33 @@
+.nguml-decision-node,.nguml-merge-node{
+    position: relative;
+    width: 85px;
+    height: 85px;
+    margin: 0 auto;
+}
+
+/*.nguml-decision-node::before{*/
+/*    content: '';*/
+/*    width: 60px;*/
+/*    height: 60px;*/
+/*    background: black;*/
+/*    transform: rotate(45deg);*/
+/*    top: 13px;*/
+/*    left: 13px;*/
+/*    position: absolute;*/
+/*}*/
+
+.nguml-merge-node::before,.nguml-decision-node::before{
+    content: '';
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    border: 2px solid black;
+    transform: rotate(45deg);
+    top: 13px;
+    left: 13px;
+    position: absolute;
+}
+
+.nguml-decision-node-wrapper,.nguml-merge-node-wrapper{
+    text-align: center;
+}

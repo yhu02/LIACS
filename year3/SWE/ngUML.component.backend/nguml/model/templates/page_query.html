@@ -1,0 +1,26 @@
+{% include 'application_header.html' with title=application.name %}
+
+<main role="main" class="container">
+    {% block content %}
+        <form action="/model/applications/{{ application.id }}/page/{{ page.id }}/query"
+              method="POST">{% csrf_token %}
+            <div class="form-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Main model</h5>
+                        {% for classifier in classifiers %}
+                            <input type="radio" id="{{ classifier.name }}" name="model" value="{{ classifier.name }}" {% if page.type == classifier.name %}checked{% endif %}>
+                            <label for="{{ classifier.name }}">{{ classifier.name }}</label><br>
+                        {% endfor %}
+                        <input type="checkbox" name="create" id="create" value="1" {% if page.create %}
+                            checked
+                        {% endif %} >Page for data insert<br>
+                        <small>use [id] for the id of the page</small><br>
+                        <input type="text" name="filter" id="filter" value="{{ page.query }}" />
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    {% endblock %}
+</main>

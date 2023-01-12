@@ -1,0 +1,59 @@
+{% include 'application_header.html' with title=application.name %}
+
+<main role="main" class="container">
+    {% block content %}
+        <form action="/model/applications/{{ application.id }}/page/{{ page.id }}/properties"
+              method="POST">{% csrf_token %}
+            <div class="form-group">
+            <div class="col-xs-12"><p style="color: red;">{{msg}}</p></div>
+            {% for classifier in classifiers %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title classifier" id="{{ classifier.name }}">{{ classifier.name }}</h5>
+                        {% for property in classifier.properties %}
+                            <div class="card">
+                                <div class="card-body row">
+                                    <label for="{{ classifier.name }}-{{ property.name }}">{{ property.name }}</label>
+
+                                    {% if property.linked == True %}
+                                        <input class="custom-control custom-checkbox" name="{{ classifier.name }}-{{ property.name }}"
+                                               id="{{ classifier.name }}-{{ property.name }}" type="checkbox" checked>
+                                    {% else %}
+                                        <input class="custom-control custom-checkbox" name="{{ classifier.name }}-{{ property.name }}"
+                                               id="{{ classifier.name }}-{{ property.name }}" type="checkbox">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    {% endblock %}
+</main>
+
+
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $(document).ready(function (){
+       $(document).on('click','.classifier',function(event) {
+            let classifier = this.id;
+            let checked = true;
+            checked = check_boxes(checked,classifier)
+            if(checked)
+                check_boxes(checked,classifier,false)
+       });
+       function check_boxes(checked,classifier,isTrue = true){
+            $("[id*="+classifier+"-]").each(function(i,item){
+                checked = checked && $(this).prop('checked')
+                $(this).prop('checked',isTrue)
+            });
+           return checked;
+       }
+    });
+    </script>
+{% endblock %}

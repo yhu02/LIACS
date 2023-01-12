@@ -1,0 +1,83 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: self-hosted
+    env:
+      NETBOX_CONFIGURATION: nguml.configuration_testing
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+        node-version: ['14.x']
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: nguml
+          POSTGRES_PASSWORD: nguml
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+#    - name: Use Node.js ${{ matrix.node-version }}
+#      uses: actions/setup-node@v2
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#     
+#     - name: Install Yarn Package Manager
+#       run: npm install -g yarn
+#     
+#     - name: Setup Node.js with Yarn Caching
+#       uses: actions/setup-node@v2
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#         cache: yarn
+#         cache-dependency-path: nguml/project-static/yarn.lock
+#     
+#     - name: Install Frontend Dependencies
+#       run: yarn --cwd nguml/project-static
+ 
+    - name: Install dependencies & set up configuration
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r nguml/requirements.txt
+        pip install pycodestyle coverage tblib
+    - name: Build documentation
+      run: mkdocs build
+
+    - name: Collect static files
+      run: python nguml/manage.py collectstatic --no-input
+
+    - name: Check PEP8 compliance
+      run: pycodestyle --ignore=W503,E501,E302 --exclude=node_modules nguml/
+
+#     - name: Check UI ESLint, TypeScript, and Prettier Compliance
+#       run: yarn --cwd nguml/project-static validate
+    
+#     - name: Validate Static Asset Integrity
+#       run: scripts/verify-bundles.sh
+
+#     - name: Run tests
+#       run: coverage run --source="nguml/" nguml/manage.py test nguml/ --parallel
+
+#     - name: Show coverage report
+#       run: coverage report --skip-covered --omit *migrations*

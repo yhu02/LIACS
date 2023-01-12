@@ -1,0 +1,44 @@
+{% include 'base_view.html' with title=application.name %}
+<main role="main" class="container">
+    {% block content %}
+
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add {{ object_name }}</h5>
+                <form action="/{{ application.name }}/{{ object_name_lower }}/add" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        {% for property in properties %}
+                            <label for="{{ property.name }}">{{ property.name }}</label>
+                            {% if property.type == 'string' %}
+                                <input name="{{ property.name }}" id="{{ property.name }}" class="form-control"
+                                       type="text" placeholder="{{ property.name }}">
+                            {% elif property.type == 'int' %}
+                                <input name="{{ property.name }}" id="{{ property.name }}" class="form-control"
+                                       type="number" placeholder="{{ property.name }}">
+                            {% elif property.type == 'bool' %}
+                                <input class="custom-control custom-checkbox" name="{{ property.name }}"
+                                       id="{{ property.name }}" type="checkbox" placeholder="{{ property.name }}">
+                                <input name="{{ property.name }}Hidden" id="{{ property.name }}Hidden"
+                                       class="form-control" type="hidden" value="off">
+                            {% elif property.type == 'association' %}
+                                <select name="{{ property.name }}" id="{{ property.name }}">
+                                    {% for object in objects %}
+                                        {% if object.name == property.name %}
+                                            {% for value in object.values %}
+                                                <option value="{{ value.id }}">{{ value }}</option>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                            <br>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+
+    {% endblock %}
+</main>

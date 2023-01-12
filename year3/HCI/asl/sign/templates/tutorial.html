@@ -1,0 +1,128 @@
+<html lang="en">
+
+<head>
+  <title>ASL Tutor</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="static/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="static/style.css">
+
+  <script>
+    var chars = 'abcdfghijlorstvwxyz';
+    var user_score = 0;
+    $(document).ready(function () {
+
+      var start_time = new Date().getTime() / 1000;
+      var asl_interval = setInterval(function () {
+        $.get('/current', '', function (data, textStatus, jqXHR) {
+          if (data.new) {
+            var goal = $('#prompt').attr('class');
+            if (data['symbol'] == goal) {
+              var ndx = Math.floor(Math.random() * chars.length);
+              if (chars[ndx] == goal) {
+                ndx = (ndx + 1) % chars.length;
+              }
+
+              var nextChar = chars[ndx];
+              var newText = 'Great job! Now try "' + nextChar + '"';
+              $('#prompt').attr('class', nextChar);
+              $('#realimage').attr('src', 'static/asl/' + nextChar + '.gif');
+              user_score += 100;
+              $('#user_score').text('score ' + user_score);
+            } else {
+              var newText = 'Not quite; try again!';
+            }
+            $('#prompt').text(newText);
+          }
+        });
+      }, 200);
+
+      setInterval(function () {
+        var current_time = new Date().getTime() / 1000;
+        var timeleft = Math.floor(30 - (current_time - start_time));
+        if (timeleft < 0) {
+          timeleft = 0;
+        }
+        $('#time-left').text(timeleft);
+      }, 1000);
+
+      setTimeout(function () {
+        clearInterval(asl_interval);
+        game_over_screen();
+      }, 30000);
+    });
+
+    function game_over_screen() {
+      $("#container").fadeOut();
+      $("#topbar").fadeOut();
+      $('#point_amount').text(user_score.toString());
+      $("#myModal").modal('show');
+    }
+
+    window.submit_score = function submit_score() {
+      var name = $("#username").val();
+      $.post('score', { 'score': user_score, 'user': name });
+      $.get('scores', '', function (scores) {
+        console.log(scores['scores'].length);
+        for (var i = 0; i < scores['scores'].length; i++) {
+          console.log(scores['scores'][i]);
+          $("#scoreboard").append("<tr><td>" + scores['scores'][i].user + "</td><td>" + scores['scores'][i].score + "</td></tr>");
+        }
+      });
+
+      $("#scoreboard").removeClass('hidden');
+      $("#scoreboard_title").removeClass('hidden');
+      $("#back_to_splash_link").removeClass('hidden');
+    }
+
+  </script>
+</head>
+
+<body>
+  <a id="back_to_splash_link" class='hidden' href="/splash"><button class="btn btn-primary"
+      id="back_to_splash">Home</button></a>
+  <div id="scores">
+    <h3 id="topbar" class="text-center"><span id="user_score">score 0</span> &nbsp; &nbsp; &ndash; &nbsp; &nbsp; <span
+        id="time-left">30</span>s left</h3>
+    <div class="container">
+      <h2 class="lato hidden" id="scoreboard_title">Scoreboard</h2>
+      <table class="table hidden" id="scoreboard">
+      </table>
+    </div>
+  </div>
+
+
+  <div id="myModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Game Over</h4>
+        </div>
+        <div class="form-group">
+          <div class="modal-body">
+            <p>You scored <span id="point_amount"></span> points.</p>
+            <p>What is your name?</p>
+            <label for="username">Name:</label>
+            <input type="text" class="form-control" id="username">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" onclick="submit_score()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <div id="container">
+    <div class="lato" id="content">
+      <div id="image"><img id="realimage" width="400px" src="static/asl/b.gif"></div>
+      <div id="prompt" class="b">Make a b</div>
+    </div>
+  </div>
+</body>
+
+</html>

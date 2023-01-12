@@ -1,0 +1,32 @@
+The Right-Way Rental Truck Company rents small moving trucks and trailers for local and one-way usage.
+We have 347 rental offices across the western United States.
+Our rental stock includes a total of 5,780 vehicles including various types of trucks and trailers.
+We need to implement a system to track our rental agreements and our vehicle assignments.
+Each rental office rents vehicles that they have in stock to customers ready to take possession of the vehicle.
+We don’t take reservations, or speculate on when the customer will return rented vehicles.
+The central office oversees the vehicle distribution, and directs transfers of vehicles from one rental office to another.
+Each rental office has an office name like “Littleton Right-Way”.
+Each office also has a unique three digit office number. 
+We also keep each office’s address.
+Each office is a home office for some of our vehicles, and each vehicle is based out of a single home office.
+Each vehicle has a vehicle id, state of registration, and a license plate registration number.
+We have five different types of vehicles: 36 trucks, 24’ trucks, 10’ trucks, 8’ covered trailers, and 6’ open trailers.
+Yes, we do have a vehicle type code.
+For all our vehicles, we need to track the last maintenance date, and expiration date of its registration.
+For our trucks, we need to know the current odometer reading, the gas tank capacity, and whether or not it has a working radio.
+For long moves, customers really prefer a radio.
+We log the current mileage just before we rent a truck, and then again when it is returned.
+Most of our rental agreements are for individual customers, but a rental agreement can either be for an individual or for a company.
+We do rent a small percentage of our trucks to companies.
+We assign each company an identifying company number and track the company’s name and address.
+No, we don’t need to worry about any additional information about a company.
+Our corporate sales group handles all that information separately.
+For each individual customer, we record the customer’s name, home phone, address, and driver’s license state, number, and expiration date.
+We like to keep track of all our customers.
+If a customer damaged a vehicle, abandoned it, or didn’t fully pay the bill, then we tag the customer as a poor risk, and won’t rent to that customer again.
+We only allow a single individual or company for a given rental agreement, and we write a separate rental agreement for each vehicle.
+Yes, we do have customers rent two or more vehicles at the same time.
+Each rental agreement is identified by the originating rental office number and a rental agreement number.
+We also need to track the rental date, the anticipated duration of the rental, the originating rental office, the drop-off rental office, the amount of the deposit paid, the quoted daily rental rate, and the quoted rate per mile.
+Of course for the trailers, there isn’t a mileage charge.
+No, we don’t need to automate the financial side of our business, just our rental agreement tracking and vehicle assignment functions.

@@ -1,0 +1,89 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ classifier.name }}</h5>
+        <h6>Properties</h6>
+        <table class="table table-hover">
+            {% for property in classifier.properties %}
+            <tr>
+                <td>
+                    {{ property.name }} : {{ property.type }}
+                </td>
+                <td align="right">
+                    <a class="btn btn-danger btn-sm" href="/model/properties/{{ property.id }}/delete" role="button">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <h6>Operations</h6>
+        <table class="table table-hover">
+            {% for operation in classifier.operations %}
+            <tr>
+                <td>
+                    {{ operation.name }}
+                </td>
+                <td align="right">
+                    <a class="btn btn-primary btn-sm" href="/model/operations/{{ operation.id }}" role="button">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/model/operations/{{ operation.id }}/delete" role="button">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Add property</h5>
+        <form action="/model/properties/add" method="POST">{% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+            
+                <select id="type" name="type">
+                    {% for type in types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                    </select>
+            </div>
+            <input type="hidden" id="classifier_id" name="classifier_id" value="{{ classifier.id }}">
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Add operation</h5>
+        <form action="/model/operations/add" method="POST">{% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+            
+                <select id="type" name="type">
+                    {% for type in types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                    </select>
+            </div>
+            <div class="form-group">
+                <label for="implementation">Implementation</label>
+                <textarea name="implementation" id="implementation" class="form-control" placeholder="Implementation"></textarea>
+            </div>
+            <input type="hidden" id="classifier_id" name="classifier_id" value="{{ classifier.id }}">
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+“Patients will initially visit their doctor when they are ill. The doctor will then
+diagnose the patients and write a report. The diagnosis can be a physical
+one, a psychological one or a psychiatric one. The report contains illness
+conditions, diagnostic result, and suggestions that are for treatment. If the
+doctor suggests medication, the report will list the specific drugs. The
+patient will then collect their drugs from the pharmacy, and pay for the bill. If
+the doctor suggests an operation, the patient will be requested to make an
+appointment for the operation with the hospital. A surgeon and an operation
+team are assigned to perform the operation. A surgeon typically performs
+multiple operations on a particular day. Following the operation, the patient
+will receive care in the hospital. Care can involve physiotherapy,
+osteotherapy or mental support. The patients will be assigned a bed that is
+on a ward, and will be cared for by nurses. A nurse will care for several
+patients.”

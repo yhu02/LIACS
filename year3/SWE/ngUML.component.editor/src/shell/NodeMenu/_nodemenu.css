@@ -1,0 +1,31 @@
+.nguml-nodemenu {
+    background-color: #eee;
+    border-right: solid 1px #ddd;
+}
+
+.RuleMenuExtended{
+	width: 384px !important;
+	transition: width 0.3s; 
+}
+
+#RuleTextArea{
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 20px;
+}
+
+#AddRuleButton{
+	margin-top: 10px;
+}
+
+hr{
+	border: 0;
+	border-top: 2px solid #aaa;
+	width: 90%;
+}
+
+ol{
+	width: 80%;
+	margin-left: 10% !important;
+	text-align: left;
+}

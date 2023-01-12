@@ -1,0 +1,27 @@
+{% include 'application_header.html' with title=application.name %}
+
+<main role="main" class="container">
+    {% block content %}
+        <form action="/model/applications/{{ application.id }}/{{ classifier.id }}/properties"
+              method="POST">{% csrf_token %}
+            <div class="form-group">
+                {% for property in properties %}
+                    <div class="row">
+                        <label for="{{ property.name }}">{{ property.name }}</label>
+
+                        {% if property.linked == True %}
+                            <input class="custom-control custom-checkbox" name="{{ property.name }}"
+                                   id="{{ property.name }}" type="checkbox" checked>
+                        {% else %}
+                            <input class="custom-control custom-checkbox" name="{{ property.name }}"
+                                   id="{{ property.name }}" type="checkbox">
+                        {% endif %}
+                        <input name="{{ property.name }}Hidden" id="{{ property.name }}Hidden"
+                               class="form-control" type="hidden" value="off">
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    {% endblock %}
+</main>

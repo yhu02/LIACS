@@ -1,0 +1,10 @@
+Use this to resize: nodes https://reactflow.dev/docs/api/nodes/node-resizer/
+We store the background color of a node in the backend, you could make a color selector in the UI and use the endpoint edit_component to change the background color of a component.
+Background color of the canvas can be changed in the css class .bg-main (which is located in componentmodeler.css). This can be used to create a night mode for the application.
+Inside the minimap component you can choose what color to give what component type inside the minimap.
+There are functions called onNodesChange, onEdgesChange and onConnect. These don't do anything useful now, but if you connect two ports by their handle on the canvas, they create a line. This line is not saved, but for future developers this function could trigger endpoints, which makes the product more intuitive.
+Handles can have ids. Use this to be able to work with more ports. (https://reactflow.dev/docs/api/nodes/handle/)
+NodeToolbar could make the user interface a bit more intuitive (https://reactflow.dev/docs/api/nodes/handle/).
+It's very easy to create new node types and style them however you want. We made node types for components, required and provided interfaces. I can imagine further development would like to see class nodes etc. (https://reactflow.dev/docs/api/nodes/handle/)
+ReactFlow Pro has an auto-layout functionality which could be useful.
+ReactFlow Pro also has a collaborative functionality where you can work in the same diagram at the same time with multiple people.

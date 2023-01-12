@@ -1,0 +1,16 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <a class="btn btn-primary btn-lg" href="/model/applications/add" role="button">Add Application</a>
+    <br>
+    <br>
+    {% for application in applications %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ application.name }}</h5>
+                <a class="btn btn-primary" href="/model/applications/{{ application.id }}" role="button">View</a>
+                <a class="btn btn-danger" href="/model/applications/{{ application.id }}/delete" role="button">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+

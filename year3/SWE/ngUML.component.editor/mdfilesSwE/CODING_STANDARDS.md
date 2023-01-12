@@ -1,0 +1,1 @@
+We use Prettier and Black as code formatters

@@ -1,0 +1,17 @@
+The clinic basically schedules patients, provides services for them, and bills them for those services.
+New patients fill out a form listing their name, address, telephone numbers, allergies, and state of mind prior to scheduling their first appointment.
+Existing patients are normally scheduled for their next appointment as they depart from their current appointment.
+When the office staff forget to do this, a desk worker has to call the patient to set up a date.
+Schedules are entered into a central appointment book; patient records (including contact information) are kept in paper files.
+Appointments are for one of three procedures: dental hygiene, cavities and fillings, and oral surgery (including root canals and tooth extractions).
+For each procedure the patient needs to be prepared and supplies need to be collected (e.g., probes, drill bits, cements, resins, etc.).
+For a hygienist's appointment, preparation could be as simple as seating the patient in dental chair and putting a bib around his or her neck.
+For oral surgery, anesthesia of various strengths are normally administered prior to operation.
+Only for oral surgery procedures is it necessary to ask the patient to wait for up to twenty minutes before performing a post-operative check.
+Billing is always done by the month, and bills are always sent by mail to patients' contact addresses.
+Checks are received by mail.
+HMO-funded patients are asked to make a copayment at the time that they leave the office.
+Each patient also generates a reimbursement request to an insurance company.
+Insurance companies and HMOs send their checks by mail three months after receiving a reimbursement request.
+The clinic maintains a supplies inventory file that a worker fills out once a week by physically inspecting each of the three procedures rooms.
+Supplies and tools are stored in a standard layout in each room.

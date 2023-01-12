@@ -1,0 +1,153 @@
+BODY
+{
+	font-family: lucida grande, lucida sans unicode, 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
+	margin-left: 3%;
+	margin-right: 3%;
+	line-height: 110%;
+	background-image: url(background.jpg);
+	color: black;
+}
+
+/* Fuer Gedichte */
+BLOCKQUOTE
+{
+	line-height: 120%;
+}
+
+SMALL, TD
+{
+	font-family: lucida grande, lucida sans unicode, 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
+}
+
+H1, H2
+{
+	font-family: lucida grande, lucida sans unicode, 'Trebuchet MS', Tahoma, Verdana, Arial, sans-serif;
+	line-height: 100%;
+	font-style: italic;
+    text-shadow: 4px 4px 5px rgba(40,40,40,0.5);
+	text-indent: -3px;
+}
+
+H1
+{
+	text-align: center;
+	margin-bottom: 4ex;
+}
+
+H2
+{
+	margin-bottom: 3ex;
+}
+
+H3
+{
+	font-style: bold;
+}
+
+H3, H4
+{
+	text-indent: -2px;
+}
+
+H5, H6
+{
+	text-indent: -1px;
+	font-size: small;
+}
+
+H2 { margin-top: 5ex; }
+H3 { margin-top: 4ex; margin-bottom: 2ex; }
+H6 { margin-top: 2ex; margin-bottom: 1ex; }
+
+H1, H2 { color: rgb(0,70,70); }
+H3, H4 { color: rgb(0,102,102); }
+/* H5, H6 { color: rgb(102,102,102); } */
+H5, H6 { color: rgb(0,150,150); }
+
+A:link    { text-decoration: none; color: rgb(155,0,0); }
+A:visited { text-decoration: none; color: rgb(100,100,100); }
+A:hover   { text-decoration: underline overline; color: rgb(200,0,0); }
+
+UL { margin-left: -2.5ex; }
+OL { margin-left: -1.5ex; }
+UL UL { margin-left: -2.5ex; }
+
+P { margin-top: 1.2ex; }
+UL P { margin-top: 0.5ex; }
+LI { margin-top: 1.5ex; }
+
+PRE, TT, CODE
+{
+	font-family: "Monaco", "Andale Mono", "Courier New", "Courier", "monospace";
+
+}
+
+PRE.code
+{
+    font-size: 1.6ex;
+	font-weight: bold;
+	line-height: 120%;
+    margin-left: 30px;
+    margin-top: 1.0ex;
+    margin-bottom: 1.0ex;
+}
+
+SPAN.code
+{
+	font-family: "Monaco", "Andale Mono", "Courier New", "Courier", "monospace";
+    font-size: 1.6ex;
+	font-weight: bold;
+}
+
+PRE.bibtex
+{
+    font-size: small;
+	line-height: 100%;
+    margin-left: 30px;
+}
+
+
+ADDRESS
+{
+	text-align: right;
+	font-family: cursive;
+    font-size: 87%;
+    color: olive;
+}
+
+/* Tables sollten so aussehen:
+    <TABLE CELLPADDING=8 CELLSPACING=0 ALIGN=center>
+		<THEAD>
+			<TR> <TH> XXX </TH> 
+		</THEAD>
+		<TR> <TD> XXX </TD> <TD> XXX </TD> </TR>
+		<TR> <TD> XXX </TD> <TD> XXX </TD> </TR>
+	</TABLE>
+*/
+
+
+TABLE
+{
+	border-right-style: none;
+	border-left-style: none;
+	border-top-style: solid;
+	border-top-width: 2pt;
+	border-top-color: rgb(20,20,20);
+	border-bottom-style: solid;
+	border-bottom-width: 2pt;
+	border-bottom-color: rgb(20,20,20);
+}
+
+TABLE TH
+{
+	border: none;
+	border-bottom: solid 0.75pt;
+}
+/* tables sollten deswegen cellspacing=0 haben */
+
+TABLE TD
+{
+	border: none;
+}
+
+

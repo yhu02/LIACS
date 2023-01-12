@@ -1,0 +1,11 @@
+A student will enroll for one or more courses. Business Courses and
+Science Courses are types of courses. Each course consists of multiple
+lectures, and have a course name, code and date. A course coordinator
+organizes the courses. Each course has one or more lecturers, a location,
+time slot, and set of dates.
+Lecturers will give lectures, and administrators will make announcements
+that are for a particular course. Each course will have assignments and an
+exam. Students must attend to the lectures, complete the assignments and
+take the exam. Lecturers will give grades. A course grade consists of an
+assignment grade and exam grade. An exam is either a first exam or a re-
+take. Students will receive their course grades by email.

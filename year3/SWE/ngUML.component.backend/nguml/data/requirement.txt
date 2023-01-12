@@ -1,0 +1,9 @@
+An order is placed by a specific customer. A customer has a first name, last name, address, and birth date.
+The order consists of multiple line items. Each order has an order number, an entry date, a delivery status, and a description. 
+ 
+A line item specifies a particular product, and defines the quantity that is ordered.
+ 
+A product is characterized by a name, a description, a product number, a price, a location.
+Restricted products and flammable products are types of products.
+ 
+Each order is shipped by a delivery company. The delivery company has a name and an address.

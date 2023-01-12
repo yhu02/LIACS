@@ -1,0 +1,15 @@
+.react-draggable {
+    position: absolute;
+}
+
+.nguml-diagram-node:hover {
+    outline: 2px solid coral;
+}
+
+.nguml-diagram-node:focus {
+    outline: 2px solid darkorchid !important;
+}
+
+.nguml-diagram-node:active {
+    outline: 2px solid blue;
+}

@@ -1,0 +1,20 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <a class="btn btn-primary btn-lg" href="/model/relationships/add" role="button">Add Relationship</a>
+
+    <br>
+    <br>
+
+    {% for relationship in relationships %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ relationship.classifier_from.name }} to {{relationship.classifier_to.name }}</h5>
+                <h6> {{ relationship.name }}</h6>
+                <a class="btn btn-primary btn-sm" href="/model/relationships/{{ relationship.id }}/edit" role="button">Edit</a>
+                <a class="btn btn-danger btn-sm" href="/model/relationships/{{ relationship.id }}/delete" role="button">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+        

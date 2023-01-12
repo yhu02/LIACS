@@ -1,0 +1,47 @@
+#ExplainerContainer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+#ExplainerText p {
+    margin-top: 1rem;
+}
+
+#ExplainerButton {
+    margin-top: 1rem;
+}
+
+#StepRow {
+    margin-top: 2rem;
+}
+
+.Step {
+    height: 100%;
+}
+
+.StepCounter {
+    font-size: 3em;
+    line-height:150%;
+}
+
+.StepTitle {
+    font-size: 1.25em;
+    line-height: 200%;
+}
+
+@media (min-width: 66rem) {
+    #StepRow .StepColumn:first-child {
+        padding-left: 0;
+    }
+    
+    #StepRow .StepColumn:last-child {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 66rem) {
+    #StepRow .StepColumn {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}

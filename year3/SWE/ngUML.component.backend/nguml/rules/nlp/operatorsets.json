@@ -1,0 +1,80 @@
+{
+    "log_op": {
+        "not": [
+            "not",
+            "no"
+        ],
+        "or": [
+            "or"
+        ],
+        "and": [
+            "and"
+        ]
+    },
+    "val_op": {
+        "=": [
+            "==",
+            "=",
+            "equal",
+            "copy",
+            "equivalent",
+            "double",
+            "like",
+            "match"
+        ],
+        "}": [
+            "<",
+            "less",
+            "lower",
+            "beneath",
+            "smaller",
+            "lesser"
+        ],
+        "{": [
+            ">",
+            "more",
+            "greater",
+            "higher",
+            "larger"
+        ],
+        "[": [
+            ">=",
+            "least",
+            "fewest",
+            "minimum"
+        ],
+        "]": [
+            "<=",
+            "most",
+            "max",
+            "maximum"
+        ],
+        "SUM": [
+            "sum"
+        ],
+        "INTERVAL": [
+            "between"
+        ]
+    },
+    "terminal": {
+        "NULL": [
+            "empty",
+            "null"
+        ],
+        "char": [
+            "symbol",
+            "character"
+        ],
+        "let": [
+            "letter",
+            "alphabetical",
+            "letter"
+        ],
+        "int": [
+            "digit",
+            "number",
+            "numeric",
+            "numerical"
+        ]
+    }
+}

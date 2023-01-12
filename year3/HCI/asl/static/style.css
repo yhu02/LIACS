@@ -1,0 +1,44 @@
+#container {
+    display: table;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+#content {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 52pt;
+    white-space: nowrap;
+}
+
+#scores {
+    margin-top: 80px;
+    margin-bottom: -80px;
+    font-family: 'Lato', sans-serif;
+}
+#prompt {
+  font-family: 'Lato', sans-serif;
+}
+
+.lato {
+  font-family: 'Lato', sans-serif;
+}
+
+#progressbar {
+    background: slategray;
+    text-align: center;
+    overflow: hidden;
+}
+
+#myModal {
+    margin-top: 300px;
+}
+
+#back_to_splash, #back_to_splash_link {
+    float: right;
+    border-style: none;
+    margin-right: 70px;
+}
+

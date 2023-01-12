@@ -1,0 +1,423 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=ISO-8859-1">
+  <meta name="Description"
+ content="A tutorial on GLSL, OpenGL's shader language.">
+  <title>GLSL Tutorial </title>
+  <script type="text/javascript"><!--
+if ( (navigator.appName.indexOf("Explorer") >= 0) )
+  document.writeln('<LINK REL=stylesheet HREF="/style_ie.css" TYPE="text/css">');
+else
+  document.writeln('<LINK REL=stylesheet HREF="/style.css" TYPE="text/css">');
+// --></script>
+  <link rel="stylesheet" href="GLSL%20Tutorial%20files/style.css"
+ type="text/css">
+  <noscript>
+  <link rel="stylesheet" href="/style.css" type="text/css">
+  </noscript>
+  <style>
+.ogl       { color: #DF5900 }
+  </style>
+</head>
+<body>
+<h1>
+GLSL Tutorial <br>
+</h1>
+This document is to be used solely for educational purposes within the
+Computer Graphics course at LIACS.&nbsp;<small>
+</small>
+<h2>Introduction
+</h2>
+<p>In this tutorial shader programming using GLSL will be covered.
+Shaders are a hot topic and 3D games have shown that they can be put to
+good use to get remarkable effects. This tutorial aims at providing an
+introduction to the world of shaders.</p>
+<p>GLSL stands for GL Shading Language, often referred as <i>glslang</i>,
+and was defined by the Architectural Review Board of OpenGL, the
+governing body of OpenGL.
+GLSL is not the only shading language that has been developed. CG from
+NVidia is made to work with both OpenGL and Direct3D, whereas HLSL is
+made solely for Direct3D.
+These shader languages have their differences, but are very comparable
+in nature.</p>
+<p>This tutorial contains an introduction to the specification, where
+some information on variables and functions in GLSL is given.
+Should you wish to view the full specification of GLSL, visit <a
+ href="http://www.opengl.org/documentation/specs/">The OpenGL.org
+specifications page</a>.
+We will be using GLSL 1.40 for the course.</p>
+<p>Before writing shaders, in any language, it is a good idea to
+understand
+the basics of the graphics pipeline. This will provide a context to
+introduce shaders, what types of shaders are available, and what
+shaders
+are supposed to do. It will also show what shaders can't do, which is
+equally important.</p>
+<p>Some basic concepts such as data types, variables, statements and
+operators are then introduced.</p>
+<p>This tutorial finishes with a list of common functions in GLSL.</p>
+<h2>
+Pipeline Overview
+</h2>
+<p>The following figure is a (very) simplified diagram of the pipeline
+stages and the data that travels amongst them. Although extremely
+simplified it is enough to present some important concepts for shader
+programming. In this subsection the fixed functionality of the pipeline
+is presented. Note that this pipeline is an abstraction and does not
+necessarily meet any particular implementation in all its steps.</p>
+<center><img src="GLSL%20Tutorial%20files/pipeline.gif" width="500"
+ height="320"></center>
+<h3>Vertex Transformation</h3>
+<p>In here a vertex is a set of attributes such as its location in
+space, as well as its color, normal, texture coordinates, amongst
+others. The inputs for this stage are the individual vertices
+attributes. Some of the operations performed by the fixed functionality
+at this stage are:</p>
+<ul>
+  <li>Vertex position transformation</li>
+  <li>Lighting computations per vertex</li>
+  <li>Generation and transformation of texture coordinates</li>
+</ul>
+<h3>Primitive Assembly and Rasterization</h3>
+<p>The inputs for this stage are the transformed vertices, as well as
+connectivity information. This latter piece of data tells the pipeline
+how the vertices connect to form a primitive. It is in here that
+primitives are assembled.</p>
+<p>This stage is also responsible for clipping operations against the
+view frustum, and back face culling.</p>
+<p>Rasterization determines the fragments, and pixel positions of the
+primitive. A fragment in this context is a piece of data that will be
+used to update a pixel in the frame buffer at a specific location. A
+fragment contains not only color, but also normals and texture
+coordinates, amongst other possible attributes, that are used to
+compute the new pixel's color.</p>
+<p>The output of this stage is twofold:</p>
+<ul>
+  <li>The position of the fragments in the frame buffer</li>
+  <li>The interpolated values for each fragment of the attributes
+computed in the vertex transformation stage</li>
+</ul>
+<p>The values computed at the vertex transformation stage, combined
+with the vertex connectivity information allow this stage to compute
+the appropriate attributes for the fragment. For instance, each vertex
+has a
+transformed position. When considering the vertices that make up a
+primitive, it is possible to compute the position of the fragments of
+the primitive. Another example is the usage of color. If a triangle has
+its vertices with different colors, then the color of the fragments
+inside the triangle are obtained by interpolation of the triangle's
+vertices color weighted by the relative distances of the vertices to
+the
+fragment.</p>
+<h3>Fragment Texturing and Coloring</h3>
+<p>Interpolated fragment information is the input of this stage. A
+color has already been computed in the previous stage through
+interpolation, and in here it can be combined with a texel (texture
+element) for example. Texture coordinates have also been interpolated
+in the previous
+stage. Fog is also applied at this stage. The common end result of this
+stage per fragment is a color value and a depth for the fragment.</p>
+<h3>Raster Operations</h3>
+<p>The inputs of this stage are:</p>
+<ul>
+  <li>The pixels location</li>
+  <li>The fragments depth and color values</li>
+</ul>
+<p>The last stage of the pipeline performs a series of tests on the
+fragment, namely:</p>
+<ul>
+  <li>Scissor test</li>
+  <li>Alpha test</li>
+  <li>Stencil test</li>
+  <li>Depth test</li>
+</ul>
+<p>If successful the fragment information is then used to update the
+pixel's value according to the current blend mode. Notice that blending
+occurs only at this stage because the Fragment Texturing and Coloring
+stage has no access to the frame buffer. The frame buffer is only
+accessible at this stage.</p>
+<h3>Visual Summary of the Fixed Functionality</h3>
+<p>The following figure presents a visual description of the stages
+presented above:</p>
+<center><img src="GLSL%20Tutorial%20files/visualpipeline.gif"
+ width="542" height="297"></center>
+<h3>Replacing Fixed Functionality</h3>
+<p>Recent graphic cards give the programmer the ability to define the
+functionality of two of the above described stages:</p>
+<ul>
+  <li>Vertex shaders may be written for the Vertex Transformation stage.</li>
+  <li>Fragment shaders replace the Fragment Texturing and Coloring
+stage's fixed functionality.</li>
+</ul>
+<p>In the next subsections these programmable stages, hereafter the
+vertex processor and the fragment processor, are described.</p>
+<h2>
+Vertex Processor
+</h2>
+<p>The vertex processor is responsible for running the vertex shaders.
+The input for a vertex shader is the vertex data, namely its position,
+color, normals, etc, depending on what the OpenGL application sends.</p>
+<p>The following OpenGL code would send to the vertex processor a color
+and a vertex position for each vertex.</p>
+<hr>
+<pre>	glBegin(...);<br><br>		glColor3f(0.2,0.4,0.6);<br>		glVertex3f(-1.0,1.0,2.0);<br><br>		glColor3f(0.2,0.4,0.8);<br>		glVertex3f(1.0,-1.0,2.0);<br><br>	glEnd();<br></pre>
+<hr>
+<p>In a vertex shader you can write code for tasks such as:</p>
+<ul>
+  <li>Vertex position transformation using the modelview and projection
+matrices</li>
+  <li>Normal transformation, and if required its normalization</li>
+  <li>Texture coordinate generation and transformation</li>
+  <li>Lighting per vertex or computing values for lighting per pixel</li>
+  <li>Color computation</li>
+</ul>
+<p>There is no requirement to perform all the operations above, your
+application may not use lighting for instance. However, once you write
+a
+vertex shader you are replacing the full functionality of the vertex
+processor, hence you can't perform normal transformation and expect the
+fixed functionality to perform texture coordinate generation. When a
+vertex shader is used it becomes responsible for replacing all the
+needed functionality of this stage of the pipeline.</p>
+<p>As can be seen in the previous subsection
+the vertex processor has no information regarding connectivity, hence
+operations that require topological knowledge can't be performed in
+here. For instance it is not possible for a vertex shader to perform
+back face culling, since it operates on vertices and not on faces. The
+vertex processor processes vertices individually and has no clue of the
+remaining vertices.</p>
+<p>The vertex shader is responsible for at least writing a variable: <i>gl_Position</i>,
+usually transforming the vertex with the modelview and projection
+matrices.</p>
+<p>A vertex processor has access to OpenGL state, so it can perform
+operations that involve lighting for instance, and use materials. It
+can
+also access textures (only available in the newest hardware). There is
+no access to the frame buffer.</p>
+<h2>
+Fragment Processor
+</h2>
+<p>The fragment processor is where the fragment shaders run. This unit
+is responsible for operations like:</p>
+<ul>
+  <li>Computing colors, and texture coordinates per pixel</li>
+  <li>Texture application</li>
+  <li>Fog computation</li>
+  <li>Computing normals if you want lighting per pixel</li>
+</ul>
+<p>The inputs for this unit are the interpolated values computed in the
+previous stage of the pipeline such as vertex positions, colors,
+normals, etc...</p>
+<p>In the vertex shader these values are computed for each vertex. Now
+we're dealing with the fragments inside the primitives, hence the need
+for the interpolated values.</p>
+<p>As in the vertex processor, when you write a fragment shader it
+replaces
+all the fixed functionality. Therefore it is not possible to have a
+fragment shader texturing the fragment and leave the fog for the fixed
+functionality. The programmer must code all effects that the
+application
+requires.</p>
+<p>The fragment processor operates on single fragments, i.e. it has no
+clue
+about the neighboring fragments. The shader has access to OpenGL state,
+similar to the vertex shaders, and therefore it can access for instance
+the fog color specified in an OpenGL application.</p>
+<p>One important point is that a fragment shader can't change the pixel
+coordinate, as computed previously in the pipeline. Recall that in the
+vertex processor the modelview and projection matrices can be used to
+transform the vertex. The viewport comes into play after that but
+before
+the fragment processor. The fragment shader has access to the pixels
+location on screen but it can't change it.</p>
+<p>A fragment shader has two output options:</p>
+<ul>
+  <li>to discard the fragment, hence outputting nothing</li>
+  <li>to compute either <i>gl_FragColor</i> (the final color of the
+fragment), or <i>gl_FragData</i> when rendering to multiple targets.</li>
+</ul>
+<p>Depth can also be written although it is not required since the
+previous stage already has computed it.</p>
+<p>Notice that the fragment shader has no access to the frame buffer.
+This implies that operations such as blending occur only after the
+fragment shader has run.</p>
+<h2>
+Data Types and Variables
+</h2>
+<p>The following simple data types are available in GLSL:</p>
+<ul>
+  <li>float</li>
+  <li>bool</li>
+  <li>int</li>
+</ul>
+<p>Float and int behave just like in C, whereas the bool type can take
+on the values of true or false.</p>
+<p>Vectors with 2,3 or 4 components are also available for each of the
+simple data types mentioned above. These are declared as:</p>
+<ul>
+  <li>vec{2,3,4} a vector of 2,3,or 4 floats</li>
+  <li>bvec{2,3,4} bool vector</li>
+  <li>ivec{2,3,4} vector of integers</li>
+</ul>
+<p>Square matrices 2x2, 3x3 and 4x4 are provided since they are heavily
+used in graphics. The respective data types are:</p>
+<ul>
+  <li>mat2</li>
+  <li>mat3</li>
+  <li>mat4</li>
+</ul>
+<p>A set of special types are available for texture access. These are
+called samplers and are required to access texture values, also known
+as
+texels.<br>
+The data types for texture sampling are:</p>
+<ul>
+  <li>sampler1D - for 1D textures</li>
+  <li>sampler2D - for 2D textures</li>
+  <li>sampler3D - for 3D textures</li>
+  <li>samplerCube - for cube map textures</li>
+  <li>sampler1DShadow - for shadow maps</li>
+  <li>sampler2DShadow - for shadow maps</li>
+</ul>
+<p>In GLSL, arrays can be declared using the same syntax as in C.
+However arrays can't be initialized when declared. Accessing array's
+elements is
+done as in C.</p>
+<p>Structures are also allowed in GLSL. The syntax is the same as C.</p>
+<pre>	struct dirlight {<br>		vec3 direction;<br>		vec3 color;<br>	};<br></pre>
+<h3>Variables</h3>
+<p>Declaring a simple variable is pretty much the same as in C, you can
+even initialize a variable when declaring it.</p>
+<pre>	float a,b;       // two floats (yes, the comments are like in C)<br>	int c = 2;       // c is initialized with 2<br>	bool d = true;   // d is true<br></pre>
+<p>Declaring the other types of variables follows the same pattern, but
+there are differences between GLSL and C regarding initialization. GLSL
+relies heavily on constructor for initialization and type casting.</p>
+<pre>	float b = 2;        // incorrect, there is no automatic type casting<br>	<br>	float e = (float)2; // incorrect, requires constructors for type casting<br>	<br>	int a = 2;<br>	float c = float(a); // correct. c is 2.0<br>	float d = 2.0;      // correct. d is 2.0<br><br>	vec3 f;             // declaring f as a vec3<br>	vec3 g = vec3(1.0, 2.0, 3.0); // declaring and initializing g<br></pre>
+<p>GLSL is pretty flexible when initializing variables using other
+variables. All that it requires is that you provide the necessary
+number
+of components. Look at the following examples.</p>
+<pre>	vec2 a = vec2(1.0,2.0);<br>	vec2 b = vec2(3.0,4.0);<br>	<br>	vec4 c = vec4(a,b) // c = vec4(1.0,2.0,3.0,4.0);<br>	<br>	vec2 g = vec2(1.0,2.0);<br>	float h = 3.0;<br>	<br>	vec3 j = vec3(g,h);<br></pre>
+<p>Matrices also follow this pattern. You have a wide variety of
+constructors for matrices. For instance the following constructors for
+initializing a matrix are available:</p>
+<pre>	mat4 m = mat4(1.0) // initializing the diagonal of the matrix with 1.0<br>	<br>	vec2 a = vec2(1.0,2.0);<br>	vec2 b = vec2(3.0,4.0);<br>	<br>	mat2 n = mat2(a,b); // matrices are assigned in column major order<br>	<br>	mat2 k = mat2(1.0,0.0,1.0,0.0); // all elements are specified<br></pre>
+<p>The declaration and initialization of structures is demonstrated
+below:</p>
+<pre>	struct dirlight {		// type definition<br>		vec3 direction;<br>		vec3 color;<br>	};<br><br>	dirlight d1;<br>	dirlight d2 = dirlight(vec3(1.0,1.0,0.0),vec3(0.8,0.8,0.4));<br></pre>
+<p>In GLSL a few extras are provided to simplify our lives, and make
+the code a little bit clearer. Accessing a vector can be done using
+letters as well as standard C selectors.</p>
+<pre>	vec4 a = vec4(1.0,2.0,3.0,4.0);<br>	<br>	float posX = a.x;<br>	float posY = a[1];<br>	<br>	vec2 posXY = a.xy;<br>	<br>	float depth = a.w<br></pre>
+<p>As shown in the previous code snippet, it is possible to use the
+letters
+x,y,z,w to access vectors components. If you're talking about colors
+then r,g,b,a can be used. For texture coordinates the available
+selectors are s,t,p,q. Notice that by convention, texture coordinates
+are often referred as s,t,r,q. However <i>r</i> is already being used
+as
+a selector for "red" in RGBA. Hence there was a need to find a
+different letter, and the lucky one was <i>p</i>.</p>
+<p>Matrix selectors can take one or two arguments, for instance m[0],
+or m[2][3]. In the first case the first column is selected, whereas in
+the second a single element is selected.</p>
+<p>As for structures the names of the elements of the structure can be
+used as in C, so assuming the structures described above the following
+line of code could be written:</p>
+<pre>	d1.direction = vec3(1.0,1.0,1.0);<br></pre>
+<h3>Variable Qualifiers</h3>
+<p>Qualifiers give a special meaning to the variable. The following
+qualifiers are available:</p>
+<ul>
+  <li>const - The declaration is of a compile time constant</li>
+  <li>attribute - Global variables that may change per vertex, that are
+passed from the OpenGL application to vertex shaders. This qualifier
+can only be used in vertex shaders. For the shader this is a read-only
+variable. See Attribute section.</li>
+  <li>uniform - Global variables that may change per primitive (may not
+be set inside glBegin,/glEnd), that are passed from the OpenGL
+application to the shaders. This qualifier can be used in both vertex
+and fragment shaders. For the shaders this is a read-only variable. See
+Uniform section.</li>
+</ul>
+<h2>
+Statements and Functions
+</h2>
+<h3>Control Flow Statements</h3>
+<p>The available options are pretty much the same as in C. There are
+conditional statements, like if-else, iteration statements like for,
+while and do-while.</p>
+<pre>	if (bool expression)<br>	{<br>		...<br>	}<br>	else<br>	{<br>		...<br>	}	<br>		<br>	for (initialization; bool expression; loop expression)<br>	{<br>		...<br>	}<br><br>	while (bool expression)<br>	{<br>		...<br>	}<br>	<br>	do<br>	{<br>		...<br>	}<br>	while (bool expression)<br></pre>
+Although these are already available in the specification of GLSL, only
+the <i>if</i> statement is commonly available in current hardware.
+<p>A few jumps are also defined:</p>
+<ul>
+  <li>continue - available in loops, causes a jump to the next
+iteration of the loop</li>
+  <li>break - available in loops, causes an exit of the loop</li>
+  <li>discard</li>
+</ul>
+<p>The discard keyword can only be used in fragment shaders. It causes
+the termination of the shader for the current fragment without writing
+to the frame buffer.</p>
+<h3>GLSL Operators and Functions</h3>
+<p>Operators in GLSL work much like they do in C. For vectors and
+matrices, they usually work component-wise, which also means that the
+operands must be of the same size.
+The only exception here is a vector multiplied by a matrix, a matrix
+multiplied by a vector or a matrix multiplied by a matrix. These
+perform the correct linear algebraic multiply.</p>
+<p>For instance:</p>
+<pre>	vec3 v, u;<br>	mat3 m;<br>	u = m * v;<br></pre>
+<p>Given below here is not a complete list of all the functions
+available in GLSL, but it should prove enough to get you started.</p>
+<br>
+<p>The following functions can be used on single floats or whole
+vectors at a time. They are computes per element.</p>
+<ul>
+  <li><code>radians(x)</code>, <code>degrees(x)</code>: Converts from
+an angle of the other type to radians and degrees respectively</li>
+  <li><code>sin(x)</code>, <code>cos(x)</code>, etc...: Any
+trigonometric functions</li>
+  <li><code>pow(x, y)</code>: Returns x to the y'th power, both as
+floats</li>
+  <li><code>exp(x)</code>, <code>log(x)</code>: Natural power and
+logarithms</li>
+  <li><code>exp2(x)</code>, <code>log2(x)</code>: Base 2 power and
+logarithms</li>
+  <li><code>sqrt(x)</code>, <code>abs(x)</code>, <code>floor(x)</code>,
+    <code>ceil(x)</code>: As expected</li>
+  <li><code>min(x, y)</code>, <code>max(x, y)</code>: Smallest or
+greatest value of a pair</li>
+  <li><code>clamp(x, minval, maxval)</code>: Very useful function,
+equals: min(max(x, minVal), maxVal) to get x in [minval, maxval]</li>
+  <li><code>mix(x, y, a)</code>: Returns x * (1 - a) + y * a</li>
+</ul>
+<br>
+<p>The following functions are for use with vectors and matrices.</p>
+<ul>
+  <li><code>length(v)</code>: Returns the length of a vector</li>
+  <li><code>distance(p0, p1)</code>: Returns the distance between p0
+and p1, ie: length(p0 - p1)</li>
+  <li><code>dot(x, y)</code>: Returns the dot product (inner product)
+of x and y</li>
+  <li><code>cross(x, y)</code>: Returns the cross product (outer
+product) of x and y, only available for vec3 types</li>
+  <li><code>normalize(x)</code>: Normalizes vector x, ie sets its
+length to 1: x / length(x)</li>
+  <li><code>reflect(I, N)</code>: For the incident vector I and surface
+orientation N, returns the reflection direction: I - 2 * dot(N, I) * N.
+N must already be normalized in order to achieve the desired result.</li>
+  <li><code>transpose(m)</code>: Returns the transpose of matrix m</li>
+</ul>
+<br>
+<p>The following function is for texture lookups.</p>
+<ul>
+  <li><code>texture(sampler2D, coordinate)</code>: Does a lookup in the
+texture specified by the sampler2D at the given coordinate (a vec2) and
+returns the vec4 color value as RGBA</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="10.0.000">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="10.0.000" expanded="true" name="Process" origin="EXPORTED_TURBOPREP">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="10.0.000" expanded="true" height="68" name="Retrieve flights_sample" width="90" x="45" y="136">
+        <parameter key="repository_entry" value="../flights_sample"/>
+      </operator>
+      <operator activated="true" class="split" compatibility="10.0.000" expanded="true" height="82" name="Split" width="90" x="179" y="136">
+        <parameter key="attribute_filter_type" value="single"/>
+        <parameter key="attribute" value="dep_time_planned"/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="nominal"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="file_path"/>
+        <parameter key="block_type" value="single_value"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="single_value"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="split_pattern" value=":"/>
+        <parameter key="split_mode" value="ordered_split"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="10.0.000" expanded="true" height="82" name="Select Attributes (3)" width="90" x="313" y="136">
+        <parameter key="attribute_filter_type" value="single"/>
+        <parameter key="attribute" value="dep_time_planned_2"/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="true"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="10.0.000" expanded="true" height="82" name="Select Attributes" width="90" x="447" y="136">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="airline|arr_delay|arr_delay_15|arr_time_planned|clouds_height|clouds_type|day|dep_delay|dep_delay_15|dep_time_planned_1|dest_airport|dest_city|dest_state|dewpoint|flight_distance|flight_number|flight_time_planned|humidity|is_cancelled|minute|month|origin_airport|origin_city|origin_id|origin_state|precipitation|pressure_sealevel|pressure_station|quarter|tail_number|temperature|visibility|weather|weekday|wind_direction|windspeed|year"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="10.0.000" expanded="true" height="68" name="Retrieve airport_weather" width="90" x="45" y="238">
+        <parameter key="repository_entry" value="../airport_weather"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="10.0.000" expanded="true" height="82" name="Join" width="90" x="581" y="187">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="outer"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="origin_id" value="airport_id"/>
+          <parameter key="year" value="year"/>
+          <parameter key="month" value="month"/>
+          <parameter key="day" value="day"/>
+          <parameter key="dep_time_planned_1" value="hour"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="filter_examples" compatibility="10.0.000" expanded="true" height="103" name="Filter Examples (2)" width="90" x="715" y="187">
+        <parameter key="parameter_expression" value=""/>
+        <parameter key="condition_class" value="custom_filters"/>
+        <parameter key="invert_filter" value="false"/>
+        <list key="filters_list">
+          <parameter key="filters_entry_key" value="year.equals.2017"/>
+          <parameter key="filters_entry_key" value="is_cancelled.equals.0\.0"/>
+        </list>
+        <parameter key="filters_logic_and" value="true"/>
+        <parameter key="filters_check_metadata" value="true"/>
+      </operator>
+      <operator activated="true" class="set_role" compatibility="10.0.000" expanded="true" height="82" name="Set Role" width="90" x="849" y="187">
+        <parameter key="attribute_name" value="dep_delay"/>
+        <parameter key="target_role" value="label"/>
+        <list key="set_additional_roles"/>
+      </operator>
+      <operator activated="true" class="split_data" compatibility="10.0.000" expanded="true" height="103" name="Split Data" width="90" x="715" y="289">
+        <enumeration key="partitions">
+          <parameter key="ratio" value="0.8"/>
+          <parameter key="ratio" value="0.2"/>
+        </enumeration>
+        <parameter key="sampling_type" value="automatic"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+      </operator>
+      <operator activated="true" class="filter_examples" compatibility="10.0.000" expanded="true" height="103" name="Filter Examples (3)" width="90" x="916" y="646">
+        <parameter key="parameter_expression" value=""/>
+        <parameter key="condition_class" value="no_missing_labels"/>
+        <parameter key="invert_filter" value="false"/>
+        <list key="filters_list"/>
+        <parameter key="filters_logic_and" value="true"/>
+        <parameter key="filters_check_metadata" value="true"/>
+      </operator>
+      <operator activated="true" class="filter_examples" compatibility="10.0.000" expanded="true" height="103" name="Filter Examples" width="90" x="916" y="442">
+        <parameter key="parameter_expression" value=""/>
+        <parameter key="condition_class" value="no_missing_labels"/>
+        <parameter key="invert_filter" value="false"/>
+        <list key="filters_list"/>
+        <parameter key="filters_logic_and" value="true"/>
+        <parameter key="filters_check_metadata" value="true"/>
+      </operator>
+      <operator activated="true" class="concurrency:parallel_random_forest" compatibility="10.0.000" expanded="true" height="103" name="Random Forest" width="90" x="1050" y="544">
+        <parameter key="number_of_trees" value="10"/>
+        <parameter key="criterion" value="least_square"/>
+        <parameter key="maximal_depth" value="5"/>
+        <parameter key="apply_pruning" value="false"/>
+        <parameter key="confidence" value="0.1"/>
+        <parameter key="apply_prepruning" value="false"/>
+        <parameter key="minimal_gain" value="0.01"/>
+        <parameter key="minimal_leaf_size" value="2"/>
+        <parameter key="minimal_size_for_split" value="4"/>
+        <parameter key="number_of_prepruning_alternatives" value="3"/>
+        <parameter key="random_splits" value="false"/>
+        <parameter key="guess_subset_ratio" value="true"/>
+        <parameter key="subset_ratio" value="0.2"/>
+        <parameter key="voting_strategy" value="confidence vote"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="enable_parallel_execution" value="true"/>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="10.0.000" expanded="true" height="82" name="Apply Model" width="90" x="1184" y="595">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="performance_regression" compatibility="10.0.000" expanded="true" height="82" name="Performance" width="90" x="1184" y="442">
+        <parameter key="main_criterion" value="first"/>
+        <parameter key="root_mean_squared_error" value="true"/>
+        <parameter key="absolute_error" value="false"/>
+        <parameter key="relative_error" value="false"/>
+        <parameter key="relative_error_lenient" value="false"/>
+        <parameter key="relative_error_strict" value="false"/>
+        <parameter key="normalized_absolute_error" value="false"/>
+        <parameter key="root_relative_squared_error" value="false"/>
+        <parameter key="squared_error" value="false"/>
+        <parameter key="correlation" value="false"/>
+        <parameter key="squared_correlation" value="false"/>
+        <parameter key="prediction_average" value="false"/>
+        <parameter key="spearman_rho" value="false"/>
+        <parameter key="kendall_tau" value="false"/>
+        <parameter key="skip_undefined_labels" value="true"/>
+        <parameter key="use_example_weights" value="true"/>
+      </operator>
+      <connect from_op="Retrieve flights_sample" from_port="output" to_op="Split" to_port="example set input"/>
+      <connect from_op="Split" from_port="example set output" to_op="Select Attributes (3)" to_port="example set input"/>
+      <connect from_op="Select Attributes (3)" from_port="example set output" to_op="Select Attributes" to_port="example set input"/>
+      <connect from_op="Select Attributes" from_port="example set output" to_op="Join" to_port="left"/>
+      <connect from_op="Retrieve airport_weather" from_port="output" to_op="Join" to_port="right"/>
+      <connect from_op="Join" from_port="join" to_op="Filter Examples (2)" to_port="example set input"/>
+      <connect from_op="Filter Examples (2)" from_port="example set output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Set Role" from_port="example set output" to_op="Split Data" to_port="example set"/>
+      <connect from_op="Split Data" from_port="partition 1" to_op="Filter Examples" to_port="example set input"/>
+      <connect from_op="Split Data" from_port="partition 2" to_op="Filter Examples (3)" to_port="example set input"/>
+      <connect from_op="Filter Examples (3)" from_port="example set output" to_op="Apply Model" to_port="unlabelled data"/>
+      <connect from_op="Filter Examples" from_port="example set output" to_op="Random Forest" to_port="training set"/>
+      <connect from_op="Random Forest" from_port="model" to_op="Apply Model" to_port="model"/>
+      <connect from_op="Apply Model" from_port="labelled data" to_op="Performance" to_port="labelled data"/>
+      <connect from_op="Performance" from_port="performance" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+    </process>
+  </operator>
+</process>

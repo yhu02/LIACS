@@ -1,0 +1,21 @@
+*, *::before, *::after{
+  box-sizing: border-box;
+}
+body,h1,h2,h3,h4,p,figure,blockquote,dl,dd{
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.emoji{
+  font-size: 8rem;
+}

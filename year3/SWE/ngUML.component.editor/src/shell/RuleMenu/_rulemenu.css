@@ -1,0 +1,73 @@
+#RuleMenu{
+	position: fixed;
+	z-index: 8000;
+	background-color: #ccc;
+	width: 0px;
+	top: 3rem;
+	right: 0;
+	height: 100vh;
+	transition: width 0.3s;
+	text-align: center;
+	padding-top: 5px;
+	border-left: 1px solid #bbb;
+	overflow-y: scroll;
+}
+
+#Header{
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+li::before{
+	visibility: hidden;
+}
+
+#BadRules{
+	color: red;
+	display: block;
+	margin-top: 5px;
+	visibility: hidden;
+}
+
+.BadRulesShown{
+	visibility: visible !important;
+}
+
+.GoodRulesShown{
+	color: green !important;
+	visibility: visible !important;
+}
+
+.tooltip{
+	z-index: 8001 !important;
+}
+
+.deleteButton{
+	float: right;
+	margin-top: 10px !important;
+}
+
+.editButton{
+	float: left;
+	margin-top: 10px !important;
+}
+
+.accordionItem{
+	padding-right: 0% !important;
+}
+
+.bx--accordion__content{
+	padding-right: 5% !important;
+	padding-bottom: 20% !important;
+}
+
+
+#closeButton{
+	position: absolute;
+	float: left;
+	padding-top: 0;
+	margin-top: 0 !important;
+	left: 0;
+	top: 0;
+	background-color: #ccc;
+}

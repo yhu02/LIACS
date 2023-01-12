@@ -1,0 +1,9 @@
+#EditNotification {
+    margin-top: calc(var(--spacing) / 2);
+    margin-bottom: calc(var(--spacing) / 2);
+}
+
+#MetadataField p {
+    margin-top: calc(var(--spacing) / 2);
+    white-space: pre-wrap;
+}

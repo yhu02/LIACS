@@ -1,0 +1,47 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ operation.name }} : {{ operation.type }}</h5>
+        <h6>Parameters</h6>
+        <table class="table table-hover">
+            {% for parameter in parameters %}
+            <tr>
+                <td>
+                    {{ parameter.name }} : {{ parameter.type }}
+                </td>
+                <td align="right">
+                    <a class="btn btn-danger btn-sm" href="/model/operations/parameters/{{ parameter.id }}/delete" role="button">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Add parameter</h5>
+        <form action="/model/operations/parameters/add" method="POST">{% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+            
+                <select id="type" name="type">
+                    {% for type in types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                    </select>
+            </div>
+            <input type="hidden" id="operation_id" name="operation_id" value="{{ operation.id }}">
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+.nguml-initial-node {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: black;
+    margin: 0 auto;
+}
+
+.nguml-initial-node-wrapper{
+    text-align: center;
+}

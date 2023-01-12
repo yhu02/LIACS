@@ -1,0 +1,26 @@
+.RequirementInputContainer {
+    display: flex;
+}
+
+.RequirementInputContainer .OrContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-left: var(--spacing);
+}
+
+.RequirementInputContainer .OrContainer .bx--tag {
+    z-index: 1;
+}
+
+.RequirementInputContainer .OrContainer hr {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 1px;
+    border-top-width: 0;
+    border-left: 1px solid var(--gray);
+    margin: 0;
+}

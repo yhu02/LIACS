@@ -1,0 +1,10 @@
+{
+  "short_name": "ngUML-editor",
+  "name": "ngUML Diagram Editor",
+  "icons": [
+  ],
+  "start_url": "localhost",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

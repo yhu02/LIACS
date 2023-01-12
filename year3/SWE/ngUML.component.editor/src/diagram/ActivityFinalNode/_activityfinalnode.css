@@ -1,0 +1,20 @@
+.nguml-activity-final-inner-node {
+    width: 35px;
+    height: 35px;
+    border-radius: 20px;
+    background: black;
+}
+
+.nguml-activity-final-outer-node {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: white;
+    border: black solid 2px;
+    padding: 5px;
+    margin: 0 auto;
+}
+
+.nguml-activity-final-node-wrapper{
+    text-align: center;
+}

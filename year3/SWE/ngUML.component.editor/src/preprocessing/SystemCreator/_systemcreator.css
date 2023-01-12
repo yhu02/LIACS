@@ -1,0 +1,10 @@
+#TypeSelector #TypeOptions {
+    margin-top: calc(var(--spacing) / 2);
+}
+
+#TypeOptions button {
+    margin-right: calc(var(--spacing) / 2);
+}
+label[for=SelectAll]{
+    font-weight: bold;
+}

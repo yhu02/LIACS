@@ -1,0 +1,27 @@
+{% include 'application_header.html' with title=application.name %}
+
+<main role="main" class="container">
+    {% block content %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Category:{{ category.name }}</h5>
+                <a class="btn btn-primary btn-lg" style="float: right" href="/model/applications/{{ application.id }}/category/{{ category.id }}/addpage" role="button">Add Page</a>
+                <br>
+                <br>
+                <h5 class="card-title">Pages:</h5>
+                {% for page in pages %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ page.name }}</h5>
+                            <a class="btn btn-primary" style="float: right" href="/model/applications/{{ application.id }}/page/{{ page.id }}" role="button">Show</a>
+                            <a class="btn btn-primary" href="/model/applications/{{ application.id }}/page/{{ page.id }}/query" role="button">Query</a>
+                            <a class="btn btn-primary" href="/model/applications/{{ application.id }}/page/{{ page.id }}/properties" role="button">Properties</a>
+                            <a class="btn btn-primary" href="/model/applications/{{ application.id }}/page/{{ page.id }}/edit" role="button">Edit</a>
+                            <a class="btn btn-danger" href="/model/applications/{{ application.id }}/page/{{ page.id }}/delete" role="button">Delete</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
+</main>

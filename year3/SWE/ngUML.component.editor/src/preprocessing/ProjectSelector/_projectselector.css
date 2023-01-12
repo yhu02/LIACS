@@ -1,0 +1,25 @@
+.PreprocessingContentTile {
+    margin-top: 1rem;
+}
+
+.PreprocessingContentTile .bx--data-table-header {
+    padding-bottom: 1px;
+}
+
+.PreprocessingContentTile .bx--data-table-header__description {
+    margin-top: 5px;
+}
+
+.PreprocessingContentTile td[align="right"] {
+    padding-right: 0;
+    text-align: right;
+}
+
+#EmptyDataTableRow {
+    background-color: var(--lightgray);
+    padding: var(--spacing);
+}
+
+#EmptyDataTableRow p {
+    font-style: italic;
+}

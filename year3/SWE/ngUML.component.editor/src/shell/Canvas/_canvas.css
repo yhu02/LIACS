@@ -1,0 +1,10 @@
+.nguml-canvas {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: -1;
+    background-image: radial-gradient(gray .2px, transparent .4px);
+    background-size: calc(30 * .2px) calc(30 * .2px);
+}

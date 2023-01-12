@@ -1,0 +1,22 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <a class="btn btn-primary btn-lg" href="/model/classifiers/add" role="button">Add Classifier</a>
+    <br>
+    <br>
+    {% for classifier in classifiers %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ classifier.name }}</h5>
+                <ul class="list-group">
+                    {% for property in classifier.properties %}
+                        <li class="list-group-item">{{ property.name }} : {{ property.type }}</li>
+                    {% endfor %}
+                </ul>
+                <a class="btn btn-primary" href="/model/classifiers/{{ classifier.id }}" role="button">Edit</a>
+                <a class="btn btn-danger" href="/model/classifiers/{{ classifier.id }}/delete" role="button">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+        

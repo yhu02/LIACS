@@ -1,0 +1,29 @@
+.nguml-context-menu > * {
+    margin: 8px 0 8px 0;
+}
+
+.nguml-context-menu {
+    padding: 0 8px 0 8px;
+    display: block;
+}
+
+.bx--header-panel--expanded {
+    width: 384px !important;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.bx--header-panel--expanded::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+
+
+/* Carbon Shell uses zIndex 8080 for menu items */
+.nguml-overlay { 
+    z-index: 8082; 
+}
+
+.bp3-portal {
+    z-index: 8085;
+}

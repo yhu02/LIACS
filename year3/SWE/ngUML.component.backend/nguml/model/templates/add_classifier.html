@@ -1,0 +1,19 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <form action="/model/classifiers/add" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+        
+            <select id="type" name="type">
+                {% for type in types %}
+                <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

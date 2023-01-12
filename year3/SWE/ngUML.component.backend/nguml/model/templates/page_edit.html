@@ -1,0 +1,557 @@
+{% include 'application_header.html' with title=application.name %}
+
+<main role="main" class="container">
+    {% block content %}
+        <input name="page-title" id="page-title" value="{{ page.name }}" />
+        <div class="wrapper row usercontent">
+            <div class="header col-12" style="margin-left: 0;padding-left: 0">
+                <div class="add"><i class="fa fa-plus"></i></div>
+            </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <a class="btn btn-primary right" id="save-button" role="button">Save</a>
+        </div>
+        <div class="loading">
+            <img src="/static/wysiwyg/loading.gif" />
+        </div>
+        {% csrf_token %}
+    {% endblock %}
+</main>
+
+
+{% block javascript %}
+    <script src="https://cdn.tiny.cloud/1/0w4dazcov61xs5zzxexikt6j3qxo0a0lgy51po8ah5orpgl3/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    let classifiersAndProperties = {
+        {% for classifier in classifiers %}
+           '{{ classifier.machine_name }}':'{{ classifier.name }}',
+            {% for property in classifier.properties %}
+                '{{ classifier.machine_name }}-{{ property.machine_name }}':'{{ classifier.name }} - {{ property.name }}',
+            {% endfor %}
+        {% endfor %}
+    };
+    function maketable(properties){
+        let table = "<table>";
+        for(let key in properties){
+          let value = properties[key];
+          if(value === true && key.indexOf('-') != -1){
+              table+="<tr><td>"+classifiersAndProperties[key]+"</td><td>{% templatetag openvariable %}"+key+"{% templatetag closevariable %}</td></tr>";
+          }
+        }
+        table+="</table>"
+
+        return table;
+    }
+    function makeInputTable(properties){
+        let table = "<table>";
+        for(let key in properties){
+          let value = properties[key];
+          if(value === true && key.indexOf('-') != -1){
+              table+=`<tr><td>`+classifiersAndProperties[key]+`</td><td><input type='text' value='' name='`+key+`' id = '`+key+`' /></td></tr>`;
+          }
+        }
+        table+="</table>"
+
+        return table;
+    }
+    tinymce.PluginManager.add('insertData', function(editor, url) {
+      var openDialog = function () {
+        return editor.windowManager.open({
+          title: 'Insert data table',
+          body: {
+            type: 'panel',
+            items: [
+                {% for classifier in classifiers %}
+                    {
+                      type: 'checkbox', // component type
+                      name: '{{ classifier.machine_name }}', // identifier
+                      label: '{{ classifier.name }}', // text for the label,
+                      classes:'someclass',
+                      disabled: false // disabled state
+                    },
+                    {% for property in classifier.properties %}
+                        {
+                          type: 'checkbox', // component type
+                          name: '{{ classifier.machine_name }}-{{ property.machine_name }}', // identifier
+                          label: '{{ classifier.name }} - {{ property.name }}', // text for the label
+                          disabled: false // disabled state
+                        },
+                    {% endfor %}
+                {% endfor %}
+            ]
+          },
+          buttons: [
+            {
+              type: 'cancel',
+              text: 'Close'
+            },
+            {
+              type: 'submit',
+              text: 'Save',
+              primary: true
+            }
+          ],
+          onSubmit: function (api) {
+            var data = api.getData();
+            /* Insert content when the window form is submitted */
+            {#editor.insertContent('Title: ' + data.title);#}
+              let table = maketable(data);
+              if(table == "<table></table>")
+                  return;
+
+              {#table+="</table>";#}
+              editor.insertContent(table);
+            api.close();
+          },
+          onChange: function(api,change) {
+              let data = api.getData();
+              let changed = change.name;
+              if(change.name.indexOf("-") == -1){
+                  for(let key in data){
+                      if(key.indexOf(changed) !== -1){
+                          data[key] = data[changed];
+                      }
+                  }
+                  api.setData(data);
+              }
+          }
+        });
+      };
+      var openInputFieldDialog = function () {
+        return editor.windowManager.open({
+          title: 'Insert input fields table',
+          body: {
+            type: 'panel',
+            items: [
+                {% for classifier in classifiers %}
+                    {
+                      type: 'checkbox', // component type
+                      name: '{{ classifier.machine_name }}', // identifier
+                      label: '{{ classifier.name }}', // text for the label,
+                      classes:'someclass',
+                      disabled: false // disabled state
+                    },
+                    {% for property in classifier.properties %}
+                        {
+                          type: 'checkbox', // component type
+                          name: '{{ classifier.machine_name }}-{{ property.machine_name }}', // identifier
+                          label: '{{ classifier.name }} - {{ property.name }}', // text for the label
+                          disabled: false // disabled state
+                        },
+                    {% endfor %}
+                {% endfor %}
+            ]
+          },
+          buttons: [
+            {
+              type: 'cancel',
+              text: 'Close'
+            },
+            {
+              type: 'submit',
+              text: 'Save',
+              primary: true
+            }
+          ],
+          onSubmit: function (api) {
+            var data = api.getData();
+            /* Insert content when the window form is submitted */
+            {#editor.insertContent('Title: ' + data.title);#}
+              let table = makeInputTable(data);
+              if(table == "<table></table>")
+                  return;
+
+              {#table+="</table>";#}
+              editor.insertContent(table);
+            api.close();
+          },
+          onChange: function(api,change) {
+              let data = api.getData();
+              let changed = change.name;
+              if(change.name.indexOf("-") == -1){
+                  for(let key in data){
+                      if(key.indexOf(changed) !== -1){
+                          data[key] = data[changed];
+                      }
+                  }
+                  api.setData(data);
+              }
+          }
+        });
+      };
+
+      var openDataDialog = function () {
+        return editor.windowManager.open({
+          title: 'Insert data',
+          body: {
+            type: 'panel',
+            items: [
+                {% for classifier in classifiers %}
+                    {% for property in classifier.properties %}
+                        {
+                          type: 'button', // component type
+                          text: '{{ classifier.name }} - {{ property.name }}',
+                          primary: false,
+                          name: '{{ classifier.machine_name }}-{{ property.machine_name }}',
+                          disabled: false,
+                          borderless: false
+                        },
+                    {% endfor %}
+                {% endfor %}
+            ]
+          },
+          buttons:[],
+          onAction: function (api,item) {
+            editor.insertContent('{% templatetag openvariable %}'+item.name+'{% templatetag closevariable %}');
+            api.close();
+          }
+        });
+      };
+
+      var openInputModelDialog = function () {
+        return editor.windowManager.open({
+          title: 'Insert input model',
+          body: {
+            type: 'panel',
+            items: [
+                {% for classifier in classifiers %}
+                        {
+                          type: 'button', // component type
+                          text: '{{ classifier.name }}',
+                          primary: false,
+                          name: '{{ classifier.machine_name }}',
+                          disabled: false,
+                          borderless: false
+                        },
+                {% endfor %}
+            ]
+          },
+          buttons:[],
+          onAction: function (api,item) {
+              editor.insertContent(`<select><option>`+item.name+`</option></select>`);
+            api.close();
+          }
+        });
+      };
+      /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+      editor.ui.registry.addMenuItem('insertDataTable', {
+        text: 'Insert data table',
+        onAction: function() {
+          /* Open window */
+          openDialog();
+        }
+      });
+      /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+      editor.ui.registry.addMenuItem('insertData', {
+        text: 'Insert data',
+        onAction: function() {
+          /* Open window */
+          openDataDialog();
+        }
+      });
+      /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+      editor.ui.registry.addMenuItem('insertInputField', {
+        text: 'Insert input field',
+        onAction: function() {
+          /* Open window */
+          openInputFieldDialog();
+        }
+      });
+      /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+      editor.ui.registry.addMenuItem('insertInputModel', {
+        text: 'Insert input model',
+        onAction: function() {
+          /* Open window */
+          openInputModelDialog();
+        }
+      });
+      /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+      editor.ui.registry.addMenuItem('insertSubmitButton', {
+        text: 'Insert submit button',
+        onAction: function() {
+        return editor.windowManager.open({
+          title: 'Insert submit button',
+          body: {
+            type: 'panel',
+            items: [
+                {
+                  type: 'input', // component type
+                  text: 'Text to display',
+                  name: 'text',
+                  disabled: false,
+                  borderless: false
+                },
+            ]
+          },
+          buttons:[{
+              type: 'submit',
+              text: 'OK'
+            }],
+          onSubmit: function (api,item) {
+            var data = api.getData();
+            console.log(data)
+            editor.insertContent("<input type='submit\' value='"+ data.text +"' name=\'submit\' />");
+            api.close();
+          }
+        });
+        }
+      });
+      /* Return the metadata for the help plugin */
+      return {
+        getMetadata: function () {
+          return  {
+            name: 'NGUML inhouse plugin',
+            url: 'https://nguml.com'
+          };
+        }
+      };
+    });
+
+    $(document).ready(()=>{
+        let sortable_options ={
+            change: function (event,ui){
+            },
+            start: function(e, ui){
+                ui.placeholder.height(ui.item.height());
+                ui.placeholder.width(ui.item.width());
+            },
+            handle: ".move",
+            placeholder: "highlight",
+        };
+        $(".usercontent").on('click','.decrease',function(event){
+            resize_div(this,false);
+        })
+        .on('click','.increase',function(){
+            resize_div(this,true);
+        });
+        function resize_div(item,increase = true){
+            let div = $(item).parent().parent();
+            let classes = $(div).attr('class');
+            let regex = /col-([0-9]*)/gm;
+            let size = regex.exec(classes)[1];
+            if(increase && size == 12)
+                return;
+            if(!increase && size == 1)
+                return;
+            let new_size = parseInt(size) + increase - !increase;
+            $(div).removeClass("col-"+size).addClass("col-"+new_size);
+            $(".size",$(item).parent()).text(new_size);
+            console.log(classes,size,new_size)
+        }
+
+        $(".usercontent").on('click','.add',function(){
+            let target= $(".children",$(this).parent().parent())
+            if($(this).parent().parent().hasClass('usercontent'))
+                target = $(this).parent().parent().parent()
+            $(".wrapper").sortable("destroy");
+            if($(target).has(".row").length){
+                $(empty_item).appendTo($(".row",target).first());
+            }
+            else{
+                let item = "<div class=\"wrapper row\">"+empty_item+"</div>";
+                $(item).appendTo(target.first());
+            }
+            $(".wrapper").sortable(sortable_options);
+        });
+
+        let empty_item = '<div class="drag col-12">'+
+                '<div class="header">'+
+                    '<div class="move"><i class="fas fa-arrows-alt-h"></i></div>'+
+                    '<div class="decrease">-</div>'+
+                    '<div class="size">12</div>'+
+                    '<div class="increase">+</div>'+
+                    '<div class="classes-container">classes:<div class="classes"></div></div>'+
+                    '<div class="add right"><i class="fa fa-plus"></i></div>'+
+                    '<div class="edit right"><i class="fas fa-edit"></i></div>'+
+                    '<div class="delete right"><i class="fas fa-trash-alt"></i></div>'+
+                '</div>'+
+            '<div class="content"></div>'+
+            '<div class="children"></div>'+
+            '</div>';
+
+        $(".usercontent").on('click','.delete',function(){
+            if($(this).parent().parent().parent().children().length > 1)
+                $(this).parent().parent().remove();
+            else
+                $(this).parent().parent().parent().remove();
+        });
+
+        $(".usercontent").on('click','.edit',function() {
+            let target = $('.content',$(this).parent().parent()).first();
+            let old_contents = $(target).html();
+            let area  = $("<textarea id='textarea'>").html(old_contents)
+            let current_classes = $(this).parent().parent().attr('class').replace('drag','').replace(/col-[0-9]*/,'').trim()
+            target.html(area);
+            tinymce.init({
+                selector:'#textarea',
+                plugins:'image,code,table,link,imagetools,media,codesample,insertData',
+                menu:{
+                    insert:{ title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime | insertData insertDataTable | insertInputField insertInputModel | insertSubmitButton' },
+                }
+            });
+            $($(this).children()[0]).removeClass('fa-edit').addClass('fa-check');
+            $(this).removeClass('edit').addClass('save');
+            let classes_container = $(".classes",$(this).parent().parent().children()[0]).first()
+            classes_container.text('')
+            $('<input type="text" placeholder="Classes:" value="'+ current_classes +'" name="classes" id="classes" />').data('old_classes',current_classes).appendTo(classes_container);
+        });
+
+        $(".usercontent").on('click','.save',function(){
+            tinyMCE.triggerSave();
+            tinyMCE.remove();
+            let target = $('.content',$(this).parent().parent()).first();
+            let value = $("#textarea");
+            let classes = $("#classes",$(this).parent().parent()).first();
+            let extra_classes = $(classes).val()
+            $(this).parent().parent().removeClass($(classes).data('old_classes')).addClass(extra_classes);
+            classes.remove();
+            $(".classes",$(this).parent().parent()).first().text(extra_classes)
+            //TODO:removeclass
+            $(target).html(value.val());
+            $(value).remove();
+            $($(this).children()[0]).removeClass('fa-check').addClass('fa-edit');
+            $(this).removeClass('save').addClass('edit');
+        });
+
+        $(".buttons").on('click','#save-button',function(){
+            $(".save",".usercontent").trigger('click');
+            $("#textarea").parent().html($("#textarea").val())
+            let content = $(".usercontent");
+            const main_header = $('.header',$(content)).first().html()
+            $('.header',$(content)).first().remove();
+            let sections = getSections(content,"");
+            $(".loading").css('display','block');
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            $.ajax({
+                url: window.location.href.replace('/edit','/save'),
+                data: {
+                    'sections':JSON.stringify(sections),
+                    'name':$("#page-title").val()
+                },
+                method: 'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin'
+            }).done(function (){
+               //window.location.href = window.location.href.replace('/edit','')
+                $(".loading").css('display','none');
+                $('<div class="header col-12" style="margin-left: 0;padding-left: 0">'+main_header+'</div>').prependTo(content)
+            });
+        });
+
+        function getSections(contextselector,prefix){
+            if(!$(contextselector).children().length)
+                return [];
+            const newprefix = prefix === "" ? "" : prefix+".";
+            let children = $(contextselector.children());
+            let returnvalue = [];
+            $(children).each(function(i,info){
+                const classes = $(this).attr('class')
+                const content = $('.content',$(this)).html()
+                const children = getSections($('.row',$(this)).first(),newprefix+(i+1))
+                const sorting = newprefix+(i+1)
+
+                if(classes.indexOf('header') > -1)
+                    return;
+
+                returnvalue.push({
+                    classes:classes.replace('drag ',''),
+                    content:content,
+                    children:children,
+                    sorting:sorting
+                });
+            });
+            return returnvalue;
+        }
+        let json = '{{ sections | safe }}';
+        console.log(json,json.replaceAll("\\\"","\""))
+        const user_content = JSON.parse(json);
+
+        set_content(user_content,$(".usercontent"));
+        if($(".usercontent").children().length == 1){
+            $(empty_item).appendTo($(".usercontent"));
+        }
+        $(".wrapper").sortable(sortable_options);
+        $(".wrapper.move,.wrapper.increase,.wrapper.decrease").disableSelection()
+
+        function set_content(sections,place){
+            $(sections).each(function(i,item){
+                let content = $(empty_item).appendTo(place);
+                $(content).removeClass('col-12').addClass(item.classes)
+                let regex = /(?:^|\s)col-(\d*)(?:\s|$)/
+                let size = item.classes.match(regex)
+                $('.size',content).text(size[1])
+                $(".content",content).html(item.content)
+                let current_classes = item.classes.replace('drag','').replace(/col-[0-9]*/,'').trim()
+                $(".classes",content).text(current_classes)
+                if(item.children.length !== 0){
+                    $(".children",content).html("<div class=\"wrapper row\">");
+                    set_content(item.children,$(".row",content))
+                }
+            });
+        }
+     });
+    </script>
+    <style>
+        .drag{
+            display: inline-block;
+        }
+        .wrapper{
+            padding: 5px;
+            background: #c0c0c0;
+        }
+        .drag{
+            background: white;
+            border: black 1px solid;
+            min-height: 40px;
+        }
+        .header{
+            background: #b1b1b1;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        .header div{
+            user-select: none;
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+        }
+        .header div.classes-container, .header div.classes-container .classes{
+            width: auto;
+        }
+        .header div.add{
+            background: green;
+        }
+        .col-1 .header div{
+            width: 10px;
+        }
+        .header div.move{
+            background: #ff6f00;
+        }
+        .right{
+            float: right;
+        }
+        .highlight{
+            background: yellow;
+        }
+        .loading{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(192,192,192,0.4);
+            display: none;
+            z-index: 100000;
+        }
+        .loading img{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+{% endblock %}

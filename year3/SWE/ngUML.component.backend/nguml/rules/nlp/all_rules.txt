@@ -1,0 +1,6 @@
+A administrator's age should be 21 characters or 21 letters.
+Twenty one should be the value of a administrator's age.
+An administrator should give at least four lectures a week.
+A administrator's username should either be "val1" or "val2".
+An announcement's header should be at least five characters long or the header of an announcement should consist of ten numbers.
+An administrator should give eight announcements.

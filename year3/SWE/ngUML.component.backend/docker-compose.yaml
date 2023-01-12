@@ -1,0 +1,32 @@
+# Let's use docker compose for now, to set up 
+# Redis & Postgres, at a later stage, we can create
+# a more integrated solution.
+
+
+version: '3.4'
+services:
+  # postgres
+  postgres:
+    image: postgres:14-alpine
+    env_file: contrib/postgres.env
+    volumes:
+      - nguml-postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  # redis
+  redis:
+    image: redis:6-alpine
+    command:
+      - sh
+      - -c # this is to evaluate the $REDIS_PASSWORD from the env
+      - redis-server --appendonly yes --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
+    env_file: contrib/redis.env
+    volumes:
+      - nguml-redis-data:/data
+    ports:
+      - 6379:6379
+volumes:
+  nguml-postgres-data:
+    driver: local
+  nguml-redis-data:
+    driver: local

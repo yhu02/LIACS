@@ -1,0 +1,10 @@
+option('with-assignment',
+ type : 'combo',
+ choices: ['1', '2', '3', '4', '5'],
+ value: '1',
+ description: 'Choose the assignment to build')
+
+option('with-builddir',
+  type : 'string',
+  value : 'build',
+  description : 'Selects the build directory (relative to the root directory) to use when compiling.')

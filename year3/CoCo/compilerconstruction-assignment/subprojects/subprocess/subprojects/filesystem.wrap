@@ -1,0 +1,10 @@
+[wrap-file]
+directory = filesystem-1.5.12
+
+source_url = https://github.com/gulrak/filesystem/archive/refs/tags/v1.5.12.zip
+source_filename = v1.5.12.zip
+source_hash = c11303d75ad56dca1f7273ab95cbf7e7380c4448362a4d4e63156814caf0a713
+
+patch_url = https://github.com/Sebastiaan-Alvarez-Rodriguez/filesystem/archive/refs/tags/1.5.12.zip
+patch_filename = 1.5.12.zip
+patch_hash = 1971eb61054f5bfbfb947d385d50b1a163035720f9081d4a342c1d2d9b331424

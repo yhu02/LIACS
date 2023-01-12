@@ -1,0 +1,36 @@
+#ProgressSidebar {
+    padding: 1rem;
+    background-color: #161616;
+    max-width: 250px;
+    min-height: 100vh;
+}
+
+#ProgressSidebar h6 {
+    color: #c6c6c6;
+    margin-bottom: 1rem;
+}
+
+#ProgressSidebar .ProgressStep .bx--progress-label {
+    color: #f4f4f4;
+}
+
+#ProgressSidebar .ProgressStep .bx--progress-optional {
+    color: #c6c6c6;
+}
+
+.ProgressStep.bx--progress-step--incomplete svg {
+    fill: #f4f4f4;
+}
+
+.ProgressStep button:focus {
+    outline: 0;
+}
+
+#ProgressSidebar .bx--progress-step--incomplete .bx--progress-line {
+    background-color: #393939;
+}
+
+#ContentContainer {
+    display: flex;
+    padding-top: 48px;
+}

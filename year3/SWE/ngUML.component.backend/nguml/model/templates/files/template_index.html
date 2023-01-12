@@ -1,0 +1,13 @@
+{% include 'base_view.html' with title=application.name%}
+{% block content %}
+    <div class="row">
+        {% for classifier in classifiers %}
+            <div class="col">
+                <h3 class="title">{{ classifier.name }} list</h3>
+            </div>
+            <div class="col">
+                <a class="btn btn-primary" href="/{{ application.name }}/{{ classifier.name_lower }}" role="button" style="float: right;">View</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

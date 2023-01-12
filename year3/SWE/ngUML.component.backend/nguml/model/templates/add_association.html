@@ -1,0 +1,44 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <form action="/model/relationships/add/association" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="classifier_from">Classifier from</label>
+
+            <select id="classifier_from" name="classifier_from">
+                {% for classifier in classifiers %}
+                <option value="{{ classifier.id }}">{{ classifier }}</option>
+                {% endfor %}
+                </select>
+        </div>
+        <div class="form-group">
+            <label for="classifier_to">Classifier to</label>
+
+            <select id="classifier_to" name="classifier_to">
+                {% for classifier in classifiers %}
+                    <option value="{{ classifier.id }}">{{ classifier }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="from-group">
+            <label for="name">Name</label>
+            <input name="name" id="name" class="form-control" type="text" placeholder="Name">
+        </div>
+        <div class="from-group">
+            <label for="end_from">End from (Classifier_from)</label>
+            <input name="end_from" id="end_from" class="form-control" type="text" placeholder="End from">
+        </div>
+    <div class="from-group">
+            <label for="end_to">End to (Classifier_to)</label>
+            <input name="end_to" id="end_to" class="form-control" type="text" placeholder="End to">
+        </div>
+        <div class="form-group">
+            <label for="multiplicity_from">Multiplicity from</label>
+            <input name="multiplicity_from" id="multiplicity_from" class="form-control" type="text" placeholder="Multiplicity from">
+        </div>
+        <div class="form-group">
+            <label for="multiplicity_to">Multiplicity to</label>
+            <input name="multiplicity_to" id="multiplicity_to" class="form-control" type="text" placeholder="Multiplicity to">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

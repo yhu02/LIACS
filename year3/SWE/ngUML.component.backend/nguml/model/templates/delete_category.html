@@ -1,0 +1,13 @@
+{% include 'application_header.html' with title=application.name %}
+
+<main role="main" class="container">
+    {% block content %}
+    <form action="/model/applications/{{ application.id }}/category/{{ category.id }}/edit" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <p>The category {{ category.name }} will be deleted if you continue.</p>
+            <p>All pages linked to it will also be deleted.</p>
+        </div>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    {% endblock %}
+</main>

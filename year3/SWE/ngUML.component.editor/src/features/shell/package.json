@@ -1,0 +1,5 @@
+{
+  "name": "@nguml-editor/shell",
+  "main": "index.tsx",
+  "version": "1.0.0"
+}

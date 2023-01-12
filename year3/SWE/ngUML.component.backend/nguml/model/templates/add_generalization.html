@@ -1,0 +1,24 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <form action="/model/relationships/add/generalization" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="classifier_from">Classifier from</label>
+
+            <select id="classifier_from" name="classifier_from">
+                {% for classifier in classifiers %}
+                <option value="{{ classifier.id }}">{{ classifier }}</option>
+                {% endfor %}
+                </select>
+        </div>
+        <div class="form-group">
+            <label for="classifier_to">Classifier to</label>
+
+            <select id="classifier_to" name="classifier_to">
+                {% for classifier in classifiers %}
+                <option value="{{ classifier.id }}">{{ classifier }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

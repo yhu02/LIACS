@@ -1,0 +1,42 @@
+.nguml-context-connection {
+    width: 100%;
+    padding: 8px;
+    border-top: solid 1px #666;
+}
+
+.nguml-context-connection > div {
+    width: 100%;
+}
+
+.nguml-context-connection-item {
+    padding: 16px 0 8px 0;
+    margin: 16px 0 8px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    background: 
+    linear-gradient(
+        180deg, 
+        rgba(0,0,0,0) calc(50% - 1px), 
+        rgba(255,255,255,1) calc(50%), 
+        rgba(0,0,0,0) calc(50% + 1px)
+    );
+}
+
+.nguml-context-connection-item .bp3-editable-text {
+    color: white;
+    text-align: center;
+    padding: 0px 4px;
+    background-color: #161616;
+}
+
+.nguml-context-connection-options {
+    display: flex;
+    flex-direction: row;
+    margin: 8px 0 16px 0;
+    padding: 8px 0 16px 0;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,0 +1,1 @@
+A customer enters an order. If the order total is more than 10.000 euros, the order needs to be approved by the manager. If the order is not approved, it is cancelled. If the order total is less than 10.000 euros, the inventory manager allocates the stock. If the order is approved, the inventory manager allocates the stock. If the stock level is too low, the product is reordered.

@@ -1,0 +1,23 @@
+Analyst: Do you run into any challenges with international addresses, given the wide variation in address formats? 
+AP: Actually, that is a constant source of confusion and pain. We have had several situations where, due to an incorrect address format, the client did not receive correspondence.  
+Analyst: Can you give me some examples of this? 
+AP: Yes, one happened recently. Sometimes, addresses start with a house name or number, but some overseas clients put the city or town first. Imagine the confusion of sending something to Paris which we thought was the city but was in fact the house name!  
+The other issue is that overseas zip codes or postal codes, as they are sometimes called, are not always numeric—they can be a combination of numbers and letters. 
+Analyst: Tell me about the process when you take on a new client. What information do you initially record about that person? 
+AP: Remember, it’s not always an individual; it could be an organization. 
+Analyst: When it’s an organization, do you always need to know the contact? 
+AP: Yes, and sometimes there are more than one. For each client or representative of an organization, I need to write down their full name and how they prefer their honorific: Mr., Ms., Mrs., Dr., etc. And of course, their email address, phone number, and postal address, and sometimes we have a primary mailing address that could be different from the billing address.  
+Analyst: Could you have a situation where multiple people have the same address? 
+AP: This does happen, for example, when we contact different employees in the same office.  
+Analyst: What are your other responsibilities, apart from creating cases? 
+AP: As a case progresses, I need to record all the individuals and organizations that take part in the case activities and the specific role they play. 
+Analyst: Is it possible for an individual or organization to participate in multiple actions or events in different cases? 
+AP: Yes. Not only that, but some may play different roles within the same case. For example, the same party can be both the defendant and witness in the same case. 
+Analyst: So, what are these different types of roles a party can play? 
+AP: Plaintiff, witness, defendant, judge, an expert in some field, or an attorney. 
+Analyst: Can your firm’s attorneys or judges be considered as parties to the case? 
+AP: Absolutely. And I must record the information about their involvement as well.  
+Analyst: Please tell me about events that occur. What information do you record? 
+AP: All attorneys and legal assistants record their own activities, which include the date and time when an activity occurred, a short description, and a duration, and in the case of witnesses, defendants, and judges, a list of who was involved. We also need to indicate if this event is billable or not. 
+Analyst: Is there anything else you record for cases? 
+AP: Yes, we need to know which documents were used in a case.

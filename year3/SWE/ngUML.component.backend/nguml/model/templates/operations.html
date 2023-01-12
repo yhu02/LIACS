@@ -1,0 +1,20 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <a class="btn btn-primary btn-lg" href="/model/operations/add" role="button">Add Operation</a>
+    <br>
+    <br>
+    {% for operation in operations %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ operation.classifier.name }}::{{ operation.name }}</h5>
+                <ul class="list-group">
+                    {% for parameter in parameters%}
+                        <li class="list-group-item">{{ parameter.name }} : {{ parameter.type }}</li>
+                    {% endfor %}
+                </ul>
+                <a class="btn btn-primary" href="/model/operations/{{ operation.id }}" role="button">Edit</a>
+                <a class="btn btn-danger" href="/model/operations/{{ operation.id }}/delete" role="button">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

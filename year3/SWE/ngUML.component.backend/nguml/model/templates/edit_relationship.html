@@ -1,0 +1,53 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <form action="/model/relationships/{{relationship.id}}/edit" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="classifier_from">Classifier from</label>
+
+            <select id="classifier_from" name="classifier_from">
+                {% for classifier in classifiers %}
+                    {% if classifier.id == relationship.classifier_from.id %}
+                        <option selected="selected" value="{{ classifier.id }}">{{ classifier }}</option>
+                    {% else %}
+                        <option value="{{ classifier.id }}">{{ classifier }}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+        </div>
+        <div class="form-group">
+            <label for="classifier_to">Classifier to</label>
+
+            <select id="classifier_to" name="classifier_to">
+                {% for classifier in classifiers %}
+                    {% if classifier.id == relationship.classifier_to.id %}
+                        <option selected="selected" value="{{ classifier.id }}">{{ classifier }}</option>
+                    {% else %}
+                        <option value="{{ classifier.id }}">{{ classifier }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="from-group">
+            <label for="name">Name</label>
+            <input name="name" id="name" class="form-control" type="text" value="{{ relationship.name }}">
+        </div>
+        <div class="from-group">
+            <label for="end_from">End from (Classifier_from)</label>
+            <input name="end_from" id="end_from" class="form-control" type="text" value="{{ relationship.end_from }}">
+        </div>
+    <div class="from-group">
+            <label for="end_to">End to (Classifier_to)</label>
+            <input name="end_to" id="end_to" class="form-control" type="text" value="{{ relationship.end_to }}">
+        </div>
+        <div class="form-group">
+            <label for="multiplicity_from">Multiplicity from</label>
+            <input name="multiplicity_from" id="multiplicity_from" class="form-control" type="text" value="{{ relationship.multiplicity_from }}">
+        </div>
+        <div class="form-group">
+            <label for="multiplicity_to">Multiplicity to</label>
+            <input name="multiplicity_to" id="multiplicity_to" class="form-control" type="text" value="{{ relationship.multiplicity_to }}">
+        </div>
+        <input hidden="true" name="type" value="{{ type }}">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}
