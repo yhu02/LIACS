@@ -50,7 +50,7 @@
     "@tanstack/react-query": "^4.16.1",
     "@tanstack/react-query-devtools": "^4.14.6",
     "apexcharts": "^3.36.0",
-    "axios": "^1.1.3",
+    "axios": "^1.6.0",
     "change-case": "^4.1.2",
     "date-fns": "^2.29.3",
     "expo-haptics": "^12.0.1",
