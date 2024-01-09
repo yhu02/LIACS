@@ -35,7 +35,7 @@ entrypoints==0.4
 fasteners==0.14.1
 Flask==2.2.2
 Flask-Cors==3.0.10
-fonttools==4.29.1
+fonttools==4.43.0
 fs==2.4.12
 future==0.18.2
 gast==0.5.2
