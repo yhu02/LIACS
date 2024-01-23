@@ -84,7 +84,7 @@ paramiko==2.9.3
 parso==0.8.1
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==9.0.1
+Pillow==10.2.0
 pipreqs==0.4.11
 ply==3.11
 prometheus-client==0.9.0
