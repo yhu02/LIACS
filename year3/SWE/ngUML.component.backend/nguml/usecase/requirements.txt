@@ -13,7 +13,7 @@ charset-normalizer==2.1.1
 click==8.1.3
 confection==0.0.2
 constantly==15.1.0
-cryptography==38.0.1
+cryptography==42.0.4
 cymem==2.0.6
 daphne==3.0.2
 Deprecated==1.2.13
